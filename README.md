@@ -1,36 +1,86 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ZARASOA — Plateforme universitaire
 
-## Getting Started
+Plateforme qui centralise les **cours, ressources pédagogiques et devoirs** d'une université.
+Trois rôles : **étudiant**, **professeur**, **super administrateur**.
 
-First, run the development server:
+- Les professeurs publient des cours et des devoirs dans les matières qui leur sont affectées.
+- Les étudiants approuvés accèdent uniquement aux contenus de leur filière, parcours et niveau (L1 à M2), et déposent leurs devoirs avant la date limite.
+- Le super administrateur importe le registre officiel des étudiants, valide les inscriptions, gère le catalogue et les affectations.
+
+La conception complète (tables, règles, User Stories, tests) est dans le document **ZARASOA v2.1** (`docs/ZARASOA_v2.1.docx`).
+
+## Stack
+
+| Couche | Technologie |
+| --- | --- |
+| Interface | Next.js (App Router), React, TypeScript, Tailwind CSS |
+| Authentification | Supabase Auth |
+| Données | Supabase PostgreSQL + RLS |
+| Fichiers | Supabase Storage (buckets privés) |
+| Hébergement | Vercel ou Netlify + Supabase |
+
+## Prérequis
+
+- Node.js 20 ou plus (LTS)
+- Git
+- Accès au projet Supabase `zarasoa` (invitation de l'équipe)
+
+## Installation
+
+```bash
+git clone <URL_DU_DEPOT> zarasoa
+cd zarasoa
+npm install
+cp .env.example .env.local
+```
+
+Ouvrir `.env.local` et remplir les valeurs vides (voir la section suivante), puis :
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+L'application est disponible sur http://localhost:3000.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Variables d'environnement
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Elles sont décrites dans `.env.example`. Résumé :
 
-## Learn More
+| Variable | Où la trouver | Visible du navigateur |
+| --- | --- | --- |
+| `NEXT_PUBLIC_SUPABASE_URL` | Supabase > Project Settings > API | Oui |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase > Project Settings > API (clé publiable) | Oui |
+| `NEXT_PUBLIC_SITE_URL` | `http://localhost:3000` en local | Oui |
+| `SUPABASE_SERVICE_ROLE_KEY` | À demander à l'autre membre, canal privé | **Non, serveur uniquement** |
+| `DATABASE_URL` | Supabase > Connect, avec le mot de passe de la base | **Non** |
 
-To learn more about Next.js, take a look at the following resources:
+**Règles de sécurité**
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Ne jamais committer `.env.local`, un mot de passe ou une clé `service_role`.
+- Ne jamais écrire un secret dans le README, le code, une issue ou une capture d'écran.
+- La clé `service_role` contourne la RLS : elle n'est utilisée que dans du code serveur (actions serveur, routes API).
+- Une page protégée ou un bouton masqué ne remplace pas la RLS : la base doit refuser toute action non autorisée.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Base de données et migrations
 
-## Deploy on Vercel
+Tout changement de schéma passe par un **fichier de migration SQL versionné** dans `supabase/migrations/`, jamais par des modifications manuelles dans le tableau de bord. Ainsi les deux membres ont toujours la même base.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+npx supabase login
+npx supabase link --project-ref ypptglkpghojjwhofdvm
+npx supabase migration new nom_de_la_migration   # crée un fichier horodaté
+npx supabase db push                              # applique les migrations
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Conventions (voir le document de conception) :
+
+- tables et colonnes en `snake_case`, clés primaires `UUID DEFAULT gen_random_uuid()` ;
+- RLS activée sur toutes les tables exposées, avec des politiques explicites ;
+- désactivation/archivage plutôt que suppression destructive ;
+- fichiers dans Storage, métadonnées dans PostgreSQL.
+
+
+## Plan de développement (sprints)
+
+0. Conception · 1. Fondation (Auth, profils, rôles, blocage de compte) · 2. Préinscription · 3. Catalogue (filières, parcours, niveaux, matières) · 4. Import du registre · 5. Validation des étudiants · 6. Professeurs et affectations · 7. Cours · 8. Ressources · 9. Devoirs · 10. Espaces étudiant/professeur · 11. Administration · 12. Tests · 13. Production
+
