@@ -49,16 +49,19 @@ Elles sont décrites dans `.env.example`. Résumé :
 | Variable | Où la trouver | Visible du navigateur |
 | --- | --- | --- |
 | `NEXT_PUBLIC_SUPABASE_URL` | Supabase > Project Settings > API | Oui |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase > Project Settings > API (clé publiable) | Oui |
+| `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | Supabase > Project Settings > API Keys (clé publiable) | Oui |
 | `NEXT_PUBLIC_SITE_URL` | `http://localhost:3000` en local | Oui |
-| `SUPABASE_SERVICE_ROLE_KEY` | À demander à l'autre membre, canal privé | **Non, serveur uniquement** |
+| `SUPABASE_SECRET_KEY` | Supabase > API Keys > Secret keys (canal privé) | **Non, serveur uniquement** |
+| `SUPABASE_PROJECT_REF` | Référence du projet (CLI) | Non |
 | `DATABASE_URL` | Supabase > Connect, avec le mot de passe de la base | **Non** |
+
+Diagnostic de la connexion (dev uniquement) : http://localhost:3000/api/health
 
 **Règles de sécurité**
 
-- Ne jamais committer `.env.local`, un mot de passe ou une clé `service_role`.
+- Ne jamais committer `.env.local`, un mot de passe ou une clé secrète `SUPABASE_SECRET_KEY`.
 - Ne jamais écrire un secret dans le README, le code, une issue ou une capture d'écran.
-- La clé `service_role` contourne la RLS : elle n'est utilisée que dans du code serveur (actions serveur, routes API).
+- La clé secrète contourne la RLS : elle n'est utilisée que dans du code serveur (actions serveur, routes API).
 - Une page protégée ou un bouton masqué ne remplace pas la RLS : la base doit refuser toute action non autorisée.
 
 ## Base de données et migrations
@@ -79,6 +82,27 @@ Conventions (voir le document de conception) :
 - désactivation/archivage plutôt que suppression destructive ;
 - fichiers dans Storage, métadonnées dans PostgreSQL.
 
+
+## Architecture (DDD)
+
+```
+app/                 routes Next.js (pages, route handlers /api, auth/callback)
+proxy.ts             rafraîchit la session Supabase, redirections (remplace middleware.ts en Next 16)
+components/          UI partagée (ui/, layout/, sections/)
+lib/                 constants, container.ts (composition root serveur)
+shared/
+  errors/            DomainError, ApiError
+  infrastructure/    supabase/ (clients, env, types), repository/BaseRepository, api/ (Endpoint, httpClient)
+  providers/         AuthProviders (composition root navigateur)
+module/<nom>/
+  domain/            entities, value-object, use-cases (aucune dépendance Supabase)
+  interfaces/        ports (IxxxRepository)
+  infrastructure/    repository/, api/, server/ (implémentations Supabase)
+  presentation/      components/, hooks/
+```
+
+Modules : `auth`, `user` (profils, rôles), `catalog` (niveaux). Sens des dépendances : presentation → interfaces/domain ← infrastructure.
+Types de la base : `npm run db:types` (après `npx supabase login` et `link`).
 
 ## Plan de développement (sprints)
 
