@@ -7,10 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "db:types": "supabase gen types typescript --linked --schema public > shared/infrastructure/supabase/database.types.ts",
+    "db:types": "supabase gen types typescript --project-id ypptglkpghojjwhofdvm > src/infrastructure/supabase/database.types.ts",
     "typecheck": "tsc --noEmit",
-    "db:push": "supabase db push",
-"db:types": "supabase gen types typescript --project-id ypptglkpghojjwhofdvm > src/infrastructure/supabase/database.types.ts"
+    "db:push": "supabase db push"
   },
   "dependencies": {
     "@base-ui/react": "^1.9.0",
@@ -21,6 +20,7 @@
     "date-fns": "^4.4.0",
     "lucide-react": "^1.74.0",
     "next": "16.4.6",
+    "next-intl": "^4.15.1",
     "react": "19.3.0",
     "react-day-picker": "^10.0.2",
     "react-dom": "19.3.0",
