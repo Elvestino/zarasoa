@@ -1,9 +1,9 @@
 import type { NextConfig } from "next";
+import createNextIntlPlugin from "next-intl/plugin";
+
+const withNextIntl = createNextIntlPlugin("./i18n/request.ts");
 
 const nextConfig: NextConfig = {
-  /* config options here */
-  cacheComponents: true,
-  partialPrefetching: true,
   turbopack: {
     rules: {
       "*.css": {
@@ -12,6 +12,13 @@ const nextConfig: NextConfig = {
       },
     },
   },
+  async redirects() {
+    return [
+      // Anciennes URLs avec préfixe de langue → même page sans préfixe, langue mémorisée dans le cookie.
+      { source: "/:locale(fr|en|mg)", destination: "/set-locale?locale=:locale&to=/", permanent: false },
+      { source: "/:locale(fr|en|mg)/:path+", destination: "/set-locale?locale=:locale&to=/:path*", permanent: false },
+    ];
+  },
 };
 
-export default nextConfig;
+export default withNextIntl(nextConfig);

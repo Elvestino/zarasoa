@@ -1,21 +1,23 @@
 "use client";
 
-import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useTranslations } from "next-intl";
+import { useSearchParams } from "next/navigation";
 import { useState, type FormEvent } from "react";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Link, useRouter } from "@/i18n/navigation";
 import { ROUTES } from "@/lib/constants";
 import { useAuth } from "../hooks/useAuth";
-import { AuthCard, Field } from "./AuthCard";
+import { useAuthError } from "../hooks/useAuthError";
+import { Field, FieldInput, FormError, PillButton } from "./AuthFields";
+import { AuthShell } from "./AuthShell";
 
 export function LoginForm() {
+  const t = useTranslations("Auth");
   const router = useRouter();
   const params = useSearchParams();
   const { login, pending } = useAuth();
+  const errorMessage = useAuthError();
   const [error, setError] = useState<string | null>(
-    params.get("error") === "lien_invalide" ? "Ce lien n'est plus valide. Recommencez la demande." : null,
+    params.get("error") === "lien_invalide" ? t("login.invalidLink") : null,
   );
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
@@ -23,40 +25,34 @@ export function LoginForm() {
     setError(null);
     const form = new FormData(e.currentTarget);
     const result = await login({ email: String(form.get("email")), password: String(form.get("password")) });
-    if (!result.ok) return setError(result.error ?? null);
+    if (!result.ok) return setError(errorMessage(result.code));
     router.replace(ROUTES.home);
     router.refresh();
   }
 
   return (
-    <AuthCard title="Connexion" description="Accédez à vos cours et à vos devoirs.">
-      <form onSubmit={onSubmit} className="flex flex-col gap-4">
-        {error ? (
-          <Alert variant="destructive">
-            <AlertDescription>{error}</AlertDescription>
-          </Alert>
-        ) : null}
-        <Field id="email" label="Adresse e-mail">
-          <Input id="email" name="email" type="email" autoComplete="email" required />
+    <AuthShell title={t("login.title")} subtitle1={t("login.subtitle1")} subtitle2={t("login.subtitle2")}>
+      <form onSubmit={onSubmit} className="flex flex-col gap-5">
+        <FormError message={error} />
+        <Field id="email" label={t("fields.email")}>
+          <FieldInput id="email" name="email" type="email" autoComplete="email" required />
         </Field>
-        <Field id="password" label="Mot de passe">
-          <Input id="password" name="password" type="password" autoComplete="current-password" required />
+        <Field id="password" label={t("fields.password")}>
+          <FieldInput id="password" name="password" type="password" autoComplete="current-password" required />
         </Field>
-        <Button type="submit" disabled={pending}>
-          {pending ? "Connexion…" : "Se connecter"}
-        </Button>
-      </form>
-      <div className="flex flex-col gap-1 text-sm text-muted-foreground">
-        <Link href={ROUTES.forgotPassword} className="underline-offset-4 hover:underline">
-          Mot de passe oublié ?
+        <Link href={ROUTES.forgotPassword} className="text-xs text-primary underline-offset-4 hover:underline">
+          {t("login.forgot")}
         </Link>
-        <span>
-          Pas encore de compte ?{" "}
-          <Link href={ROUTES.register} className="text-foreground underline-offset-4 hover:underline">
-            S&apos;inscrire
-          </Link>
-        </span>
-      </div>
-    </AuthCard>
+        <PillButton type="submit" disabled={pending}>
+          {pending ? t("login.submitting") : t("login.submit")}
+        </PillButton>
+      </form>
+      <p className="text-center text-xs text-muted-foreground">
+        {t("login.noAccount")}{" "}
+        <Link href={ROUTES.register} className="font-semibold text-primary underline-offset-4 hover:underline">
+          {t("login.signUp")}
+        </Link>
+      </p>
+    </AuthShell>
   );
 }

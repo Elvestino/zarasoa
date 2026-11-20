@@ -1,17 +1,20 @@
-import { Suspense } from "react";
+import { CtaSection } from "@/components/sections/CtaSection";
+import { FeaturesSection } from "@/components/sections/FeaturesSection";
 import { Hero } from "@/components/sections/Hero";
-import { CurrentUserBadge } from "@/module/user/presentation/components/CurrentUserBadge";
+import { HowItWorksSection } from "@/components/sections/HowItWorksSection";
+import { LevelsSection } from "@/components/sections/LevelsSection";
+import { RolesSection } from "@/components/sections/RolesSection";
 
+/** Landing page : accueil public (la session et la langue sont gérées par le layout et le proxy). */
 export default function Home() {
   return (
     <>
       <Hero />
-      <div className="mx-auto w-full max-w-5xl px-4 pb-6 text-sm text-muted-foreground">
-        {/* Lit les cookies de session : doit rester dans un Suspense (cacheComponents). */}
-        <Suspense fallback={<span>…</span>}>
-          <CurrentUserBadge />
-        </Suspense>
-      </div>
+      <FeaturesSection />
+      <HowItWorksSection />
+      <RolesSection />
+      <LevelsSection />
+      <CtaSection />
     </>
   );
 }

@@ -1,0 +1,233 @@
+{
+  "Metadata": {
+    "title": "ZARASOA",
+    "description": "University platform: courses, learning resources and homework.",
+    "loginTitle": "Sign in",
+    "registerTitle": "Register",
+    "forgotTitle": "Forgot password",
+    "resetTitle": "New password"
+  },
+  "Common": {
+    "close": "Close",
+    "tagline": "Learn • Share • Succeed",
+    "notSignedIn": "Not signed in",
+    "noRole": "no role"
+  },
+  "Header": {
+    "login": "Sign in",
+    "register": "Register",
+    "logout": "Sign out",
+    "language": "Language",
+    "toDark": "Switch to dark mode",
+    "toLight": "Switch to light mode",
+    "features": "Features",
+    "how": "How it works",
+    "roles": "Roles"
+  },
+  "Footer": {
+    "text": "© ZARASOA — University platform",
+    "about": "ZARASOA brings a university's courses, learning resources and homework together, with registrations approved by the administration.",
+    "discover": "Discover",
+    "space": "My space",
+    "project": "The project",
+    "registerStudent": "Student registration",
+    "forgot": "Forgot password",
+    "backToTop": "Back to top"
+  },
+  "Hero": {
+    "description": "Your university's courses, learning resources and homework in one place. Professors publish; approved students browse and submit their work.",
+    "login": "Sign in",
+    "register": "Student registration",
+    "badge": "University platform",
+    "titleLead": "Your courses, resources and homework,",
+    "titleAccent": "all in one place.",
+    "points": [
+      "Content for your program, track and level",
+      "Submit homework online before the deadline",
+      "Available in French, English and Malagasy"
+    ]
+  },
+  "Auth": {
+    "panel": {
+      "hello": "Welcome to",
+      "p1": "Find your courses, learning resources and homework in a single space reserved for the members of your university.",
+      "p2": "Each student only sees the content of their own program, track and level."
+    },
+    "fields": {
+      "lastName": "Last name",
+      "firstName": "First name",
+      "birthDate": "Date of birth",
+      "registrationNumber": "Registration number",
+      "pseudo": "Nickname",
+      "phone": "Phone",
+      "email": "Email address",
+      "password": "Password",
+      "confirmPassword": "Confirm password",
+      "newPassword": "New password",
+      "optional": "optional"
+    },
+    "login": {
+      "title": "Sign in",
+      "subtitle1": "Access your courses and homework,",
+      "subtitle2": "wherever you are.",
+      "submit": "Sign in",
+      "submitting": "Signing in…",
+      "forgot": "Forgot your password?",
+      "noAccount": "No account yet?",
+      "signUp": "Register",
+      "invalidLink": "This link is no longer valid. Please start again."
+    },
+    "register": {
+      "title": "Register",
+      "subtitle1": "Join your university's platform with the number",
+      "subtitle2": "listed in your student ID card.",
+      "passwordHint": "At least 8 characters, with a letter and a digit.",
+      "terms": "I accept the terms of use and the privacy policy",
+      "termsRequired": "You must accept the terms to continue.",
+      "submit": "Register",
+      "submitting": "Sending…",
+      "haveAccount": "Already have an account?",
+      "signIn": "Sign in",
+      "sentTitle": "Check your inbox",
+      "sentAlertTitle": "Request recorded",
+      "sentBody": "A confirmation link was sent to {email}. Once confirmed, the administration will validate your registration before you can access the platform.",
+      "backToLogin": "Back to sign in"
+    },
+    "forgot": {
+      "title": "Forgot password",
+      "subtitle1": "Enter your email address,",
+      "subtitle2": "we will send you a link to choose a new one.",
+      "submit": "Send the link",
+      "submitting": "Sending…",
+      "sent": "If this address matches an account, a reset email has just been sent.",
+      "back": "Back to sign in"
+    },
+    "reset": {
+      "title": "New password",
+      "subtitle1": "Choose a password you do not use",
+      "subtitle2": "anywhere else.",
+      "submit": "Save",
+      "submitting": "Saving…",
+      "expiredTitle": "Link expired",
+      "expired": "This link is no longer valid. Please request a new reset."
+    },
+    "errors": {
+      "generic": "Something went wrong. Please try again.",
+      "INVALID_EMAIL": "Invalid email address.",
+      "WEAK_PASSWORD": "The password must be at least {min} characters long, with a letter and a digit.",
+      "PASSWORD_MISMATCH": "The two passwords do not match.",
+      "INVALID_REGISTRATION_NUMBER": "Invalid registration number.",
+      "INVALID_NAME": "First and last name are required (100 characters max).",
+      "INVALID_FIELD": "One of the fields is too long.",
+      "INVALID_DATE": "Invalid date of birth.",
+      "INVALID_CREDENTIALS": "Incorrect email or password.",
+      "EMAIL_NOT_CONFIRMED": "Please confirm your email address first.",
+      "ACCOUNT_LOCKED": "Account locked after 5 failed sign-in attempts. Contact the administrator.",
+      "ACCOUNT_PENDING_ADMIN": "Your registration is awaiting validation by the administration.",
+      "ACCOUNT_REJECTED": "Your registration was rejected.",
+      "ACCOUNT_INACTIVE": "This account is suspended or deactivated.",
+      "EMAIL_ALREADY_USED": "This email address is already in use.",
+      "REGISTRATION_NUMBER_TAKEN": "This registration number is already used by another request.",
+      "NETWORK_ERROR": "Cannot reach the server. Check your connection."
+    }
+  },
+  "Features": {
+    "kicker": "Features",
+    "title": "Everything you need to follow your studies",
+    "subtitle": "ZARASOA brings together what students, professors and administrators need every day.",
+    "items": [
+      {
+        "title": "Courses",
+        "desc": "Professors publish their courses in the subjects assigned to them."
+      },
+      {
+        "title": "Learning resources",
+        "desc": "Materials and documents attached to courses, kept in private storage."
+      },
+      {
+        "title": "Homework",
+        "desc": "Professors post assignments; students submit their work before the deadline."
+      },
+      {
+        "title": "Targeted access",
+        "desc": "Each student only sees content for their program, track and level."
+      },
+      {
+        "title": "Controlled enrollment",
+        "desc": "Students are matched against the official register and the administration approves every registration."
+      }
+    ]
+  },
+  "How": {
+    "kicker": "How it works",
+    "title": "From sign-up to homework in three steps",
+    "subtitle": "A simple path designed for university students.",
+    "steps": [
+      {
+        "title": "Sign up",
+        "desc": "Create your account with the registration number from the official register, then confirm your e-mail address."
+      },
+      {
+        "title": "Wait for approval",
+        "desc": "The administration checks and approves your registration before access opens."
+      },
+      {
+        "title": "Study and submit",
+        "desc": "Browse the courses and resources for your level, then submit your homework before the deadline."
+      }
+    ]
+  },
+  "Roles": {
+    "kicker": "For everyone",
+    "title": "A space tailored to each role",
+    "subtitle": "Three roles, clear permissions: everyone only accesses what concerns them.",
+    "items": [
+      {
+        "title": "Student",
+        "points": [
+          "Browse courses and resources for their level",
+          "Submit homework before the deadline",
+          "Access only their own program's content"
+        ]
+      },
+      {
+        "title": "Professor",
+        "points": [
+          "Publish courses in their subjects",
+          "Add learning resources",
+          "Post assignments for their students"
+        ]
+      },
+      {
+        "title": "Super administrator",
+        "points": [
+          "Import the official student register",
+          "Approve registrations",
+          "Manage the catalog and assignments"
+        ]
+      }
+    ]
+  },
+  "Levels": {
+    "title": "From Licence to Master",
+    "subtitle": "Content is organized by level of study.",
+    "names": [
+      "Bachelor 1",
+      "Bachelor 2",
+      "Bachelor 3",
+      "Master 1",
+      "Master 2"
+    ]
+  },
+  "Cta": {
+    "title": "Ready to join ZARASOA?",
+    "text": "Register with your registration number, or sign in to get back to your courses.",
+    "register": "Student registration",
+    "login": "Sign in"
+  },
+  "NotFound": {
+    "title": "Page not found",
+    "text": "The page you are looking for does not exist or has moved.",
+    "back": "Back to home"
+  }
+}

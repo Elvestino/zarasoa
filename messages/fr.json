@@ -1,0 +1,225 @@
+{
+  "Metadata": {
+    "title": "ZARASOA",
+    "description": "Plateforme universitaire : cours, ressources pédagogiques et devoirs.",
+    "loginTitle": "Connexion",
+    "registerTitle": "Inscription",
+    "forgotTitle": "Mot de passe oublié",
+    "resetTitle": "Nouveau mot de passe"
+  },
+  "Common": {
+    "close": "Fermer",
+    "tagline": "Apprendre • Partager • Réussir",
+    "notSignedIn": "Non connecté",
+    "noRole": "aucun rôle"
+  },
+  "Header": {
+    "login": "Connexion",
+    "register": "S'inscrire",
+    "logout": "Déconnexion",
+    "language": "Langue",
+    "toDark": "Passer en mode sombre",
+    "toLight": "Passer en mode clair",
+    "features": "Fonctionnalités",
+    "how": "Comment ça marche",
+    "roles": "Rôles"
+  },
+  "Footer": {
+    "text": "© ZARASOA — Plateforme universitaire",
+    "about": "ZARASOA réunit les cours, les ressources pédagogiques et les devoirs d'une université, avec des inscriptions validées par l'administration.",
+    "discover": "Découvrir",
+    "space": "Mon espace",
+    "project": "Le projet",
+    "registerStudent": "Inscription étudiant",
+    "forgot": "Mot de passe oublié",
+    "backToTop": "Retour en haut"
+  },
+  "Hero": {
+    "description": "Les cours, les ressources pédagogiques et les devoirs de votre université, au même endroit. Les professeurs publient, les étudiants approuvés consultent et déposent leurs devoirs.",
+    "login": "Se connecter",
+    "register": "Inscription étudiant",
+    "badge": "Plateforme universitaire",
+    "titleLead": "Vos cours, vos ressources et vos devoirs,",
+    "titleAccent": "au même endroit.",
+    "points": [
+      "Contenus de votre filière, de votre parcours et de votre niveau",
+      "Dépôt des devoirs en ligne avant la date limite",
+      "Disponible en français, en anglais et en malagasy"
+    ]
+  },
+  "Auth": {
+    "panel": {
+      "hello": "Bienvenue sur",
+      "p1": "Retrouvez vos cours, vos ressources pédagogiques et vos devoirs dans un espace unique, réservé aux membres de votre université.",
+      "p2": "Chaque étudiant accède uniquement aux contenus de sa filière, de son parcours et de son niveau."
+    },
+    "fields": {
+      "lastName": "Nom",
+      "firstName": "Prénom",
+      "birthDate": "Date de naissance",
+      "registrationNumber": "Matricule",
+      "pseudo": "Pseudo",
+      "phone": "Téléphone",
+      "email": "Adresse e-mail",
+      "password": "Mot de passe",
+      "confirmPassword": "Confirmer le mot de passe",
+      "newPassword": "Nouveau mot de passe",
+      "optional": "facultatif"
+    },
+    "login": {
+      "title": "Connexion",
+      "subtitle1": "Accédez à vos cours et à vos devoirs,",
+      "subtitle2": "où que vous soyez.",
+      "submit": "Se connecter",
+      "submitting": "Connexion…",
+      "forgot": "Mot de passe oublié ?",
+      "noAccount": "Pas encore de compte ?",
+      "signUp": "S'inscrire",
+      "invalidLink": "Ce lien n'est plus valide. Recommencez la demande."
+    },
+    "register": {
+      "title": "Inscription",
+      "subtitle1": "Rejoignez la plateforme de votre université avec le matricule",
+      "subtitle2": "figurant sur votre carte d'etudiant.",
+      "passwordHint": "8 caractères minimum, avec une lettre et un chiffre.",
+      "terms": "J'accepte les conditions d'utilisation et la politique de confidentialité",
+      "termsRequired": "Vous devez accepter les conditions pour continuer.",
+      "submit": "S'inscrire",
+      "submitting": "Envoi…",
+      "haveAccount": "Déjà un compte ?",
+      "signIn": "Se connecter",
+      "sentTitle": "Vérifiez votre boîte mail",
+      "sentAlertTitle": "Demande enregistrée",
+      "sentBody": "Un lien de confirmation a été envoyé à {email}. Après confirmation, l'administration validera votre inscription avant l'accès à la plateforme.",
+      "backToLogin": "Retour à la connexion"
+    },
+    "forgot": {
+      "title": "Mot de passe oublié",
+      "subtitle1": "Saisissez votre adresse e-mail,",
+      "subtitle2": "nous vous envoyons un lien pour en choisir un nouveau.",
+      "submit": "Envoyer le lien",
+      "submitting": "Envoi…",
+      "sent": "Si cette adresse correspond à un compte, un e-mail de réinitialisation vient d'être envoyé.",
+      "back": "Retour à la connexion"
+    },
+    "reset": {
+      "title": "Nouveau mot de passe",
+      "subtitle1": "Choisissez un mot de passe que vous n'utilisez",
+      "subtitle2": "nulle part ailleurs.",
+      "submit": "Enregistrer",
+      "submitting": "Enregistrement…",
+      "expiredTitle": "Lien expiré",
+      "expired": "Ce lien n'est plus valide. Refaites une demande de réinitialisation."
+    },
+    "errors": {
+      "generic": "Une erreur est survenue. Réessayez.",
+      "INVALID_EMAIL": "Adresse e-mail invalide.",
+      "WEAK_PASSWORD": "Le mot de passe doit contenir au moins {min} caractères, avec une lettre et un chiffre.",
+      "PASSWORD_MISMATCH": "Les deux mots de passe ne correspondent pas.",
+      "INVALID_REGISTRATION_NUMBER": "Matricule invalide.",
+      "INVALID_NAME": "Le nom et le prénom sont obligatoires (100 caractères maximum).",
+      "INVALID_FIELD": "Un des champs est trop long.",
+      "INVALID_DATE": "Date de naissance invalide.",
+      "INVALID_CREDENTIALS": "E-mail ou mot de passe incorrect.",
+      "EMAIL_NOT_CONFIRMED": "Confirmez d'abord votre adresse e-mail.",
+      "ACCOUNT_LOCKED": "Compte bloqué après 5 échecs de connexion. Contactez l'administrateur.",
+      "ACCOUNT_PENDING_ADMIN": "Votre inscription est en attente de validation par l'administration.",
+      "ACCOUNT_REJECTED": "Votre inscription a été refusée.",
+      "ACCOUNT_INACTIVE": "Ce compte est suspendu ou désactivé.",
+      "EMAIL_ALREADY_USED": "Cette adresse e-mail est déjà utilisée.",
+      "REGISTRATION_NUMBER_TAKEN": "Ce matricule est déjà utilisé par une autre demande.",
+      "NETWORK_ERROR": "Impossible de joindre le serveur. Vérifiez votre connexion."
+    }
+  },
+  "Features": {
+    "kicker": "Fonctionnalités",
+    "title": "Tout pour suivre sa formation",
+    "subtitle": "ZARASOA centralise ce dont étudiants, professeurs et administration ont besoin au quotidien.",
+    "items": [
+      {
+        "title": "Cours",
+        "desc": "Les professeurs publient leurs cours dans les matières qui leur sont affectées."
+      },
+      {
+        "title": "Ressources pédagogiques",
+        "desc": "Supports et documents rattachés aux cours, conservés dans des espaces privés."
+      },
+      {
+        "title": "Devoirs",
+        "desc": "Les professeurs publient les devoirs ; les étudiants déposent leur travail avant la date limite."
+      },
+      {
+        "title": "Accès ciblé",
+        "desc": "Chaque étudiant voit uniquement les contenus de sa filière, de son parcours et de son niveau."
+      },
+      {
+        "title": "Inscriptions contrôlées",
+        "desc": "Les étudiants sont rattachés au registre officiel et l'administration valide chaque inscription."
+      }
+    ]
+  },
+  "How": {
+    "kicker": "Comment ça marche",
+    "title": "De l'inscription aux devoirs en trois étapes",
+    "subtitle": "Un parcours simple, pensé pour les étudiants de l'université.",
+    "steps": [
+      {
+        "title": "Inscrivez-vous",
+        "desc": "Créez votre compte avec le matricule figurant au registre officiel, puis confirmez votre adresse e-mail."
+      },
+      {
+        "title": "Attendez la validation",
+        "desc": "L'administration vérifie et approuve votre inscription avant l'ouverture de l'accès."
+      },
+      {
+        "title": "Étudiez et déposez",
+        "desc": "Consultez les cours et ressources de votre niveau, puis déposez vos devoirs avant la date limite."
+      }
+    ]
+  },
+  "Roles": {
+    "kicker": "Pour chacun",
+    "title": "Un espace adapté à chaque rôle",
+    "subtitle": "Trois rôles, des droits clairs : chacun accède uniquement à ce qui le concerne.",
+    "items": [
+      {
+        "title": "Étudiant",
+        "points": [
+          "Consulter les cours et ressources de son niveau",
+          "Déposer ses devoirs avant la date limite",
+          "Accéder uniquement aux contenus de sa filière"
+        ]
+      },
+      {
+        "title": "Professeur",
+        "points": [
+          "Publier des cours dans ses matières",
+          "Ajouter des ressources pédagogiques",
+          "Publier des devoirs pour ses étudiants"
+        ]
+      }
+    ]
+  },
+  "Levels": {
+    "title": "Du Licence au Master ",
+    "subtitle": "Les contenus sont organisés par niveau d'études.",
+    "names": [
+      "Licence 1",
+      "Licence 2",
+      "Licence 3",
+      "Master 1",
+      "Master 2"
+    ]
+  },
+  "Cta": {
+    "title": "Prêt à rejoindre ZARASOA ?",
+    "text": "Inscrivez-vous avec votre matricule ou connectez-vous pour retrouver vos cours.",
+    "register": "Inscription étudiant",
+    "login": "Se connecter"
+  },
+  "NotFound": {
+    "title": "Page introuvable",
+    "text": "La page que vous cherchez n'existe pas ou a été déplacée.",
+    "back": "Retour à l'accueil"
+  }
+}
