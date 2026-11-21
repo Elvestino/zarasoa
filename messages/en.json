@@ -22,7 +22,8 @@
     "toLight": "Switch to light mode",
     "features": "Features",
     "how": "How it works",
-    "roles": "Roles"
+    "roles": "Roles",
+    "menu": "Menu"
   },
   "Footer": {
     "text": "© ZARASOA — University platform",

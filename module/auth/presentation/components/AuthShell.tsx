@@ -7,23 +7,26 @@ import { ROUTES } from "@/lib/constants";
 
 interface AuthShellProps {
   title: string;
-  /** Deux courtes lignes sous le titre (la 2e est affichée dans la couleur principale). */
   subtitle1?: string;
   subtitle2?: string;
   children: ReactNode;
 }
 
-/**
- * Cadre commun des pages d'authentification : panneau bleu à gauche, vague dorée, formulaire à droite.
- * Les couleurs viennent de globals.css (--brand-navy, --brand-gold, --card, --primary).
- */
+function Logo() {
+  return (
+    <span className="flex items-center gap-2">
+      <Image src="/assets/img/logo-light-wordmark.png" alt="ZARASOA" width={620} height={143} className="h-12 w-auto sm:h-6 dark:hidden " priority />
+      <Image src="/assets/img/logo-dark-wordmark.png" alt="ZARASOA" width={620} height={143} className="hidden h-12 w-auto sm:h-6 dark:block dark:h-12" priority />
+    </span>
+  );
+}
+
 export function AuthShell({ title, subtitle1, subtitle2, children }: AuthShellProps) {
   const t = useTranslations("Auth.panel");
   const tc = useTranslations("Common");
 
   return (
     <div className="relative w-full max-w-4xl overflow-hidden rounded-2xl bg-card shadow-2xl ring-1 ring-black/5 dark:ring-white/10">
-      {/* Fond : panneau bleu, reflet, vague dorée puis zone du formulaire */}
       <svg
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 hidden h-full w-full md:block"
@@ -47,21 +50,23 @@ export function AuthShell({ title, subtitle1, subtitle2, children }: AuthShellPr
       <div className="relative grid md:min-h-144 md:grid-cols-[46%_54%]">
         {/* Bandeau mobile */}
         <div className="flex items-center bg-brand-navy px-6 py-5 md:hidden">
-          <Image src="/assets/img/logo-light-wordmark.png" alt="ZARASOA" width={620} height={138} className="h-9 w-auto" priority />
+          {/* <Image src="/assets/img/logo-light-wordmark.png" alt="ZARASOA" width={620} height={138} className="h-9 w-auto" priority /> */}
+        <Logo />
         </div>
 
         {/* Panneau d'accueil (bureau) */}
         <aside className="hidden flex-col justify-between p-9 text-white md:flex">
           <div className="max-w-[68%]">
             <p className="text-2xl font-light leading-none">{t("hello")}</p>
-            <Image
+            {/* <Image
               src="/assets/img/logo-light-wordmark.png"
               alt="ZARASOA"
               width={620}
               height={138}
               className="mt-3 h-auto w-full"
               priority
-            />
+            /> */}
+            <Logo />
             <p className="mt-3 text-xs font-medium tracking-wide text-brand-gold">{tc("tagline")}</p>
           </div>
           <div className="max-w-[62%] space-y-4 text-xs leading-relaxed text-white/80">

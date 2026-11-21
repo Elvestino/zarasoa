@@ -18,13 +18,23 @@ export function Hero() {
   const features = tf.raw("items") as { title: string }[];
 
   return (
-    <section className="relative isolate overflow-hidden bg-brand-navy text-white">
+    <section className="relative isolate overflow-hidden bg-hero text-white">
       {/* Décor : la vague du logo (même motif que les pages de connexion) */}
       <svg aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 hidden size-full lg:block" viewBox="0 0 100 100" preserveAspectRatio="none">
         <path d="M54 0C44 18 36 40 40 62C44 82 54 92 50 100H0V0Z" fill="#fff" fillOpacity="0.05" />
         <path d="M66 0C56 18 47 40 50 62C53 82 62 92 59 100H100V0Z" className="fill-brand-gold" />
-        <path d="M67.2 0C57.2 18 48.2 40 51.2 62C54.2 82 63.2 92 60.2 100H100V0Z" className="fill-brand-navy" />
+        <path d="M67.2 0C57.2 18 48.2 40 51.2 62C54.2 82 63.2 92 60.2 100H100V0Z" className="fill-hero" />
       </svg>
+
+      {/* Mode sombre : halos bleu et doré discrets pour donner du relief au fond nuit */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 -z-10 hidden dark:block"
+        style={{
+          backgroundImage:
+            "radial-gradient(60% 50% at 85% 10%, rgb(68 102 255 / 0.22), transparent 70%), radial-gradient(45% 40% at 10% 90%, rgb(238 175 46 / 0.08), transparent 70%)",
+        }}
+      />
 
       <div className="mx-auto grid w-full max-w-6xl items-center gap-14 px-4 pb-28 pt-14 md:pt-20 lg:grid-cols-[1.05fr_0.95fr]">
         <div className="flex flex-col items-start gap-6">
@@ -33,7 +43,7 @@ export function Hero() {
             {t("badge")}
           </span>
 
-          <h1 className="font-heading text-4xl font-bold leading-[1.08] tracking-tight sm:text-5xl lg:text-6xl">
+          <h1 className="font-heading text-4xl font-bold leading-[1.15] tracking-tight sm:text-5xl xl:text-6xl">
             {t("titleLead")}
             <span className="mt-1 block text-brand-gold">{t("titleAccent")}</span>
           </h1>
@@ -67,9 +77,9 @@ export function Hero() {
 
         {/* Aperçu de la plateforme : seul moment animé de la page (apparition des lignes au chargement). */}
         <div className="relative mx-auto w-full max-w-md">
-          <div className="rounded-3xl bg-card p-5 text-card-foreground shadow-2xl ring-1 ring-black/5 sm:p-6">
+          <div className="rounded-3xl bg-card p-5 text-card-foreground shadow-2xl ring-1 ring-black/5 dark:shadow-black/50 dark:ring-white/15 sm:p-6">
             <div className="mb-5 flex items-center gap-3">
-              <span className="flex size-10 items-center justify-center rounded-full bg-brand-navy">
+              <span className="flex size-10 items-center justify-center rounded-full bg-brand-navy dark:ring-1 dark:ring-white/20">
                 <Image src="/assets/img/logo-light-icon.png" alt="" width={520} height={300} className="h-4 w-auto" />
               </span>
               <div>
