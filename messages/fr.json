@@ -236,11 +236,12 @@
   },
   "NotFound": {
     "title": "Page introuvable",
-    "text": "La page que vous cherchez n'existe pas ou a été déplacée.",
+    "text": "La page que vous cherchez n'existe pas",
     "back": "Retour à l'accueil",
-    "hint": "Vérifiez l'adresse saisie ou repartez d'une page connue.",
     "login": "Se connecter",
-    "register": "S'inscrire"
+    "register": "S'inscrire",
+    "badge": "Erreur 404",
+    "help": "Que cherchez-vous ?"
   },
   "Cookies": {
     "label": "Cookies et vie privée",

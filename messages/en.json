@@ -244,11 +244,12 @@
   },
   "NotFound": {
     "title": "Page not found",
-    "text": "The page you are looking for does not exist or has moved.",
+    "text": "The page you are looking for does not exist",
     "back": "Back to home",
-    "hint": "Check the address you typed or start again from a known page.",
     "login": "Sign in",
-    "register": "Register"
+    "register": "Register",
+    "badge": "Error 404",
+    "help": "What are you looking for?"
   },
   "Cookies": {
     "label": "Cookies and privacy",

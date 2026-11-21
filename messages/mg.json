@@ -244,11 +244,12 @@
   },
   "NotFound": {
     "title": "Tsy hita ny pejy",
-    "text": "Tsy misy ilay pejy tadiavinao, na nafindra toerana.",
+    "text": "Tsy misy ilay pejy tadiavinao",
     "back": "Hiverina any am-piandohana",
-    "hint": "Hamarino ny adiresy nosoratanao na miverena amin'ny pejy fantatrao.",
     "login": "Hiditra",
-    "register": "Hisoratra anarana"
+    "register": "Hisoratra anarana",
+    "badge": "Hadisoana 404",
+    "help": "Inona no tadiavinao?"
   },
   "Cookies": {
     "label": "Cookies sy tsiambaratelo",
