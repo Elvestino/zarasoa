@@ -6,7 +6,7 @@ import { Link } from "@/i18n/navigation";
 import { ROUTES } from "@/lib/constants";
 import { useAuth } from "../hooks/useAuth";
 import { useAuthError } from "../hooks/useAuthError";
-import { Field, FieldInput, FormError, PillButton } from "./AuthFields";
+import { Field, FieldInput, FormError, Honeypot, PillButton } from "./AuthFields";
 import { AuthShell } from "./AuthShell";
 
 export function ForgotPasswordForm() {
@@ -19,7 +19,9 @@ export function ForgotPasswordForm() {
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setError(null);
-    const result = await requestPasswordReset(String(new FormData(e.currentTarget).get("email")));
+    const form = new FormData(e.currentTarget);
+    if (form.get("website")) return setSent(true); // piège à robots : même réponse, rien n'est envoyé
+    const result = await requestPasswordReset(String(form.get("email")));
     if (!result.ok) return setError(errorMessage(result.code));
     setSent(true);
   }
@@ -30,10 +32,11 @@ export function ForgotPasswordForm() {
         // Message volontairement identique que le compte existe ou non (pas d'énumération des comptes).
         <p className="rounded-lg border border-primary/20 bg-primary/5 p-4 text-sm text-muted-foreground">{t("forgot.sent")}</p>
       ) : (
-        <form onSubmit={onSubmit} className="flex flex-col gap-5">
+        <form onSubmit={onSubmit} className="relative flex flex-col gap-5">
+          <Honeypot />
           <FormError message={error} />
           <Field id="email" label={t("fields.email")}>
-            <FieldInput id="email" name="email" type="email" autoComplete="email" required />
+            <FieldInput id="email" name="email" type="email" autoComplete="email" required maxLength={254} spellCheck={false} autoCapitalize="none" />
           </Field>
           <PillButton type="submit" disabled={pending}>
             {pending ? t("forgot.submitting") : t("forgot.submit")}

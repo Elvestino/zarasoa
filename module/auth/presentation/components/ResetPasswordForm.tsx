@@ -42,10 +42,10 @@ export function ResetPasswordForm() {
       <form onSubmit={onSubmit} className="flex flex-col gap-5">
         <FormError message={error} />
         <Field id="password" label={t("fields.newPassword")} hint={t("register.passwordHint")}>
-          <FieldInput id="password" name="password" type="password" autoComplete="new-password" required minLength={PASSWORD_MIN_LENGTH} />
+          <FieldInput id="password" name="password" type="password" autoComplete="new-password" required minLength={PASSWORD_MIN_LENGTH} maxLength={128} aria-describedby="password-hint" />
         </Field>
         <Field id="confirmPassword" label={t("fields.confirmPassword")}>
-          <FieldInput id="confirmPassword" name="confirmPassword" type="password" autoComplete="new-password" required />
+          <FieldInput id="confirmPassword" name="confirmPassword" type="password" autoComplete="new-password" required maxLength={128} />
         </Field>
         <PillButton type="submit" disabled={pending || loading}>
           {pending ? t("reset.submitting") : t("reset.submit")}

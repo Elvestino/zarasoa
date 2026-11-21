@@ -1,4 +1,4 @@
-import { BookOpen, Check, ClipboardCheck, Clock, FileText, ShieldCheck } from "lucide-react";
+import { ArrowRight, BookOpen, Check, ClipboardCheck, Clock, FileText, ShieldCheck } from "lucide-react";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { buttonVariants } from "@/components/ui/button";
@@ -56,6 +56,7 @@ export function Hero() {
               className={cn(buttonVariants({ size: "lg" }), "h-11 rounded-full bg-secondary px-6 text-sm font-semibold text-secondary-foreground hover:bg-secondary/90")}
             >
               {t("register")}
+              <ArrowRight aria-hidden="true" className="size-4" />
             </Link>
             <Link
               href={ROUTES.login}
@@ -106,7 +107,7 @@ export function Hero() {
                         <div className="h-full rounded-full bg-primary" style={{ width: PREVIEW_PROGRESS[i] }} />
                       </div>
                     </div>
-                    {i === 2 ? <Clock className="size-4 shrink-0 text-secondary" /> : <Check className="size-4 shrink-0 text-primary" />}
+                    {i === 2 ? <Clock className="size-4 shrink-0 text-gold-text" /> : <Check className="size-4 shrink-0 text-primary" />}
                   </li>
                 );
               })}

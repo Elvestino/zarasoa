@@ -1,3 +1,4 @@
+import { ArrowRight } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { buttonVariants } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
@@ -23,6 +24,7 @@ export function CtaSection() {
               className={cn(buttonVariants({ size: "lg" }), "h-11 rounded-full bg-secondary px-6 text-sm font-semibold text-secondary-foreground hover:bg-secondary/90")}
             >
               {t("register")}
+              <ArrowRight aria-hidden="true" className="size-4" />
             </Link>
             <Link
               href={ROUTES.login}
@@ -31,6 +33,7 @@ export function CtaSection() {
               {t("login")}
             </Link>
           </div>
+          <p className="mt-5 text-sm text-white/70">{t("note")}</p>
         </div>
       </div>
     </section>

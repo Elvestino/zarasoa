@@ -1,6 +1,7 @@
 import { DomainError } from "@/shared/errors/DomainError";
 
 export const PASSWORD_MIN_LENGTH = 8;
+export const PASSWORD_MAX_LENGTH = 128;
 
 export const Password = {
   /** Règle d'un mot de passe NOUVEAU (inscription, réinitialisation). */
@@ -10,6 +11,9 @@ export const Password = {
         `Le mot de passe doit contenir au moins ${PASSWORD_MIN_LENGTH} caractères.`,
         "WEAK_PASSWORD",
       );
+    }
+    if (raw.length > PASSWORD_MAX_LENGTH) {
+      throw new DomainError(`Le mot de passe ne doit pas dépasser ${PASSWORD_MAX_LENGTH} caractères.`, "INVALID_FIELD");
     }
     if (!/[A-Za-z]/.test(raw) || !/\d/.test(raw)) {
       throw new DomainError("Le mot de passe doit contenir au moins une lettre et un chiffre.", "WEAK_PASSWORD");

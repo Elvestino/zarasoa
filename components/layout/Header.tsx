@@ -3,7 +3,7 @@
 import { Menu, X } from "lucide-react";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetClose, SheetContent, SheetDescription, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
@@ -38,11 +38,6 @@ export function Header() {
   const pathname = usePathname();
   const { user, loading, logout, pending } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
-
-  // Referme le menu mobile à chaque changement de page.
-  useEffect(() => {
-    setMenuOpen(false);
-  }, [pathname]);
 
   async function onLogout() {
     setMenuOpen(false);

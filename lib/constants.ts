@@ -8,6 +8,8 @@ export const ROUTES = {
   forgotPassword: "/forgot-password",
   resetPassword: "/reset-password",
   authCallback: "/auth/callback",
+  privacy: "/privacy",
+  terms: "/terms",
 } as const;
 
 /** Préfixes réservés aux comptes connectés (protégés par proxy.ts ; le contrôle par rôle viendra au sprint 1). */
@@ -15,3 +17,6 @@ export const PROTECTED_PREFIXES = ["/etudiant", "/professeur", "/admin"] as cons
 
 /** Pages réservées aux visiteurs non connectés. */
 export const GUEST_ONLY_ROUTES = [ROUTES.login, ROUTES.register, ROUTES.forgotPassword] as const;
+
+/** Pages publiques indexables (sitemap). */
+export const PUBLIC_ROUTES = [ROUTES.home, ROUTES.login, ROUTES.register, ROUTES.forgotPassword, ROUTES.privacy, ROUTES.terms] as const;

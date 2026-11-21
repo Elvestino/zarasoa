@@ -8,7 +8,7 @@ import { DomainError } from "@/shared/errors/DomainError";
 import { validateStudentRegistration } from "../../domain/entities/StudentRegistration";
 import { useAuth } from "../hooks/useAuth";
 import { useAuthError } from "../hooks/useAuthError";
-import { Field, FieldInput, FormError, PillButton } from "./AuthFields";
+import { Field, FieldInput, FormError, Honeypot, PillButton } from "./AuthFields";
 import { AuthShell } from "./AuthShell";
 
 export function RegisterForm() {
@@ -23,6 +23,9 @@ export function RegisterForm() {
     setError(null);
     const f = new FormData(e.currentTarget);
     const value = (name: string) => String(f.get(name) ?? "");
+
+    // Piège à robots rempli : on fait semblant que tout s'est bien passé, sans rien envoyer.
+    if (value("website")) return setSentTo(value("email"));
 
     try {
       if (value("password") !== value("confirmPassword")) {
@@ -64,7 +67,8 @@ export function RegisterForm() {
 
   return (
     <AuthShell title={t("register.title")} subtitle1={t("register.subtitle1")} subtitle2={t("register.subtitle2")}>
-      <form onSubmit={onSubmit} className="flex flex-col gap-4">
+      <form onSubmit={onSubmit} className="relative flex flex-col gap-4">
+        <Honeypot />
         <FormError message={error} />
         <div className="grid grid-cols-2 gap-x-6 gap-y-4">
           <Field id="lastName" label={t("fields.lastName")}>
@@ -80,25 +84,38 @@ export function RegisterForm() {
             <FieldInput id="phoneNumber" name="phoneNumber" type="tel" autoComplete="tel" maxLength={25} />
           </Field>
           <Field id="email" label={t("fields.email")} className="col-span-2">
-            <FieldInput id="email" name="email" type="email" autoComplete="email" required />
+            <FieldInput id="email" name="email" type="email" autoComplete="email" required maxLength={254} spellCheck={false} autoCapitalize="none" />
           </Field>
           <Field id="password" label={t("fields.password")} hint={t("register.passwordHint")} className="col-span-2">
-            <FieldInput id="password" name="password" type="password" autoComplete="new-password" required />
+            <FieldInput id="password" name="password" type="password" autoComplete="new-password" required maxLength={128} aria-describedby="password-hint" />
           </Field>
           <Field id="confirmPassword" label={t("fields.confirmPassword")} className="col-span-2">
-            <FieldInput id="confirmPassword" name="confirmPassword" type="password" autoComplete="new-password" required />
+            <FieldInput id="confirmPassword" name="confirmPassword" type="password" autoComplete="new-password" required maxLength={128} />
           </Field>
         </div>
-        <label className="flex items-start gap-2 text-[11px] text-muted-foreground">
+        <label className="flex items-start gap-2 text-xs text-muted-foreground">
           <input
             type="checkbox"
             name="terms"
             required
-            className="mt-0.5 size-3.5 accent-primary"
+            className="mt-0.5 size-4 accent-primary"
             onInvalid={(e) => e.currentTarget.setCustomValidity(t("register.termsRequired"))}
             onChange={(e) => e.currentTarget.setCustomValidity("")}
           />
-          <span>{t("register.terms")}</span>
+          <span>
+            {t.rich("register.terms", {
+              terms: (chunks) => (
+                <Link href={ROUTES.terms} target="_blank" rel="noopener" className="font-semibold text-primary underline underline-offset-2">
+                  {chunks}
+                </Link>
+              ),
+              privacy: (chunks) => (
+                <Link href={ROUTES.privacy} target="_blank" rel="noopener" className="font-semibold text-primary underline underline-offset-2">
+                  {chunks}
+                </Link>
+              ),
+            })}
+          </span>
         </label>
         <PillButton type="submit" disabled={pending}>
           {pending ? t("register.submitting") : t("register.submit")}

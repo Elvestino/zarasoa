@@ -5,13 +5,22 @@
     "loginTitle": "Connexion",
     "registerTitle": "Inscription",
     "forgotTitle": "Mot de passe oublié",
-    "resetTitle": "Nouveau mot de passe"
+    "resetTitle": "Nouveau mot de passe",
+    "homeTitle": "ZARASOA — Cours, ressources et devoirs de votre université",
+    "loginDescription": "Connectez-vous à ZARASOA pour accéder à vos cours, ressources pédagogiques et devoirs.",
+    "registerDescription": "Inscrivez-vous avec votre matricule pour rejoindre la plateforme de votre université.",
+    "forgotDescription": "Recevez un lien par e-mail pour réinitialiser votre mot de passe ZARASOA.",
+    "resetDescription": "Choisissez un nouveau mot de passe pour votre compte ZARASOA.",
+    "privacyDescription": "Découvrez quelles données ZARASOA collecte, pourquoi, et comment exercer vos droits.",
+    "termsDescription": "Conditions d'utilisation de ZARASOA : inscription, compte, règles d'usage et contenus.",
+    "notFoundTitle": "Page introuvable"
   },
   "Common": {
     "close": "Fermer",
     "tagline": "Apprendre • Partager • Réussir",
     "notSignedIn": "Non connecté",
-    "noRole": "aucun rôle"
+    "noRole": "aucun rôle",
+    "skipToContent": "Aller au contenu principal"
   },
   "Header": {
     "login": "Connexion",
@@ -33,7 +42,11 @@
     "project": "Le projet",
     "registerStudent": "Inscription étudiant",
     "forgot": "Mot de passe oublié",
-    "backToTop": "Retour en haut"
+    "backToTop": "Retour en haut",
+    "privacy": "Confidentialité",
+    "terms": "Conditions d'utilisation",
+    "cookies": "Gérer les cookies",
+    "legal": "Informations légales"
   },
   "Hero": {
     "description": "Les cours, les ressources pédagogiques et les devoirs de votre université, au même endroit. Les professeurs publient, les étudiants approuvés consultent et déposent leurs devoirs.",
@@ -83,7 +96,7 @@
       "subtitle1": "Rejoignez la plateforme de votre université avec le matricule",
       "subtitle2": "figurant sur votre carte d'etudiant.",
       "passwordHint": "8 caractères minimum, avec une lettre et un chiffre.",
-      "terms": "J'accepte les conditions d'utilisation et la politique de confidentialité",
+      "terms": "J'accepte les <terms>conditions d'utilisation</terms> et la <privacy>politique de confidentialité</privacy>",
       "termsRequired": "Vous devez accepter les conditions pour continuer.",
       "submit": "S'inscrire",
       "submitting": "Envoi…",
@@ -129,7 +142,9 @@
       "ACCOUNT_INACTIVE": "Ce compte est suspendu ou désactivé.",
       "EMAIL_ALREADY_USED": "Cette adresse e-mail est déjà utilisée.",
       "REGISTRATION_NUMBER_TAKEN": "Ce matricule est déjà utilisé par une autre demande.",
-      "NETWORK_ERROR": "Impossible de joindre le serveur. Vérifiez votre connexion."
+      "NETWORK_ERROR": "Impossible de joindre le serveur. Vérifiez votre connexion.",
+      "RATE_LIMITED": "Trop de tentatives. Patientez quelques minutes puis réessayez.",
+      "INVALID_PHONE": "Numéro de téléphone invalide."
     }
   },
   "Features": {
@@ -216,11 +231,172 @@
     "title": "Prêt à rejoindre ZARASOA ?",
     "text": "Inscrivez-vous avec votre matricule ou connectez-vous pour retrouver vos cours.",
     "register": "Inscription étudiant",
-    "login": "Se connecter"
+    "login": "Se connecter",
+    "note": "Votre inscription est validée par l'administration de votre université."
   },
   "NotFound": {
     "title": "Page introuvable",
     "text": "La page que vous cherchez n'existe pas ou a été déplacée.",
-    "back": "Retour à l'accueil"
+    "back": "Retour à l'accueil",
+    "hint": "Vérifiez l'adresse saisie ou repartez d'une page connue.",
+    "login": "Se connecter",
+    "register": "S'inscrire"
+  },
+  "Cookies": {
+    "label": "Cookies et vie privée",
+    "title": "Cookies et vie privée",
+    "text": "ZARASOA utilise des cookies essentiels (connexion, langue). Avec votre accord, nous ajoutons une mesure d'audience anonyme pour améliorer le site.",
+    "accept": "Accepter",
+    "refuse": "Tout refuser",
+    "more": "En savoir plus"
+  },
+  "Legal": {
+    "updated": "Dernière mise à jour : 21 novembre 2026",
+    "contactLead": "Contact :",
+    "contactFallback": "Pour toute question, adressez-vous à l'administration de votre établissement.",
+    "backHome": "Retour à l'accueil",
+    "privacy": {
+      "title": "Politique de confidentialité",
+      "intro": "Cette politique explique quelles données personnelles ZARASOA collecte, pourquoi, combien de temps elles sont conservées et comment exercer vos droits.",
+      "sections": [
+        {
+          "title": "Qui est responsable de vos données ?",
+          "paragraphs": [
+            "ZARASOA est une plateforme universitaire qui réunit cours, ressources pédagogiques et devoirs. Le responsable du traitement est l'établissement d'enseignement qui exploite la plateforme (l'« administration »).",
+            "Pour toute question sur vos données, utilisez le contact indiqué en bas de cette page."
+          ]
+        },
+        {
+          "title": "Données collectées",
+          "paragraphs": [
+            "À l'inscription : nom, prénom, adresse e-mail, matricule, mot de passe et, si vous les renseignez, pseudo, numéro de téléphone et date de naissance.",
+            "À la connexion : adresse IP, type de navigateur et nombre d'échecs de connexion, utilisés pour la sécurité du compte.",
+            "Pendant l'utilisation : les devoirs que vous déposez et les actions liées à votre compte (validation, suspension…).",
+            "Votre mot de passe n'est jamais stocké en clair et n'est pas lisible par l'administration."
+          ]
+        },
+        {
+          "title": "Pourquoi nous les utilisons",
+          "paragraphs": [
+            "Créer et valider votre compte étudiant à partir de votre matricule.",
+            "Vous donner accès aux contenus de votre filière, de votre parcours et de votre niveau, et vous permettre de déposer vos devoirs.",
+            "Protéger les comptes : un compte est bloqué après 5 échecs de connexion consécutifs.",
+            "Mesurer l'audience du site, uniquement si vous acceptez les cookies de mesure."
+          ]
+        },
+        {
+          "title": "Base légale",
+          "paragraphs": [
+            "Le traitement de vos données d'inscription et de connexion est nécessaire au fonctionnement du service que vous demandez.",
+            "La mesure d'audience repose sur votre consentement, que vous pouvez retirer à tout moment."
+          ]
+        },
+        {
+          "title": "Hébergement et destinataires",
+          "paragraphs": [
+            "Vos données sont hébergées par Supabase (base de données et authentification). Elles sont accessibles à l'administration ; les contenus pédagogiques sont accessibles à vos professeurs selon leurs droits.",
+            "Vos données ne sont pas vendues et ne servent pas à de la publicité."
+          ]
+        },
+        {
+          "title": "Durée de conservation",
+          "paragraphs": [
+            "Vos données sont conservées tant que votre compte existe. À la clôture du compte, elles sont supprimées ou anonymisées, sauf obligation légale de conservation."
+          ]
+        },
+        {
+          "title": "Cookies et stockage local",
+          "paragraphs": [
+            "Essentiels (sans consentement) : cookies de session de connexion, cookie de langue (NEXT_LOCALE), et préférences d'affichage (thème clair ou sombre) et de cookies enregistrées dans votre navigateur.",
+            "Mesure d'audience (avec consentement) : si vous cliquez sur « Accepter » dans le bandeau, des statistiques de fréquentation anonymes sont collectées. Si vous refusez, rien n'est déposé.",
+            "Vous pouvez modifier votre choix à tout moment avec le lien « Gérer les cookies » en bas de page."
+          ]
+        },
+        {
+          "title": "Vos droits",
+          "paragraphs": [
+            "Vous pouvez demander l'accès à vos données, leur rectification, leur suppression, ou vous opposer à leur traitement.",
+            "Pour exercer ces droits, contactez l'administration (contact en bas de page)."
+          ]
+        },
+        {
+          "title": "Sécurité",
+          "paragraphs": [
+            "Les échanges sont chiffrés (HTTPS), les mots de passe sont protégés, les clés secrètes ne sont jamais exposées dans le navigateur et les comptes sont verrouillés après des échecs répétés.",
+            "Aucun système n'est infaillible : en cas d'incident touchant vos données, vous en seriez informé."
+          ]
+        },
+        {
+          "title": "Modifications",
+          "paragraphs": [
+            "Cette politique peut évoluer. La date de dernière mise à jour figure en haut de la page."
+          ]
+        }
+      ]
+    },
+    "terms": {
+      "title": "Conditions d'utilisation",
+      "intro": "En créant un compte ou en utilisant ZARASOA, vous acceptez les conditions ci-dessous.",
+      "sections": [
+        {
+          "title": "Objet",
+          "paragraphs": [
+            "ZARASOA est une plateforme universitaire permettant de consulter des cours et des ressources pédagogiques et de déposer des devoirs en ligne."
+          ]
+        },
+        {
+          "title": "Inscription et accès",
+          "paragraphs": [
+            "L'inscription est réservée aux étudiants disposant d'un matricule. Après confirmation de votre adresse e-mail, l'administration valide ou refuse votre demande avant tout accès.",
+            "Les informations fournies doivent être exactes. Un matricule ne peut être utilisé que par la personne à qui il appartient."
+          ]
+        },
+        {
+          "title": "Votre compte",
+          "paragraphs": [
+            "Vous êtes responsable de la confidentialité de votre mot de passe et de l'activité de votre compte.",
+            "Après 5 échecs de connexion consécutifs, le compte est bloqué ; contactez l'administration pour le débloquer."
+          ]
+        },
+        {
+          "title": "Règles d'usage",
+          "paragraphs": [
+            "Il est interdit de partager votre compte, de tenter d'accéder à des données qui ne vous sont pas destinées, de perturber le service ou d'y déposer des contenus illicites, malveillants ou frauduleux (plagiat inclus).",
+            "Les devoirs doivent être déposés avant la date limite fixée par le professeur."
+          ]
+        },
+        {
+          "title": "Contenus",
+          "paragraphs": [
+            "Les cours et ressources restent la propriété de leurs auteurs. Ils sont réservés à un usage pédagogique personnel et ne doivent pas être diffusés sans autorisation.",
+            "Vous restez propriétaire de vos devoirs ; vous autorisez ZARASOA à les conserver et à les mettre à disposition de vos professeurs et de l'administration."
+          ]
+        },
+        {
+          "title": "Disponibilité",
+          "paragraphs": [
+            "Nous faisons le maximum pour garder le service accessible, sans garantie d'accès continu : des interruptions pour maintenance sont possibles."
+          ]
+        },
+        {
+          "title": "Suspension",
+          "paragraphs": [
+            "L'administration peut suspendre ou fermer un compte en cas de non-respect de ces conditions."
+          ]
+        },
+        {
+          "title": "Données personnelles",
+          "paragraphs": [
+            "Le traitement de vos données est décrit dans la politique de confidentialité."
+          ]
+        },
+        {
+          "title": "Modification et droit applicable",
+          "paragraphs": [
+            "Ces conditions peuvent être modifiées ; continuer à utiliser le service vaut acceptation. Elles sont soumises au droit applicable dans le pays de l'établissement."
+          ]
+        }
+      ]
+    }
   }
 }

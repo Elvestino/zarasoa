@@ -2,6 +2,7 @@
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
+import { CookieSettingsButton } from "@/components/layout/CookieSettingsButton";
 import { ROUTES } from "@/lib/constants";
 
 // Courbe du bord supérieur : un liseré doré, puis le fond du pied de page décalé de 12 unités vers le bas.
@@ -85,10 +86,21 @@ export function Footer() {
           </div>
         </div>
 
-        
-          <div className="border-t border-white/10 text-center px-4 py-5 text-sm text-white/60">
+
+        <div className="border-t border-white/10 px-4 py-5 text-sm text-white/70">
+          <div className="mx-auto flex w-full max-w-6xl flex-col items-center justify-between gap-3 sm:flex-row">
             <p>{t("text")}</p>
+            <nav aria-label={t("legal")} className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
+              <Link href={ROUTES.privacy} className={linkClass}>
+                {t("privacy")}
+              </Link>
+              <Link href={ROUTES.terms} className={linkClass}>
+                {t("terms")}
+              </Link>
+              <CookieSettingsButton className={linkClass} />
+            </nav>
           </div>
+        </div>
       </div>
     </footer>
   );

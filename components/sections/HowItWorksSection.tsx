@@ -13,7 +13,7 @@ export function HowItWorksSection() {
         <ol className="grid gap-6 md:grid-cols-3">
           {steps.map((step, i) => (
             <li key={step.title} className="relative rounded-2xl bg-card p-7 ring-1 ring-foreground/10">
-              <span className="font-heading text-6xl leading-none font-bold text-secondary">{i + 1}</span>
+              <span className="font-heading text-6xl leading-none font-bold text-gold-text">{i + 1}</span>
               <h3 className="mt-5 font-heading text-lg font-semibold">{step.title}</h3>
               <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{step.desc}</p>
               {i < steps.length - 1 ? (

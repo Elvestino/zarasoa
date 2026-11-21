@@ -20,7 +20,11 @@ export function Field({
         {label}
       </label>
       {children}
-      {hint ? <p className="mt-1 text-[11px] text-muted-foreground">{hint}</p> : null}
+      {hint ? (
+        <p id={`${id}-hint`} className="mt-1 text-[11px] text-muted-foreground">
+          {hint}
+        </p>
+      ) : null}
     </div>
   );
 }
@@ -50,5 +54,20 @@ export function FormError({ message }: { message: string | null }) {
     <p role="alert" className="rounded-lg border border-destructive/30 bg-destructive/10 px-3 py-2 text-xs text-destructive">
       {message}
     </p>
+  );
+}
+
+/**
+ * Piège à robots : champ invisible que seuls les scripts remplissent. Un humain ne le voit ni ne l'atteint au clavier.
+ * Les formulaires ignorent silencieusement toute soumission où il est rempli.
+ */
+export function Honeypot() {
+  return (
+    <div aria-hidden="true" className="pointer-events-none absolute left-[-9999px] top-auto h-px w-px overflow-hidden opacity-0">
+      <label>
+        Website
+        <input type="text" name="website" tabIndex={-1} autoComplete="off" defaultValue="" />
+      </label>
+    </div>
   );
 }

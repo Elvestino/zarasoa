@@ -5,13 +5,22 @@
     "loginTitle": "Sign in",
     "registerTitle": "Register",
     "forgotTitle": "Forgot password",
-    "resetTitle": "New password"
+    "resetTitle": "New password",
+    "homeTitle": "ZARASOA — Your university's courses, resources and assignments",
+    "loginDescription": "Sign in to ZARASOA to access your courses, learning resources and assignments.",
+    "registerDescription": "Register with your student number to join your university's platform.",
+    "forgotDescription": "Get an email link to reset your ZARASOA password.",
+    "resetDescription": "Choose a new password for your ZARASOA account.",
+    "privacyDescription": "Find out what data ZARASOA collects, why, and how to exercise your rights.",
+    "termsDescription": "ZARASOA terms of use: registration, account, rules of use and content.",
+    "notFoundTitle": "Page not found"
   },
   "Common": {
     "close": "Close",
     "tagline": "Learn • Share • Succeed",
     "notSignedIn": "Not signed in",
-    "noRole": "no role"
+    "noRole": "no role",
+    "skipToContent": "Skip to main content"
   },
   "Header": {
     "login": "Sign in",
@@ -33,7 +42,11 @@
     "project": "The project",
     "registerStudent": "Student registration",
     "forgot": "Forgot password",
-    "backToTop": "Back to top"
+    "backToTop": "Back to top",
+    "privacy": "Privacy",
+    "terms": "Terms of use",
+    "cookies": "Manage cookies",
+    "legal": "Legal information"
   },
   "Hero": {
     "description": "Your university's courses, learning resources and homework in one place. Professors publish; approved students browse and submit their work.",
@@ -83,7 +96,7 @@
       "subtitle1": "Join your university's platform with the number",
       "subtitle2": "listed in your student ID card.",
       "passwordHint": "At least 8 characters, with a letter and a digit.",
-      "terms": "I accept the terms of use and the privacy policy",
+      "terms": "I accept the <terms>terms of use</terms> and the <privacy>privacy policy</privacy>",
       "termsRequired": "You must accept the terms to continue.",
       "submit": "Register",
       "submitting": "Sending…",
@@ -129,7 +142,9 @@
       "ACCOUNT_INACTIVE": "This account is suspended or deactivated.",
       "EMAIL_ALREADY_USED": "This email address is already in use.",
       "REGISTRATION_NUMBER_TAKEN": "This registration number is already used by another request.",
-      "NETWORK_ERROR": "Cannot reach the server. Check your connection."
+      "NETWORK_ERROR": "Cannot reach the server. Check your connection.",
+      "RATE_LIMITED": "Too many attempts. Wait a few minutes and try again.",
+      "INVALID_PHONE": "Invalid phone number."
     }
   },
   "Features": {
@@ -224,11 +239,172 @@
     "title": "Ready to join ZARASOA?",
     "text": "Register with your registration number, or sign in to get back to your courses.",
     "register": "Student registration",
-    "login": "Sign in"
+    "login": "Sign in",
+    "note": "Your registration is approved by your university's administration."
   },
   "NotFound": {
     "title": "Page not found",
     "text": "The page you are looking for does not exist or has moved.",
-    "back": "Back to home"
+    "back": "Back to home",
+    "hint": "Check the address you typed or start again from a known page.",
+    "login": "Sign in",
+    "register": "Register"
+  },
+  "Cookies": {
+    "label": "Cookies and privacy",
+    "title": "Cookies and privacy",
+    "text": "ZARASOA uses essential cookies (sign-in, language). With your consent, we also add anonymous audience measurement to improve the site.",
+    "accept": "Accept",
+    "refuse": "Refuse all",
+    "more": "Learn more"
+  },
+  "Legal": {
+    "updated": "Last updated: November 21, 2026",
+    "contactLead": "Contact:",
+    "contactFallback": "For any question, please contact your institution's administration.",
+    "backHome": "Back to home",
+    "privacy": {
+      "title": "Privacy policy",
+      "intro": "This policy explains what personal data ZARASOA collects, why, how long it is kept and how to exercise your rights.",
+      "sections": [
+        {
+          "title": "Who is responsible for your data?",
+          "paragraphs": [
+            "ZARASOA is a university platform that brings together courses, learning resources and assignments. The data controller is the educational institution that operates the platform (the “administration”).",
+            "For any question about your data, use the contact shown at the bottom of this page."
+          ]
+        },
+        {
+          "title": "Data we collect",
+          "paragraphs": [
+            "At registration: last name, first name, email address, student number, password and, if you provide them, nickname, phone number and date of birth.",
+            "At sign-in: IP address, browser type and number of failed sign-in attempts, used to secure your account.",
+            "While using the service: the assignments you submit and actions related to your account (approval, suspension…).",
+            "Your password is never stored in clear text and cannot be read by the administration."
+          ]
+        },
+        {
+          "title": "Why we use it",
+          "paragraphs": [
+            "To create and approve your student account from your student number.",
+            "To give you access to the content of your field, track and level, and let you submit assignments.",
+            "To protect accounts: an account is locked after 5 consecutive failed sign-ins.",
+            "To measure site audience, only if you accept measurement cookies."
+          ]
+        },
+        {
+          "title": "Legal basis",
+          "paragraphs": [
+            "Processing your registration and sign-in data is necessary to provide the service you request.",
+            "Audience measurement is based on your consent, which you can withdraw at any time."
+          ]
+        },
+        {
+          "title": "Hosting and recipients",
+          "paragraphs": [
+            "Your data is hosted by Supabase (database and authentication). It is accessible to the administration; learning content is accessible to your teachers according to their rights.",
+            "Your data is not sold and is not used for advertising."
+          ]
+        },
+        {
+          "title": "Retention",
+          "paragraphs": [
+            "Your data is kept as long as your account exists. When the account is closed, it is deleted or anonymised, unless a legal retention obligation applies."
+          ]
+        },
+        {
+          "title": "Cookies and local storage",
+          "paragraphs": [
+            "Essential (no consent needed): sign-in session cookies, the language cookie (NEXT_LOCALE), and display (light or dark theme) and cookie preferences stored in your browser.",
+            "Audience measurement (with consent): if you click “Accept” in the banner, anonymous visit statistics are collected. If you refuse, nothing is set.",
+            "You can change your choice at any time with the “Manage cookies” link at the bottom of the page."
+          ]
+        },
+        {
+          "title": "Your rights",
+          "paragraphs": [
+            "You can ask for access to your data, its correction or deletion, or object to its processing.",
+            "To exercise these rights, contact the administration (contact at the bottom of the page)."
+          ]
+        },
+        {
+          "title": "Security",
+          "paragraphs": [
+            "Exchanges are encrypted (HTTPS), passwords are protected, secret keys are never exposed in the browser and accounts are locked after repeated failures.",
+            "No system is infallible: if an incident affects your data, you would be informed."
+          ]
+        },
+        {
+          "title": "Changes",
+          "paragraphs": [
+            "This policy may change. The date of the last update is shown at the top of the page."
+          ]
+        }
+      ]
+    },
+    "terms": {
+      "title": "Terms of use",
+      "intro": "By creating an account or using ZARASOA, you accept the terms below.",
+      "sections": [
+        {
+          "title": "Purpose",
+          "paragraphs": [
+            "ZARASOA is a university platform to browse courses and learning resources and to submit assignments online."
+          ]
+        },
+        {
+          "title": "Registration and access",
+          "paragraphs": [
+            "Registration is reserved for students with a student number. After you confirm your email address, the administration approves or rejects your request before any access is granted.",
+            "The information you provide must be accurate. A student number may only be used by the person it belongs to."
+          ]
+        },
+        {
+          "title": "Your account",
+          "paragraphs": [
+            "You are responsible for keeping your password confidential and for the activity on your account.",
+            "After 5 consecutive failed sign-ins the account is locked; contact the administration to unlock it."
+          ]
+        },
+        {
+          "title": "Rules of use",
+          "paragraphs": [
+            "You must not share your account, try to access data not intended for you, disrupt the service or upload unlawful, malicious or fraudulent content (including plagiarism).",
+            "Assignments must be submitted before the deadline set by the teacher."
+          ]
+        },
+        {
+          "title": "Content",
+          "paragraphs": [
+            "Courses and resources remain the property of their authors. They are for personal educational use and must not be distributed without permission.",
+            "You remain the owner of your assignments; you allow ZARASOA to store them and make them available to your teachers and the administration."
+          ]
+        },
+        {
+          "title": "Availability",
+          "paragraphs": [
+            "We do our best to keep the service available but do not guarantee uninterrupted access: maintenance interruptions are possible."
+          ]
+        },
+        {
+          "title": "Suspension",
+          "paragraphs": [
+            "The administration may suspend or close an account if these terms are not respected."
+          ]
+        },
+        {
+          "title": "Personal data",
+          "paragraphs": [
+            "How your data is processed is described in the privacy policy."
+          ]
+        },
+        {
+          "title": "Changes and governing law",
+          "paragraphs": [
+            "These terms may be amended; continuing to use the service means you accept them. They are governed by the law applicable in the institution's country."
+          ]
+        }
+      ]
+    }
   }
 }

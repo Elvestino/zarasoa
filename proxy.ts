@@ -7,6 +7,15 @@ import { updateSession } from "@/shared/infrastructure/supabase/session";
  * elle vient du cookie NEXT_LOCALE (i18n/request.ts), il n'y a donc plus de middleware next-intl.
  */
 export async function proxy(request: NextRequest) {
+  // HTTPS obligatoire en production (derrière un reverse proxy, le protocole d'origine est dans x-forwarded-proto).
+  // Exception : localhost, pour pouvoir tester `next start` en local sans certificat.
+  if (process.env.NODE_ENV === "production" && request.headers.get("x-forwarded-proto") === "http" && !isLocalHost(request.nextUrl.hostname)) {
+    const url = request.nextUrl.clone();
+    url.protocol = "https:";
+    url.port = "";
+    return NextResponse.redirect(url, 308);
+  }
+
   const { response, user } = await updateSession(request);
   const { pathname } = request.nextUrl;
 
@@ -22,6 +31,8 @@ export async function proxy(request: NextRequest) {
   return response;
 }
 
+const isLocalHost = (hostname: string) => hostname === "localhost" || hostname === "127.0.0.1" || hostname === "[::1]" || hostname.endsWith(".local");
+
 // Les cookies de session éventuellement rafraîchis doivent suivre la redirection.
 function redirectKeepingCookies(request: NextRequest, source: NextResponse, path: string) {
   const redirect = NextResponse.redirect(new URL(path, request.url));
@@ -30,5 +41,7 @@ function redirectKeepingCookies(request: NextRequest, source: NextResponse, path
 }
 
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|_next/data|favicon.ico|icon.png|assets/|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico)$).*)"],
+  matcher: [
+    "/((?!_next/static|_next/image|_next/data|favicon.ico|icon.png|apple-icon.png|robots.txt|sitemap.xml|manifest.webmanifest|opengraph-image|twitter-image|assets/|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico)$).*)",
+  ],
 };
