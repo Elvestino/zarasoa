@@ -31,6 +31,8 @@ export class RegisterService {
     });
 
     if (error) {
+      // Cause réelle côté Supabase Auth (visible dans le terminal `npm run dev`) : le client, lui, ne reçoit qu'un code générique.
+      console.error("[auth] signUp a échoué :", { status: error.status, code: error.code, message: error.message });
       if (error.code === "user_already_exists") throw emailTaken();
       if (error.code === "weak_password") throw new ApiError(error.message, 422, "WEAK_PASSWORD");
       throw new ApiError("Inscription impossible pour le moment.", error.status ?? 500, "REGISTER_FAILED");
@@ -57,7 +59,12 @@ export class RegisterService {
       if (insertError.code === "23505") {
         throw new ApiError("Ce matricule est déjà utilisé par une autre demande.", 409, "REGISTRATION_NUMBER_TAKEN");
       }
-      console.error("[auth] insertion de la demande d'inscription :", insertError.message);
+      console.error("[auth] insertion de la demande d'inscription :", {
+        code: insertError.code,
+        message: insertError.message,
+        details: insertError.details,
+        hint: insertError.hint,
+      });
       throw new ApiError("Inscription impossible pour le moment.", 500, "REGISTER_FAILED");
     }
   }

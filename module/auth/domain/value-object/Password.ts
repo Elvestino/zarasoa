@@ -1,18 +1,19 @@
 import { DomainError } from "@/shared/errors/DomainError";
+import { PASSWORD_MAX_LENGTH, PASSWORD_MIN_LENGTH, isPasswordValid } from "./PasswordRules";
 
-export const PASSWORD_MIN_LENGTH = 8;
+export { PASSWORD_MAX_LENGTH, PASSWORD_MIN_LENGTH };
 
 export const Password = {
-  /** Règle d'un mot de passe NOUVEAU (inscription, réinitialisation). */
+  /** Règle d'un mot de passe NOUVEAU (inscription, réinitialisation). Conditions : voir PasswordRules.ts */
   create(raw: string): string {
-    if (raw.length < PASSWORD_MIN_LENGTH) {
+    if (raw.length > PASSWORD_MAX_LENGTH) {
+      throw new DomainError(`Le mot de passe ne doit pas dépasser ${PASSWORD_MAX_LENGTH} caractères.`, "INVALID_FIELD");
+    }
+    if (!isPasswordValid(raw)) {
       throw new DomainError(
-        `Le mot de passe doit contenir au moins ${PASSWORD_MIN_LENGTH} caractères.`,
+        `Le mot de passe doit contenir au moins ${PASSWORD_MIN_LENGTH} caractères, une lettre, un chiffre, une majuscule et un caractère spécial.`,
         "WEAK_PASSWORD",
       );
-    }
-    if (!/[A-Za-z]/.test(raw) || !/\d/.test(raw)) {
-      throw new DomainError("Le mot de passe doit contenir au moins une lettre et un chiffre.", "WEAK_PASSWORD");
     }
     return raw;
   },

@@ -1,18 +1,20 @@
 "use client";
 
 import { useCallback, useState } from "react";
+import { DomainError } from "@/shared/errors/DomainError";
+import { isApiError } from "@/shared/errors/ApiError";
 import { useAuthContext } from "@/shared/providers/AuthProviders";
 import type { Credentials } from "../../domain/entities/AuthUser";
 import type { StudentRegistration } from "../../domain/entities/StudentRegistration";
 
-/** Résultat d'une action d'authentification : `error` est un message prêt à afficher. */
+/** Résultat d'une action d'authentification : `code` est traduit à l'affichage (voir useAuthError). */
 export interface ActionResult {
   ok: boolean;
-  error?: string;
+  code?: string;
 }
 
-function messageOf(e: unknown): string {
-  return e instanceof Error ? e.message : "Une erreur est survenue.";
+function codeOf(e: unknown): string {
+  return isApiError(e) || e instanceof DomainError ? e.code : "generic";
 }
 
 export function useAuth() {
@@ -25,7 +27,7 @@ export function useAuth() {
       await action();
       return { ok: true };
     } catch (e) {
-      return { ok: false, error: messageOf(e) };
+      return { ok: false, code: codeOf(e) };
     } finally {
       setPending(false);
     }

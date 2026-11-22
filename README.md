@@ -13,7 +13,7 @@ La conception complète (tables, règles, User Stories, tests) est dans le docum
 
 | Couche | Technologie |
 | --- | --- |
-| Interface | Next.js (App Router), React, TypeScript, Tailwind CSS |
+| Interface | Next.js (App Router), React, TypeScript, Tailwind CSS, next-intl (fr, en, mg) |
 | Authentification | Supabase Auth |
 | Données | Supabase PostgreSQL + RLS |
 | Fichiers | Supabase Storage (buckets privés) |
@@ -86,8 +86,9 @@ Conventions (voir le document de conception) :
 ## Architecture (DDD)
 
 ```
-app/                 routes Next.js (pages, route handlers /api, auth/callback)
-proxy.ts             rafraîchit la session Supabase, redirections (remplace middleware.ts en Next 16)
+app/                 pages (URLs sans préfixe de langue : /login, /register…) ; la langue vient du cookie NEXT_LOCALE
+i18n/                next-intl : routing.ts, request.ts (lit le cookie), locale.ts (Server Action), navigation.ts ; textes dans messages/{fr,en,mg}.json
+proxy.ts             rafraîchit la session Supabase, protège les routes (remplace middleware.ts en Next 16)
 components/          UI partagée (ui/, layout/, sections/)
 lib/                 constants, container.ts (composition root serveur)
 shared/
@@ -108,3 +109,8 @@ Types de la base : `npm run db:types` (après `npx supabase login` et `link`).
 
 0. Conception · 1. Fondation (Auth, profils, rôles, blocage de compte) · 2. Préinscription · 3. Catalogue (filières, parcours, niveaux, matières) · 4. Import du registre · 5. Validation des étudiants · 6. Professeurs et affectations · 7. Cours · 8. Ressources · 9. Devoirs · 10. Espaces étudiant/professeur · 11. Administration · 12. Tests · 13. Production
 
+
+
+## Charte graphique
+
+Couleurs du logo dans `app/globals.css` : `--primary` (bleu `#011c86`, éclairci en mode sombre) et `--secondary` (doré `#eeaf2e`). Logos dans `public/assets/img/` (versions claire et sombre, fond transparent). Ajouter une langue : créer `messages/<code>.json` et l'ajouter à `i18n/routing.ts`.

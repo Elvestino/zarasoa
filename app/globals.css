@@ -5,11 +5,14 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  --color-brand-navy: var(--brand-navy);
+  --color-brand-gold: var(--brand-gold);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-sans);
-  --font-mono: var(--font-geist-mono);
-  --font-heading: var(--font-sans);
+  --font-sans: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
+  --font-heading: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
+  --color-hero: var(--hero-bg);
+  --color-gold-text: var(--gold-text);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -49,72 +52,83 @@
 }
 
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
+  /* Palette ZARASOA — bleu (primary) et doré (secondary) issus du logo */
+  --brand-navy: #011c86;
+  --brand-gold: #eeaf2e;
+  /* Fond du hero : bleu du logo en clair, bleu nuit en sombre (voir .dark) */
+  --hero-bg: #011c86;
+  /* Doré lisible sur fond clair (le doré du logo n'atteint que 1,9:1 sur blanc) */
+  --gold-text: #8a5a00;
+
+  --background: #ffffff;
+  --foreground: #0b1236;
+  --card: #ffffff;
+  --card-foreground: #0b1236;
+  --popover: #ffffff;
+  --popover-foreground: #0b1236;
+  --primary: #011c86;
+  --primary-foreground: #ffffff;
+  --secondary: #eeaf2e;
+  --secondary-foreground: #0b1236;
+  --muted: #f1f3fa;
+  --muted-foreground: #5b6482;
+  --accent: #fff3d3;
+  --accent-foreground: #011c86;
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
+  --border: #dfe3f1;
+  --input: #dfe3f1;
+  --ring: #3f5bd6;
+  --chart-1: #011c86;
+  --chart-2: #eeaf2e;
+  --chart-3: #3f5bd6;
+  --chart-4: #f6cf7a;
+  --chart-5: #0b1236;
   --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --sidebar: #ffffff;
+  --sidebar-foreground: #0b1236;
+  --sidebar-primary: #011c86;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #fff3d3;
+  --sidebar-accent-foreground: #011c86;
+  --sidebar-border: #dfe3f1;
+  --sidebar-ring: #3f5bd6;
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
+  /* En sombre, le bleu du logo est trop foncé pour le texte : on l'éclaircit, le doré reste identique. */
+  --hero-bg: #050819;
+  --gold-text: #eeaf2e;
+  --background: #070b1f;
+  --foreground: #f4f6ff;
+  --card: #0d1330;
+  --card-foreground: #f4f6ff;
+  --popover: #0d1330;
+  --popover-foreground: #f4f6ff;
+  --primary: #6a86ff;
+  --primary-foreground: #070b1f;
+  --secondary: #eeaf2e;
+  --secondary-foreground: #0b1236;
+  --muted: #151c42;
+  --muted-foreground: #a3acd1;
+  --accent: #1a2350;
+  --accent-foreground: #f6cf7a;
   --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --border: rgb(255 255 255 / 12%);
+  --input: rgb(255 255 255 / 16%);
+  --ring: #6a86ff;
+  --chart-1: #6a86ff;
+  --chart-2: #eeaf2e;
+  --chart-3: #7d95ff;
+  --chart-4: #f6cf7a;
+  --chart-5: #a3acd1;
+  --sidebar: #0d1330;
+  --sidebar-foreground: #f4f6ff;
+  --sidebar-primary: #6a86ff;
+  --sidebar-primary-foreground: #070b1f;
+  --sidebar-accent: #1a2350;
+  --sidebar-accent-foreground: #f6cf7a;
+  --sidebar-border: rgb(255 255 255 / 12%);
+  --sidebar-ring: #6a86ff;
 }
 
 @layer base {

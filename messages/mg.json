@@ -1,0 +1,420 @@
+{
+  "Metadata": {
+    "title": "ZARASOA",
+    "description": "Sehatra ho an'ny oniversite: taranja, loharanon-kevitra ary asa an-trano.",
+    "loginTitle": "Hiditra",
+    "registerTitle": "Fisoratana anarana",
+    "forgotTitle": "Adino ny teny miafina",
+    "resetTitle": "Teny miafina vaovao",
+    "homeTitle": "ZARASOA — Ny taranja, loharanon-kevitra ary asa an-trano ao amin'ny oniversitenao",
+    "loginDescription": "Midira amin'ny ZARASOA mba hahita ny taranja, ny loharanon-kevitra ary ny asa an-tranonao.",
+    "registerDescription": "Soraty anarana amin'ny matriculenao hiditra amin'ny sehatry ny oniversitenao.",
+    "forgotDescription": "Mahazoa rohy amin'ny mailaka hanovanao ny tenimiafinao ZARASOA.",
+    "resetDescription": "Mifidiana tenimiafina vaovao ho an'ny kaontinao ZARASOA.",
+    "privacyDescription": "Fantaro izay angon-drakitra angonin'ny ZARASOA, ny antony, ary ny fomba hampiasana ny zonao.",
+    "termsDescription": "Fepetra fampiasana ny ZARASOA: fisoratana anarana, kaonty, fitsipika sy votoatra.",
+    "notFoundTitle": "Tsy hita ny pejy"
+  },
+  "Common": {
+    "close": "Hidina",
+    "tagline": "Mianatra • Mizara • Mahomby",
+    "notSignedIn": "Tsy niditra",
+    "noRole": "tsy misy andraikitra",
+    "skipToContent": "Mankany amin'ny votoatra lehibe"
+  },
+  "Header": {
+    "login": "Hiditra",
+    "register": "Hisoratra anarana",
+    "logout": "Hiala",
+    "language": "Fiteny",
+    "toDark": "Hampiasa ny maizina",
+    "toLight": "Hampiasa ny mazava",
+    "features": "Endri-javatra",
+    "how": "Ny fomba fiasa",
+    "roles": "Andraikitra",
+    "menu": "Menio"
+  },
+  "Footer": {
+    "text": "© ZARASOA — Sehatra ho an'ny oniversite",
+    "about": "Ao amin'ny ZARASOA no mivondrona ny taranja, ny loharanon-kevitra ary ny asa an-trano ao amin'ny oniversite, ary ny administrasiona no manamarina ny fisoratana anarana.",
+    "discover": "Fantaro",
+    "space": "Ny kaontiko",
+    "project": "Ny tetikasa",
+    "registerStudent": "Fisoratana anarana ho an'ny mpianatra",
+    "forgot": "Adino ny teny miafina",
+    "backToTop": "Miverina any ambony",
+    "privacy": "Tsiambaratelo",
+    "terms": "Fepetra fampiasana",
+    "cookies": "Hitantana ny cookies",
+    "legal": "Fampahalalana ara-dalàna"
+  },
+  "Hero": {
+    "description": "Ny taranja, ny loharanon-kevitra ary ny asa an-trano rehetra ao amin'ny oniversitenao, amin'ny toerana iray. Ny mpampianatra no mamoaka; ny mpianatra nekena no mijery sy mandefa ny asany.",
+    "login": "Hiditra",
+    "register": "Fisoratana anaran'ny mpianatra",
+    "badge": "Sehatra ho an'ny oniversite",
+    "titleLead": "Ny taranjanao, ny loharanon-kevitra ary ny asa an-trano,",
+    "titleAccent": "amin'ny toerana iray.",
+    "points": [
+      "Votoatin'ny sampanao, ny fizaranao ary ny haavonao",
+      "Mandefa ny asa an-trano an-tserasera alohan'ny daty farany",
+      "Misy amin'ny teny frantsay, anglisy ary malagasy"
+    ]
+  },
+  "Auth": {
+    "panel": {
+      "hello": "Tongasoa eto amin'ny",
+      "p1": "Hitanao ao amin'ny toerana iray ny taranja, ny loharanon-kevitra ary ny asa an-trano, natokana ho an'ny mpikambana ao amin'ny oniversitenao.",
+      "p2": "Ny mpianatra tsirairay dia mahita fotsiny ny votoatin'ny sampana, ny fizarana ary ny haavon'ny taranjany."
+    },
+    "fields": {
+      "lastName": "Anarana",
+      "firstName": "Fanampin'anarana",
+      "birthDate": "Daty nahaterahana",
+      "registrationNumber": "Laharana matricule",
+      "pseudo": "Solon'anarana",
+      "phone": "Laharana finday",
+      "email": "Adiresy mailaka",
+      "password": "Teny miafina",
+      "confirmPassword": "Hamafiso ny teny miafina",
+      "newPassword": "Teny miafina vaovao",
+      "showPassword": "Asehoy ny teny miafina",
+      "hidePassword": "Afeno ny teny miafina",
+      "optional": "tsy voatery"
+    },
+    "passwordRules": {
+      "minLength": "Farafahakeliny {min} tarehintsoratra",
+      "letter": "Litera iray farafahakeliny",
+      "digit": "Isa iray farafahakeliny",
+      "uppercase": "Litera lehibe iray farafahakeliny",
+      "special": "Tarehintsoratra manokana iray farafahakeliny (ohatra: @, % na $)"
+    },
+    "login": {
+      "title": "Hiditra",
+      "subtitle1": "Midira any amin'ny taranja sy ny asa an-tranonao,",
+      "subtitle2": "na aiza na aiza misy anao.",
+      "submit": "Hiditra",
+      "submitting": "Miditra…",
+      "forgot": "Adinonao ny teny miafina?",
+      "noAccount": "Mbola tsy manana kaonty?",
+      "signUp": "Hisoratra anarana",
+      "invalidLink": "Tsy mandeha intsony ity rohy ity. Avereno ny fangatahana."
+    },
+    "register": {
+      "title": "Fisoratana anarana",
+      "subtitle1": "Miditra ao amin'ny sehatry ny oniversitenao amin'ny matricule",
+      "subtitle2": "voasoratra ao amin'ny karatra famantarana mpianatra anao",
+      "passwordHint": "Farafahakeliny 8 tarehintsoratra, misy litera, isa, litera lehibe ary tarehintsoratra manokana.",
+      "terms": "Manaiky ny <terms>fepetra fampiasana</terms> sy ny <privacy>politikam-pitsinjovana ny tsiambaratelo</privacy> aho",
+      "termsRequired": "Tsy maintsy manaiky ny fepetra vao afaka manohy.",
+      "submit": "Hisoratra anarana",
+      "submitting": "Alefa…",
+      "haveAccount": "Efa manana kaonty?",
+      "signIn": "Hiditra",
+      "sentTitle": "Jereo ny mailakao",
+      "sentAlertTitle": "Voasoratra ny fangatahana",
+      "sentBody": "Nandefasana rohy fanamarinana tany amin'i {email}. Rehefa voamarina, ny fitantanana no hanamarina ny fisoratanao anarana alohan'ny hidiranao amin'ny sehatra.",
+      "backToLogin": "Miverina amin'ny fidirana"
+    },
+    "forgot": {
+      "title": "Adino ny teny miafina",
+      "subtitle1": "Soraty ny adiresy mailakao,",
+      "subtitle2": "handefasanay rohy hifidianao teny miafina vaovao.",
+      "submit": "Alefaso ny rohy",
+      "submitting": "Alefa…",
+      "sent": "Raha misy kaonty mifanaraka amin'ity adiresy ity, dia voalefa ny mailaka fanovana teny miafina.",
+      "back": "Miverina amin'ny fidirana"
+    },
+    "reset": {
+      "title": "Teny miafina vaovao",
+      "subtitle1": "Mifidiana teny miafina tsy ampiasainao",
+      "subtitle2": "any an-kafa.",
+      "submit": "Tehirizina",
+      "submitting": "Mitahiry…",
+      "expiredTitle": "Tapitra ny rohy",
+      "expired": "Tsy mandeha intsony ity rohy ity. Mangataha fanovana vaovao."
+    },
+    "errors": {
+      "generic": "Nisy olana. Andramo indray.",
+      "INVALID_EMAIL": "Tsy mety ny adiresy mailaka.",
+      "WEAK_PASSWORD": "Ny teny miafina dia tsy maintsy misy farafahakeliny {min} tarehintsoratra, litera iray, isa iray, litera lehibe iray ary tarehintsoratra manokana iray.",
+      "PASSWORD_MISMATCH": "Tsy mitovy ireo teny miafina roa.",
+      "INVALID_REGISTRATION_NUMBER": "Tsy mety ny matricule.",
+      "INVALID_NAME": "Takiana ny anarana sy ny fanampin'anarana (100 tarehintsoratra no farafahabetsany).",
+      "INVALID_FIELD": "Lava loatra ny saha iray.",
+      "INVALID_DATE": "Tsy mety ny daty nahaterahana.",
+      "INVALID_CREDENTIALS": "Diso ny mailaka na ny teny miafina.",
+      "EMAIL_NOT_CONFIRMED": "Hamarino aloha ny adiresy mailakao.",
+      "ACCOUNT_LOCKED": "Voahidy ny kaonty rehefa nahavita fanandramana diso im-5. Mifandraisa amin'ny mpitantana.",
+      "ACCOUNT_PENDING_ADMIN": "Miandry ny fanamarinan'ny fitantanana ny fisoratanao anarana.",
+      "ACCOUNT_REJECTED": "Nolavina ny fisoratanao anarana.",
+      "ACCOUNT_INACTIVE": "Natsahatra na tsy mandeha ity kaonty ity.",
+      "EMAIL_ALREADY_USED": "Efa nampiasaina ity adiresy mailaka ity.",
+      "REGISTRATION_NUMBER_TAKEN": "Efa nampiasain'ny fangatahana hafa ity matricule ity.",
+      "NETWORK_ERROR": "Tsy tafiditra amin'ny mpizara. Jereo ny fifandraisanao.",
+      "RATE_LIMITED": "Be loatra ny andrana. Miandrasa minitra vitsy dia andramo indray.",
+      "INVALID_PHONE": "Laharana finday tsy mety."
+    }
+  },
+  "Features": {
+    "kicker": "Endri-javatra",
+    "title": "Izay rehetra ilaina hanaraha-maso ny fianarana",
+    "subtitle": "Ao amin'ny ZARASOA no hita ny ilain'ny mpianatra, ny mpampianatra ary ny fitantanana isan'andro.",
+    "items": [
+      {
+        "title": "Taranja",
+        "desc": "Ny mpampianatra no mamoaka ny taranja ao amin'ireo lohahevitra nankinina aminy."
+      },
+      {
+        "title": "Loharanon-kevitra",
+        "desc": "Fitaovana sy taratasy mifandray amin'ny taranja, voatahiry amin'ny toerana manokana."
+      },
+      {
+        "title": "Asa an-trano",
+        "desc": "Ny mpampianatra no mamoaka ny asa; ny mpianatra kosa mandefa ny asany alohan'ny daty farany."
+      },
+      {
+        "title": "Fidirana voafaritra",
+        "desc": "Ny mpianatra tsirairay dia mahita fotsiny ny votoatin'ny sampana, ny fizarana ary ny haavon'ny taranjany."
+      },
+      {
+        "title": "Fisoratana anarana voafehy",
+        "desc": "Ampitahaina amin'ny rejistra ofisialy ny mpianatra, ary ny fitantanana no manamarina ny fisoratana anarana rehetra."
+      }
+    ]
+  },
+  "How": {
+    "kicker": "Ny fomba fiasa",
+    "title": "Amin'ny dingana telo, hatramin'ny fisoratana anarana ka hatrany amin'ny asa an-trano",
+    "subtitle": "Lalana tsotra, natao ho an'ny mpianatra ao amin'ny oniversite.",
+    "steps": [
+      {
+        "title": "Misoratra anarana",
+        "desc": "Amboary ny kaontinao amin'ny matricule ao amin'ny rejistra ofisialy, dia hamafiso ny adiresy mailakao."
+      },
+      {
+        "title": "Miandry ny fankatoavana",
+        "desc": "Ny fitantanana no manamarina sy manaiky ny fisoratana anaranao alohan'ny hisokafan'ny fidirana."
+      },
+      {
+        "title": "Mianara sy mandefa",
+        "desc": "Jereo ny taranja sy ny loharanon-kevitra ho an'ny haavonao, dia alefaso ny asa an-trano alohan'ny daty farany."
+      }
+    ]
+  },
+  "Roles": {
+    "kicker": "Ho an'ny rehetra",
+    "title": "Toerana mifanaraka amin'ny andraikitra tsirairay",
+    "subtitle": "Andraikitra roa, zo mazava: ny tsirairay dia mahita ny mahakasika azy ihany.",
+    "items": [
+      {
+        "title": "Mpianatra",
+        "points": [
+          "Mijery ny taranja sy ny loharanon-kevitra ho an'ny haavony",
+          "Mandefa ny asa an-trano alohan'ny daty farany",
+          "Mahita ny votoatin'ny sampany ihany"
+        ]
+      },
+      {
+        "title": "Mpampianatra",
+        "points": [
+          "Mamoaka taranja ao amin'ny lohahevitra miandraikitra azy",
+          "Manampy loharanon-kevitra",
+          "Mamoaka asa an-trano ho an'ny mpianany"
+        ]
+      },
+      {
+        "title": "Lehiben'ny fitantanana",
+        "points": [
+          "Manafatra ny rejistran'ny mpianatra ofisialy",
+          "Manamarina ny fisoratana anarana",
+          "Mitantana ny katalaogy sy ny fanendrena"
+        ]
+      }
+    ]
+  },
+  "Levels": {
+    "title": "Manomboka Licence hatramin'ny Master ",
+    "subtitle": "Voalamina araka ny haavon'ny fianarana ny votoatina.",
+    "names": [
+      "Licence 1",
+      "Licence 2",
+      "Licence 3",
+      "Master 1",
+      "Master 2"
+    ]
+  },
+  "Cta": {
+    "title": "Vonona hiditra ao amin'ny ZARASOA ve?",
+    "text": "Misoratra anarana amin'ny matricule-nao, na hiditra mba hamerenana ny taranjanao.",
+    "register": "Fisoratana anaran'ny mpianatra",
+    "login": "Hiditra",
+    "note": "Ny fisoratanao anarana dia ekena amin'ny fitantanan'ny oniversitenao."
+  },
+  "NotFound": {
+    "title": "Tsy hita ny pejy",
+    "text": "Tsy misy ilay pejy tadiavinao",
+    "back": "Hiverina any am-piandohana",
+    "login": "Hiditra",
+    "register": "Hisoratra anarana",
+    "badge": "Hadisoana 404",
+    "help": "Inona no tadiavinao?"
+  },
+  "Cookies": {
+    "label": "Cookies sy tsiambaratelo",
+    "title": "Cookies sy tsiambaratelo",
+    "text": "Mampiasa cookies ilaina (fidirana, fiteny) ny ZARASOA. Raha manaiky ianao dia hanampy frefesana tsy fantatra anarana izahay mba hanatsarana ny tranonkala.",
+    "accept": "Ekeo",
+    "refuse": "Lavina daholo",
+    "more": "Hamaky bebe kokoa"
+  },
+  "Legal": {
+    "updated": "Nohavaozina farany: 21 Novambra 2026",
+    "contactLead": "Fifandraisana:",
+    "contactFallback": "Raha manana fanontaniana, mifandraisa amin'ny fitantanan'ny sekoly misy anao.",
+    "backHome": "Hiverina any am-piandohana",
+    "privacy": {
+      "title": "Politikam-pitsinjovana ny tsiambaratelo",
+      "intro": "Ity politika ity dia manazava ny angon-drakitra manokana angonin'ny ZARASOA, ny antony, ny fotoana itazonana azy ary ny fomba hampiasana ny zonao.",
+      "sections": [
+        {
+          "title": "Iza no tompon'andraikitra amin'ny angon-drakitrao?",
+          "paragraphs": [
+            "Ny ZARASOA dia sehatra ho an'ny oniversite mampiray ny taranja, ny loharanon-kevitra ara-pampianarana ary ny asa an-trano. Ny tompon'andraikitra amin'ny fikarakarana dia ny sekoly mampiasa ny sehatra (ny « fitantanana »).",
+            "Raha manana fanontaniana momba ny angon-drakitrao ianao, ampiasao ny fifandraisana voalaza eo ambanin'ity pejy ity."
+          ]
+        },
+        {
+          "title": "Angon-drakitra angonina",
+          "paragraphs": [
+            "Amin'ny fisoratana anarana: anarana, fanampin'anarana, adiresy mailaka, matricule, tenimiafina ary, raha fenoinao, solon'anarana, laharana finday ary daty nahaterahana.",
+            "Amin'ny fidirana: adiresy IP, karazana mpitety tranonkala ary isan'ny fidirana tsy nahomby, ampiasaina ho fiarovana ny kaontinao.",
+            "Rehefa mampiasa ny serivisy: ny asa an-trano apetrakao sy ny hetsika mifandray amin'ny kaontinao (fanamarinana, fampiatoana…).",
+            "Tsy voatahiry mazava ny tenimiafinao ary tsy azon'ny fitantanana vakiana."
+          ]
+        },
+        {
+          "title": "Fampiasana azy ireo",
+          "paragraphs": [
+            "Hamoronana sy hanamarinana ny kaontinao mpianatra avy amin'ny matriculenao.",
+            "Hanomezana anao fidirana amin'ny votoatry ny sampana, ny lalana ary ny haavon'ny fianarana, sy hamelana anao hametraka ny asa an-trano.",
+            "Hiarovana ny kaonty: voasakana ny kaonty rehefa tsy nahomby im-5 misesy ny fidirana.",
+            "Hrefesana ny isan'ny mpitsidika ny tranonkala, raha manaiky ny cookies refesana ianao ihany."
+          ]
+        },
+        {
+          "title": "Fototra ara-dalàna",
+          "paragraphs": [
+            "Ilaina amin'ny fampandehanana ny serivisy angatahinao ny fikarakarana ny angon-drakitry ny fisoratana anarana sy ny fidirana.",
+            "Miankina amin'ny fanekenao ny refesana ny isan'ny mpitsidika, ary azonao esorina izany na oviana na oviana."
+          ]
+        },
+        {
+          "title": "Fitahirizana sy mpandray",
+          "paragraphs": [
+            "Ny angon-drakitrao dia tahirizin'ny Supabase (angon-drakitra sy fanamarinana). Azon'ny fitantanana jerena izany; ny votoatra ara-pampianarana kosa dia azon'ny mpampianatrao jerena araka ny zony.",
+            "Tsy amidy ny angon-drakitrao ary tsy ampiasaina amin'ny dokam-barotra."
+          ]
+        },
+        {
+          "title": "Fotoana itazonana",
+          "paragraphs": [
+            "Tazonina mandritra ny fisian'ny kaontinao ny angon-drakitrao. Rehefa mikatona ny kaonty dia fafana na atao tsy fantatra izany, afa-tsy raha misy lalàna manery ny fitazonana azy."
+          ]
+        },
+        {
+          "title": "Cookies sy fitahirizana eo an-toerana",
+          "paragraphs": [
+            "Ilaina (tsy mila fanekena): cookies fidirana, cookie fiteny (NEXT_LOCALE) ary safidy momba ny endrika (maivana na maizina) sy ny cookies voatahiry ao amin'ny mpitety tranonkalanao.",
+            "Refesana ny isan'ny mpitsidika (miaraka amin'ny fanekena): raha mikitika « Ekeo » ianao ao amin'ny tondro, dia angonina ny antontan'isa tsy fantatra anarana momba ny fitsidihana. Raha mandà ianao dia tsy misy apetraka.",
+            "Azonao ovaina na oviana na oviana ny safidinao amin'ny alalan'ny rohy « Hitantana ny cookies » eo ambany pejy."
+          ]
+        },
+        {
+          "title": "Ny zonao",
+          "paragraphs": [
+            "Afaka mangataka ny hahita, hanitsy na hamafa ny angon-drakitrao ianao, na hanohitra ny fikarakarana azy.",
+            "Raha hampiasa ireo zo ireo, mifandraisa amin'ny fitantanana (fifandraisana eo ambany pejy)."
+          ]
+        },
+        {
+          "title": "Fiarovana",
+          "paragraphs": [
+            "Voasoratra miafina ny fifanakalozan-kevitra (HTTPS), voaaro ny tenimiafina, tsy aseho ao amin'ny mpitety tranonkala ny fanalahidy miafina ary voasakana ny kaonty rehefa tsy nahomby imbetsaka ny fidirana.",
+            "Tsy misy rafitra tsy mety diso: raha misy tranga misy fiantraikany amin'ny angon-drakitrao dia ho ampahafantarina ianao."
+          ]
+        },
+        {
+          "title": "Fanovana",
+          "paragraphs": [
+            "Mety hiova ity politika ity. Hita eo an-tampon'ny pejy ny daty farany nanavaozana azy."
+          ]
+        }
+      ]
+    },
+    "terms": {
+      "title": "Fepetra fampiasana",
+      "intro": "Amin'ny famoronana kaonty na ny fampiasana ny ZARASOA, dia manaiky ireto fepetra manaraka ireto ianao.",
+      "sections": [
+        {
+          "title": "Tanjona",
+          "paragraphs": [
+            "Ny ZARASOA dia sehatra ho an'ny oniversite hijerena taranja sy loharanon-kevitra ara-pampianarana ary hametrahana asa an-trano an-tserasera."
+          ]
+        },
+        {
+          "title": "Fisoratana anarana sy fidirana",
+          "paragraphs": [
+            "Ho an'ny mpianatra manana matricule ihany ny fisoratana anarana. Rehefa voamarina ny adiresy mailakao, ny fitantanana no manaiky na mandà ny fangatahanao alohan'ny hidirana.",
+            "Tsy maintsy marina ny fampahalalana omena. Ny matricule dia ampiasain'ilay tompony ihany."
+          ]
+        },
+        {
+          "title": "Ny kaontinao",
+          "paragraphs": [
+            "Ianao no tompon'andraikitra amin'ny fiafenana ny tenimiafinao sy ny hetsika amin'ny kaontinao.",
+            "Rehefa tsy nahomby im-5 misesy ny fidirana, dia voasakana ny kaonty; mifandraisa amin'ny fitantanana mba hovohana azy."
+          ]
+        },
+        {
+          "title": "Fitsipiky ny fampiasana",
+          "paragraphs": [
+            "Fady ny mizara ny kaonty, ny miezaka miditra amin'ny angon-drakitra tsy natao ho anao, ny manelingelina ny serivisy na ny mametraka votoatra tsy ara-dalàna, mampidi-doza na hosoka (anisan'izany ny plagiat).",
+            "Tsy maintsy apetraka alohan'ny daty farany napetrak'ny mpampianatra ny asa an-trano."
+          ]
+        },
+        {
+          "title": "Votoatra",
+          "paragraphs": [
+            "Ny taranja sy ny loharanon-kevitra dia mijanona ho an'ny mpamorona azy. Natokana ho an'ny fampiasana ara-pampianarana manokana izy ireo ary tsy azo zaraina raha tsy misy alalana.",
+            "Ianao no tompon'ny asa an-tranonao; mamela ny ZARASOA ianao hitahiry azy ireo sy hanome azy ireo ho an'ny mpampianatrao sy ny fitantanana."
+          ]
+        },
+        {
+          "title": "Fahazoana miditra",
+          "paragraphs": [
+            "Miezaka mafy izahay mba hahazoana miditra foana amin'ny serivisy, nefa tsy misy antoka fa tsy hitsahatra; mety hisy fiatoana noho ny fikojakojana."
+          ]
+        },
+        {
+          "title": "Fampiatoana",
+          "paragraphs": [
+            "Afaka mampiato na manidy kaonty ny fitantanana raha tsy arahina ireo fepetra ireo."
+          ]
+        },
+        {
+          "title": "Angon-drakitra manokana",
+          "paragraphs": [
+            "Ny fikarakarana ny angon-drakitrao dia voalaza ao amin'ny politikam-pitsinjovana ny tsiambaratelo."
+          ]
+        },
+        {
+          "title": "Fanovana sy lalàna ampiasaina",
+          "paragraphs": [
+            "Mety hovana ireo fepetra ireo; ny fanohizana ny fampiasana ny serivisy dia midika ho fanekena. Eo ambanin'ny lalàna manan-kery any amin'ny firenen'ny sekoly izy ireo."
+          ]
+        }
+      ]
+    }
+  }
+}

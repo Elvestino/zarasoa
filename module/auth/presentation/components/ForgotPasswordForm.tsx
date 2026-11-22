@@ -1,54 +1,51 @@
 "use client";
 
-import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { useState, type FormEvent } from "react";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Link } from "@/i18n/navigation";
 import { ROUTES } from "@/lib/constants";
 import { useAuth } from "../hooks/useAuth";
-import { AuthCard, Field } from "./AuthCard";
+import { useAuthError } from "../hooks/useAuthError";
+import { Field, FieldInput, FormError, Honeypot, PillButton } from "./AuthFields";
+import { AuthShell } from "./AuthShell";
 
 export function ForgotPasswordForm() {
+  const t = useTranslations("Auth");
   const { requestPasswordReset, pending } = useAuth();
+  const errorMessage = useAuthError();
   const [error, setError] = useState<string | null>(null);
   const [sent, setSent] = useState(false);
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setError(null);
-    const result = await requestPasswordReset(String(new FormData(e.currentTarget).get("email")));
-    if (!result.ok) return setError(result.error ?? null);
+    const form = new FormData(e.currentTarget);
+    if (form.get("website")) return setSent(true); // piège à robots : même réponse, rien n'est envoyé
+    const result = await requestPasswordReset(String(form.get("email")));
+    if (!result.ok) return setError(errorMessage(result.code));
     setSent(true);
   }
 
   return (
-    <AuthCard title="Mot de passe oublié" description="Nous vous envoyons un lien pour en choisir un nouveau.">
+    <AuthShell title={t("forgot.title")} subtitle1={t("forgot.subtitle1")} subtitle2={t("forgot.subtitle2")}>
       {sent ? (
         // Message volontairement identique que le compte existe ou non (pas d'énumération des comptes).
-        <Alert>
-          <AlertDescription>
-            Si cette adresse correspond à un compte, un e-mail de réinitialisation vient d&apos;être envoyé.
-          </AlertDescription>
-        </Alert>
+        <p className="rounded-lg border border-primary/20 bg-primary/5 p-4 text-sm text-muted-foreground">{t("forgot.sent")}</p>
       ) : (
-        <form onSubmit={onSubmit} className="flex flex-col gap-4">
-          {error ? (
-            <Alert variant="destructive">
-              <AlertDescription>{error}</AlertDescription>
-            </Alert>
-          ) : null}
-          <Field id="email" label="Adresse e-mail">
-            <Input id="email" name="email" type="email" autoComplete="email" required />
+        <form onSubmit={onSubmit} className="relative flex flex-col gap-5">
+          <Honeypot />
+          <FormError message={error} />
+          <Field id="email" label={t("fields.email")}>
+            <FieldInput id="email" name="email" type="email" autoComplete="email" required maxLength={254} spellCheck={false} autoCapitalize="none" />
           </Field>
-          <Button type="submit" disabled={pending}>
-            {pending ? "Envoi…" : "Envoyer le lien"}
-          </Button>
+          <PillButton type="submit" disabled={pending}>
+            {pending ? t("forgot.submitting") : t("forgot.submit")}
+          </PillButton>
         </form>
       )}
-      <Link href={ROUTES.login} className="text-sm text-muted-foreground underline-offset-4 hover:underline">
-        Retour à la connexion
+      <Link href={ROUTES.login} className="text-center text-xs font-semibold text-primary underline-offset-4 hover:underline">
+        {t("forgot.back")}
       </Link>
-    </AuthCard>
+    </AuthShell>
   );
 }

@@ -1,8 +1,16 @@
 import type { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
+import { ROUTES } from "@/lib/constants";
+import { pageMetadata } from "@/lib/seo";
 import { ForgotPasswordForm } from "@/module/auth/presentation/components/ForgotPasswordForm";
 
-export const metadata: Metadata = { title: "Mot de passe oublié — ZARASOA" };
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("Metadata");
+  return pageMetadata({ title: t("forgotTitle"), description: t("forgotDescription"), path: ROUTES.forgotPassword });
+}
 
-export default function ForgotPasswordPage() {
-  return <ForgotPasswordForm />;
+export default function Page() {
+  return (
+    <ForgotPasswordForm />
+  );
 }
