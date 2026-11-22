@@ -78,7 +78,16 @@
       "password": "Password",
       "confirmPassword": "Confirm password",
       "newPassword": "New password",
+      "showPassword": "Show password",
+      "hidePassword": "Hide password",
       "optional": "optional"
+    },
+    "passwordRules": {
+      "minLength": "At least {min} characters",
+      "letter": "At least one letter",
+      "digit": "At least one digit",
+      "uppercase": "At least one uppercase letter",
+      "special": "At least one special character (for example @, % or $)"
     },
     "login": {
       "title": "Sign in",
@@ -95,7 +104,7 @@
       "title": "Register",
       "subtitle1": "Join your university's platform with the number",
       "subtitle2": "listed in your student ID card.",
-      "passwordHint": "At least 8 characters, with a letter and a digit.",
+      "passwordHint": "At least 8 characters, with a letter, a digit, an uppercase letter and a special character.",
       "terms": "I accept the <terms>terms of use</terms> and the <privacy>privacy policy</privacy>",
       "termsRequired": "You must accept the terms to continue.",
       "submit": "Register",
@@ -128,7 +137,7 @@
     "errors": {
       "generic": "Something went wrong. Please try again.",
       "INVALID_EMAIL": "Invalid email address.",
-      "WEAK_PASSWORD": "The password must be at least {min} characters long, with a letter and a digit.",
+      "WEAK_PASSWORD": "The password must be at least {min} characters long, with a letter, a digit, an uppercase letter and a special character.",
       "PASSWORD_MISMATCH": "The two passwords do not match.",
       "INVALID_REGISTRATION_NUMBER": "Invalid registration number.",
       "INVALID_NAME": "First and last name are required (100 characters max).",
@@ -196,7 +205,7 @@
   "Roles": {
     "kicker": "For everyone",
     "title": "A space tailored to each role",
-    "subtitle": "Three roles, clear permissions: everyone only accesses what concerns them.",
+    "subtitle": "Two roles, clear permissions: everyone only accesses what concerns them.",
     "items": [
       {
         "title": "Student",

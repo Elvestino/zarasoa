@@ -10,6 +10,9 @@ import { useAuth } from "../hooks/useAuth";
 import { useAuthError } from "../hooks/useAuthError";
 import { Field, FieldInput, FormError, Honeypot, PillButton } from "./AuthFields";
 import { AuthShell } from "./AuthShell";
+import { PasswordChecklist } from "./PasswordChecklist";
+import { PasswordInput } from "./PasswordInput";
+import { Label } from "@/components/ui/label";
 
 export function RegisterForm() {
   const t = useTranslations("Auth");
@@ -17,6 +20,8 @@ export function RegisterForm() {
   const errorMessage = useAuthError();
   const [error, setError] = useState<string | null>(null);
   const [sentTo, setSentTo] = useState<string | null>(null);
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -36,10 +41,8 @@ export function RegisterForm() {
         password: value("password"),
         firstName: value("firstName"),
         lastName: value("lastName"),
-        pseudo: value("pseudo"),
         phoneNumber: value("phoneNumber"),
         registrationNumber: value("registrationNumber"),
-        dateOfBirth: value("dateOfBirth"),
       });
       const result = await register(registration);
       if (!result.ok) return setError(errorMessage(result.code));
@@ -70,30 +73,42 @@ export function RegisterForm() {
       <form onSubmit={onSubmit} className="relative flex flex-col gap-4">
         <Honeypot />
         <FormError message={error} />
-        <div className="grid grid-cols-2 gap-x-6 gap-y-4">
-          <Field id="lastName" label={t("fields.lastName")}>
-            <FieldInput id="lastName" name="lastName" autoComplete="family-name" required maxLength={100} />
-          </Field>
-          <Field id="firstName" label={t("fields.firstName")}>
-            <FieldInput id="firstName" name="firstName" autoComplete="given-name" required maxLength={100} />
-          </Field>
-          <Field id="registrationNumber" label={t("fields.registrationNumber")} className="col-span-2">
-            <FieldInput id="registrationNumber" name="registrationNumber" required maxLength={50} />
-          </Field>
-          <Field id="phoneNumber" label={t("fields.phone") + optional}>
-            <FieldInput id="phoneNumber" name="phoneNumber" type="tel" autoComplete="tel" maxLength={25} />
-          </Field>
-          <Field id="email" label={t("fields.email")} className="col-span-2">
-            <FieldInput id="email" name="email" type="email" autoComplete="email" required maxLength={254} spellCheck={false} autoCapitalize="none" />
-          </Field>
-          <Field id="password" label={t("fields.password")} hint={t("register.passwordHint")} className="col-span-2">
-            <FieldInput id="password" name="password" type="password" autoComplete="new-password" required maxLength={128} aria-describedby="password-hint" />
-          </Field>
-          <Field id="confirmPassword" label={t("fields.confirmPassword")} className="col-span-2">
-            <FieldInput id="confirmPassword" name="confirmPassword" type="password" autoComplete="new-password" required maxLength={128} />
-          </Field>
-        </div>
-        <label className="flex items-start gap-2 text-xs text-muted-foreground">
+          <div className="grid grid-cols-2 gap-x-6 gap-y-4">
+            <Field id="lastName" label={t("fields.lastName")}>
+              <FieldInput id="lastName" name="lastName" autoComplete="family-name" required maxLength={100} />
+            </Field>
+            <Field id="firstName" label={t("fields.firstName")}>
+              <FieldInput id="firstName" name="firstName" autoComplete="given-name" required maxLength={100} />
+            </Field>
+            <Field id="registrationNumber" label={t("fields.registrationNumber")} className="col-span-2">
+              <FieldInput id="registrationNumber" name="registrationNumber" required maxLength={50} />
+            </Field>
+            <Field id="phoneNumber" label={t("fields.phone") + optional}>
+              <FieldInput id="phoneNumber" name="phoneNumber" type="tel" autoComplete="tel" maxLength={25} />
+            </Field>
+            <Field id="email" label={t("fields.email")} className="col-span-2">
+              <FieldInput id="email" name="email" type="email" autoComplete="email" required maxLength={254} spellCheck={false} autoCapitalize="none" />
+            </Field>
+            <Field id="password" label={t("fields.password")} className="col-span-2">
+              <PasswordInput
+                id="password"
+                name="password"
+                autoComplete="new-password"
+                required
+                maxLength={128}
+                aria-describedby="password-rules"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                visible={showPassword}
+                onVisibleChange={setShowPassword}
+              />
+              <PasswordChecklist id="password-rules" password={password} />
+            </Field>
+            <Field id="confirmPassword" label={t("fields.confirmPassword")} className="col-span-2">
+              <PasswordInput id="confirmPassword" name="confirmPassword" autoComplete="new-password" required maxLength={128} visible={showPassword} showToggle={false} />
+            </Field>
+          </div>
+        <Label className="flex items-start gap-2 text-xs text-muted-foreground">
           <input
             type="checkbox"
             name="terms"
@@ -116,7 +131,7 @@ export function RegisterForm() {
               ),
             })}
           </span>
-        </label>
+        </Label>
         <PillButton type="submit" disabled={pending}>
           {pending ? t("register.submitting") : t("register.submit")}
         </PillButton>

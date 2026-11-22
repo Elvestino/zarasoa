@@ -2,7 +2,6 @@
 
 import { Menu, X } from "lucide-react";
 import { useTranslations } from "next-intl";
-import Image from "next/image";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetClose, SheetContent, SheetDescription, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
@@ -11,18 +10,7 @@ import { ThemeToggle } from "@/components/layout/ThemeToggle";
 import { Link, usePathname, useRouter } from "@/i18n/navigation";
 import { ROUTES } from "@/lib/constants";
 import { useAuth } from "@/module/auth/presentation/hooks/useAuth";
-
-/** Logo : version blanche (mode clair, bandeau bleu) ou version couleur (mode sombre). */
-function Logo() {
-  return (
-    <span className="flex items-center gap-2">
-      <Image src="/assets/img/logo-light-icon.png" alt="" width={520} height={300} className="h-7 w-auto sm:h-8 dark:hidden" priority />
-      <Image src="/assets/img/logo-dark-icon.png" alt="" width={520} height={307} className="hidden h-7 w-auto sm:h-8 dark:block" priority />
-      <Image src="/assets/img/logo-light-wordmark.png" alt="ZARASOA" width={620} height={138} className="h-5 w-auto sm:h-6 dark:hidden" priority />
-      <Image src="/assets/img/logo-dark-wordmark.png" alt="ZARASOA" width={620} height={143} className="hidden h-5 w-auto sm:h-6 dark:block" priority />
-    </span>
-  );
-}
+import { LogoSmart } from "./Logo";
 
 /** Ancres de la page d'accueil (id des sections de la landing page). */
 const LANDING_LINKS = [
@@ -53,7 +41,7 @@ export function Header() {
     <header className="sticky top-0 z-40 border-b border-white/10 bg-primary text-white dark:bg-card">
       <div className="mx-auto flex h-14 w-full max-w-6xl items-center justify-between gap-3 px-4">
         <Link href={ROUTES.home} aria-label="ZARASOA" className="shrink-0">
-          <Logo />
+          <LogoSmart />
         </Link>
 
         {isHome ? (

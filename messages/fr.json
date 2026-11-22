@@ -78,7 +78,16 @@
       "password": "Mot de passe",
       "confirmPassword": "Confirmer le mot de passe",
       "newPassword": "Nouveau mot de passe",
+      "showPassword": "Afficher le mot de passe",
+      "hidePassword": "Masquer le mot de passe",
       "optional": "facultatif"
+    },
+    "passwordRules": {
+      "minLength": "Au moins {min} caractères",
+      "letter": "Au moins une lettre",
+      "digit": "Au moins un chiffre",
+      "uppercase": "Au moins une majuscule",
+      "special": "Au moins un caractère spécial (par exemple @, % ou $)"
     },
     "login": {
       "title": "Connexion",
@@ -95,7 +104,7 @@
       "title": "Inscription",
       "subtitle1": "Rejoignez la plateforme de votre université avec le matricule",
       "subtitle2": "figurant sur votre carte d'etudiant.",
-      "passwordHint": "8 caractères minimum, avec une lettre et un chiffre.",
+      "passwordHint": "8 caractères minimum, avec une lettre, un chiffre, une majuscule et un caractère spécial.",
       "terms": "J'accepte les <terms>conditions d'utilisation</terms> et la <privacy>politique de confidentialité</privacy>",
       "termsRequired": "Vous devez accepter les conditions pour continuer.",
       "submit": "S'inscrire",
@@ -128,7 +137,7 @@
     "errors": {
       "generic": "Une erreur est survenue. Réessayez.",
       "INVALID_EMAIL": "Adresse e-mail invalide.",
-      "WEAK_PASSWORD": "Le mot de passe doit contenir au moins {min} caractères, avec une lettre et un chiffre.",
+      "WEAK_PASSWORD": "Le mot de passe doit contenir au moins {min} caractères, une lettre, un chiffre, une majuscule et un caractère spécial.",
       "PASSWORD_MISMATCH": "Les deux mots de passe ne correspondent pas.",
       "INVALID_REGISTRATION_NUMBER": "Matricule invalide.",
       "INVALID_NAME": "Le nom et le prénom sont obligatoires (100 caractères maximum).",
@@ -196,7 +205,7 @@
   "Roles": {
     "kicker": "Pour chacun",
     "title": "Un espace adapté à chaque rôle",
-    "subtitle": "Trois rôles, des droits clairs : chacun accède uniquement à ce qui le concerne.",
+    "subtitle": "Deux rôles, des droits clairs : chacun accède uniquement à ce qui le concerne.",
     "items": [
       {
         "title": "Étudiant",

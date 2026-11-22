@@ -1,9 +1,10 @@
 import { X } from "lucide-react";
 import { useTranslations } from "next-intl";
-import Image from "next/image";
+
 import type { ReactNode } from "react";
 import { Link } from "@/i18n/navigation";
 import { ROUTES } from "@/lib/constants";
+import { Logo } from "@/components/layout/Logo";
 
 interface AuthShellProps {
   title: string;
@@ -12,14 +13,7 @@ interface AuthShellProps {
   children: ReactNode;
 }
 
-function Logo() {
-  return (
-    <span className="flex items-center gap-2">
-      <Image src="/assets/img/logo-light-wordmark.png" alt="ZARASOA" width={620} height={143} className="h-12 w-auto sm:h-6 dark:hidden " priority />
-      <Image src="/assets/img/logo-dark-wordmark.png" alt="ZARASOA" width={620} height={143} className="hidden h-12 w-auto sm:h-6 dark:block dark:h-12" priority />
-    </span>
-  );
-}
+
 
 export function AuthShell({ title, subtitle1, subtitle2, children }: AuthShellProps) {
   const t = useTranslations("Auth.panel");
@@ -58,14 +52,6 @@ export function AuthShell({ title, subtitle1, subtitle2, children }: AuthShellPr
         <aside className="hidden flex-col justify-between p-9 text-white md:flex">
           <div className="max-w-[68%]">
             <p className="text-2xl font-light leading-none">{t("hello")}</p>
-            {/* <Image
-              src="/assets/img/logo-light-wordmark.png"
-              alt="ZARASOA"
-              width={620}
-              height={138}
-              className="mt-3 h-auto w-full"
-              priority
-            /> */}
             <Logo />
             <p className="mt-3 text-xs font-medium tracking-wide text-brand-gold">{tc("tagline")}</p>
           </div>

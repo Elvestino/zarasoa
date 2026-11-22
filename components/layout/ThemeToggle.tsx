@@ -39,7 +39,7 @@ export function ThemeToggle() {
       onClick={toggle}
       aria-label={dark ? t("toLight") : t("toDark")}
       title={dark ? t("toLight") : t("toDark")}
-      className="rounded-full text-white/80 hover:bg-white/10 hover:text-white dark:hover:bg-white/10"
+      className="rounded-full text-white/80 hover:bg-white/10 hover:text-white dark:hover:bg-white/10 cursor-pointer"
     >
       {dark ? <Sun className="size-4" /> : <Moon className="size-4" />}
     </Button>

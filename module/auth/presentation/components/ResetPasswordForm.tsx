@@ -4,11 +4,12 @@ import { useTranslations } from "next-intl";
 import { useState, type FormEvent } from "react";
 import { useRouter } from "@/i18n/navigation";
 import { ROUTES } from "@/lib/constants";
-import { PASSWORD_MIN_LENGTH } from "../../domain/value-object/Password";
 import { useAuth } from "../hooks/useAuth";
 import { useAuthError } from "../hooks/useAuthError";
-import { Field, FieldInput, FormError, PillButton } from "./AuthFields";
+import { Field, FormError, PillButton } from "./AuthFields";
 import { AuthShell } from "./AuthShell";
+import { PasswordChecklist } from "./PasswordChecklist";
+import { PasswordInput } from "./PasswordInput";
 
 export function ResetPasswordForm() {
   const t = useTranslations("Auth");
@@ -16,6 +17,8 @@ export function ResetPasswordForm() {
   const { updatePassword, logout, pending, user, loading } = useAuth();
   const errorMessage = useAuthError();
   const [error, setError] = useState<string | null>(null);
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -41,11 +44,23 @@ export function ResetPasswordForm() {
     <AuthShell title={t("reset.title")} subtitle1={t("reset.subtitle1")} subtitle2={t("reset.subtitle2")}>
       <form onSubmit={onSubmit} className="flex flex-col gap-5">
         <FormError message={error} />
-        <Field id="password" label={t("fields.newPassword")} hint={t("register.passwordHint")}>
-          <FieldInput id="password" name="password" type="password" autoComplete="new-password" required minLength={PASSWORD_MIN_LENGTH} maxLength={128} aria-describedby="password-hint" />
+        <Field id="password" label={t("fields.newPassword")}>
+          <PasswordInput
+            id="password"
+            name="password"
+            autoComplete="new-password"
+            required
+            maxLength={128}
+            aria-describedby="password-rules"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            visible={showPassword}
+            onVisibleChange={setShowPassword}
+          />
+          <PasswordChecklist id="password-rules" password={password} />
         </Field>
         <Field id="confirmPassword" label={t("fields.confirmPassword")}>
-          <FieldInput id="confirmPassword" name="confirmPassword" type="password" autoComplete="new-password" required maxLength={128} />
+          <PasswordInput id="confirmPassword" name="confirmPassword" autoComplete="new-password" required maxLength={128} visible={showPassword} showToggle={false} />
         </Field>
         <PillButton type="submit" disabled={pending || loading}>
           {pending ? t("reset.submitting") : t("reset.submit")}

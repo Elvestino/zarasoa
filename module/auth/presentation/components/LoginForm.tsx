@@ -9,6 +9,7 @@ import { useAuth } from "../hooks/useAuth";
 import { useAuthError } from "../hooks/useAuthError";
 import { Field, FieldInput, FormError, Honeypot, PillButton } from "./AuthFields";
 import { AuthShell } from "./AuthShell";
+import { PasswordInput } from "./PasswordInput";
 
 export function LoginForm() {
   const t = useTranslations("Auth");
@@ -40,7 +41,7 @@ export function LoginForm() {
           <FieldInput id="email" name="email" type="email" autoComplete="email" required maxLength={254} spellCheck={false} autoCapitalize="none" />
         </Field>
         <Field id="password" label={t("fields.password")}>
-          <FieldInput id="password" name="password" type="password" autoComplete="current-password" required maxLength={256} />
+          <PasswordInput id="password" name="password" autoComplete="current-password" required maxLength={256} />
         </Field>
         <Link href={ROUTES.forgotPassword} className="text-xs text-primary underline-offset-4 hover:underline">
           {t("login.forgot")}

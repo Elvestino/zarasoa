@@ -1,14 +1,15 @@
 
 import { useTranslations } from "next-intl";
-import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { CookieSettingsButton } from "@/components/layout/CookieSettingsButton";
 import { ROUTES } from "@/lib/constants";
+import { Logo } from "./Logo";
 
 // Courbe du bord supérieur : un liseré doré, puis le fond du pied de page décalé de 12 unités vers le bas.
 const WAVE = "M0 84C240 112 480 100 720 58S1200 6 1440 10V120H0Z";
 
-const linkClass = "text-sm text-white/70 underline-offset-4 transition-colors hover:text-brand-gold hover:underline";
+const linkClass = "text-sm text-white/70 underline-offset-4 transition-colors hover:text-brand-gold cursor-pointer";
+
 
 export function Footer() {
   const t = useTranslations("Footer");
@@ -40,8 +41,11 @@ export function Footer() {
       <div className="-mt-px bg-brand-navy text-white dark:bg-card">
         <div className="mx-auto grid w-full max-w-6xl gap-10 px-4 pb-10 pt-2 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
           <div className="max-w-sm">
-            <Link href={ROUTES.home} aria-label="ZARASOA">
+            {/* <Link href={ROUTES.home} aria-label="ZARASOA">
               <Image src="/assets/img/logo-light-wordmark.png" alt="ZARASOA" width={620} height={138} className="h-auto w-44" />
+            </Link> */}
+            <Link href={ROUTES.home} aria-label="ZARASOA">
+              <Logo/>
             </Link>
             <p className="mt-3 text-sm font-medium text-brand-gold">{tc("tagline")}</p>
             <p className="mt-4 text-sm leading-relaxed text-white/70">{t("about")}</p>
@@ -90,8 +94,8 @@ export function Footer() {
         <div className="border-t border-white/10 px-4 py-5 text-sm text-white/70">
           <div className="mx-auto flex w-full max-w-6xl flex-col items-center justify-between gap-3 sm:flex-row">
             <p>{t("text")}</p>
-            <nav aria-label={t("legal")} className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
-              <Link href={ROUTES.privacy} className={linkClass}>
+            <nav aria-label={t("legal")} className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 ">
+              <Link href={ROUTES.privacy} className={linkClass} >
                 {t("privacy")}
               </Link>
               <Link href={ROUTES.terms} className={linkClass}>

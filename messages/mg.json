@@ -78,7 +78,16 @@
       "password": "Teny miafina",
       "confirmPassword": "Hamafiso ny teny miafina",
       "newPassword": "Teny miafina vaovao",
+      "showPassword": "Asehoy ny teny miafina",
+      "hidePassword": "Afeno ny teny miafina",
       "optional": "tsy voatery"
+    },
+    "passwordRules": {
+      "minLength": "Farafahakeliny {min} tarehintsoratra",
+      "letter": "Litera iray farafahakeliny",
+      "digit": "Isa iray farafahakeliny",
+      "uppercase": "Litera lehibe iray farafahakeliny",
+      "special": "Tarehintsoratra manokana iray farafahakeliny (ohatra: @, % na $)"
     },
     "login": {
       "title": "Hiditra",
@@ -95,7 +104,7 @@
       "title": "Fisoratana anarana",
       "subtitle1": "Miditra ao amin'ny sehatry ny oniversitenao amin'ny matricule",
       "subtitle2": "voasoratra ao amin'ny karatra famantarana mpianatra anao",
-      "passwordHint": "Farafahakeliny 8 tarehintsoratra, misy litera iray sy isa iray.",
+      "passwordHint": "Farafahakeliny 8 tarehintsoratra, misy litera, isa, litera lehibe ary tarehintsoratra manokana.",
       "terms": "Manaiky ny <terms>fepetra fampiasana</terms> sy ny <privacy>politikam-pitsinjovana ny tsiambaratelo</privacy> aho",
       "termsRequired": "Tsy maintsy manaiky ny fepetra vao afaka manohy.",
       "submit": "Hisoratra anarana",
@@ -128,7 +137,7 @@
     "errors": {
       "generic": "Nisy olana. Andramo indray.",
       "INVALID_EMAIL": "Tsy mety ny adiresy mailaka.",
-      "WEAK_PASSWORD": "Ny teny miafina dia tsy maintsy misy farafahakeliny {min} tarehintsoratra, misy litera iray sy isa iray.",
+      "WEAK_PASSWORD": "Ny teny miafina dia tsy maintsy misy farafahakeliny {min} tarehintsoratra, litera iray, isa iray, litera lehibe iray ary tarehintsoratra manokana iray.",
       "PASSWORD_MISMATCH": "Tsy mitovy ireo teny miafina roa.",
       "INVALID_REGISTRATION_NUMBER": "Tsy mety ny matricule.",
       "INVALID_NAME": "Takiana ny anarana sy ny fanampin'anarana (100 tarehintsoratra no farafahabetsany).",
@@ -196,7 +205,7 @@
   "Roles": {
     "kicker": "Ho an'ny rehetra",
     "title": "Toerana mifanaraka amin'ny andraikitra tsirairay",
-    "subtitle": "Andraikitra telo, zo mazava: ny tsirairay dia mahita ny mahakasika azy ihany.",
+    "subtitle": "Andraikitra roa, zo mazava: ny tsirairay dia mahita ny mahakasika azy ihany.",
     "items": [
       {
         "title": "Mpianatra",

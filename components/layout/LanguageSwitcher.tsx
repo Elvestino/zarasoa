@@ -28,7 +28,7 @@ export function LanguageSwitcher() {
       role="group"
       aria-label={t("language")}
       aria-busy={pending}
-      className="flex items-center rounded-full bg-white/10 p-0.5 text-xs font-semibold"
+      className="flex items-center rounded-full bg-white/10 p-0.5 text-xs font-semibold "
     >
       {routing.locales.map((l: Locale) => (
         <Button
@@ -42,7 +42,7 @@ export function LanguageSwitcher() {
           disabled={pending}
           onClick={() => change(l)}
           className={cn(
-            "h-6 rounded-full px-2.5 text-xs font-semibold uppercase",
+            "h-6 rounded-full px-2.5 text-xs font-semibold uppercase cursor-pointer",
             l === locale
               ? "bg-secondary text-secondary-foreground hover:bg-secondary dark:hover:bg-secondary"
               : "text-white/80 hover:bg-transparent hover:text-white dark:hover:bg-transparent",

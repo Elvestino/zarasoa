@@ -1,4 +1,5 @@
 import type { ComponentProps, ReactNode } from "react";
+import { cn } from "@/lib/utils";
 
 /** Champ « souligné » du design : libellé minuscule au-dessus, simple ligne dessous. */
 export function Field({
@@ -29,11 +30,14 @@ export function Field({
   );
 }
 
-export function FieldInput(props: ComponentProps<"input">) {
+export function FieldInput({ className, ...props }: ComponentProps<"input">) {
   return (
     <input
       {...props}
-      className="h-9 w-full border-0 border-b border-border bg-transparent px-0 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground focus:border-primary focus:ring-0 disabled:opacity-50"
+      className={cn(
+        "h-9 w-full border-0 border-b border-border bg-transparent px-0 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground focus:border-primary focus:ring-0 disabled:opacity-50",
+        className,
+      )}
     />
   );
 }
@@ -57,10 +61,6 @@ export function FormError({ message }: { message: string | null }) {
   );
 }
 
-/**
- * Piège à robots : champ invisible que seuls les scripts remplissent. Un humain ne le voit ni ne l'atteint au clavier.
- * Les formulaires ignorent silencieusement toute soumission où il est rempli.
- */
 export function Honeypot() {
   return (
     <div aria-hidden="true" className="pointer-events-none absolute left-[-9999px] top-auto h-px w-px overflow-hidden opacity-0">
