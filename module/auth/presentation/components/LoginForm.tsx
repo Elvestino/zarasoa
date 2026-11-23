@@ -3,7 +3,7 @@
 import { useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
 import { useState, type FormEvent } from "react";
-import { Link, useRouter } from "@/i18n/navigation";
+import { Link } from "@/i18n/navigation";
 import { ROUTES } from "@/lib/constants";
 import { useAuth } from "../hooks/useAuth";
 import { useAuthError } from "../hooks/useAuthError";
@@ -13,12 +13,13 @@ import { PasswordInput } from "./PasswordInput";
 
 export function LoginForm() {
   const t = useTranslations("Auth");
-  const router = useRouter();
   const params = useSearchParams();
   const { login, pending } = useAuth();
   const errorMessage = useAuthError();
+  // Erreur transmise par /auth/callback (lien invalide) ou /auth/continue (compte non autorisé : code AUTH_ERROR).
+  const initialError = params.get("error");
   const [error, setError] = useState<string | null>(
-    params.get("error") === "lien_invalide" ? t("login.invalidLink") : null,
+    initialError === "lien_invalide" ? t("login.invalidLink") : initialError ? errorMessage(initialError) : null,
   );
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
@@ -28,8 +29,8 @@ export function LoginForm() {
     if (form.get("website")) return setError(errorMessage("INVALID_CREDENTIALS")); // piège à robots
     const result = await login({ email: String(form.get("email")), password: String(form.get("password")) });
     if (!result.ok) return setError(errorMessage(result.code));
-    router.replace(ROUTES.home);
-    router.refresh();
+    // Navigation complète : /auth/continue (route serveur) aiguille vers l'espace du rôle (admin, étudiant, professeur).
+    window.location.assign(ROUTES.continue);
   }
 
   return (

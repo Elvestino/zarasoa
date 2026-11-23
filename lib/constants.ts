@@ -10,6 +10,10 @@ export const ROUTES = {
   authCallback: "/auth/callback",
   privacy: "/privacy",
   terms: "/terms",
+  continue: "/auth/continue",
+  admin: "/admin",
+  student: "/etudiant",
+  professor: "/professeur",
 } as const;
 
 /** Préfixes réservés aux comptes connectés (protégés par proxy.ts ; le contrôle par rôle viendra au sprint 1). */

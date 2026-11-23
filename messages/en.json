@@ -149,6 +149,7 @@
       "ACCOUNT_PENDING_ADMIN": "Your registration is awaiting validation by the administration.",
       "ACCOUNT_REJECTED": "Your registration was rejected.",
       "ACCOUNT_INACTIVE": "This account is suspended or deactivated.",
+      "NO_ROLE": "No role is associated with this account. Contact the administration.",
       "EMAIL_ALREADY_USED": "This email address is already in use.",
       "REGISTRATION_NUMBER_TAKEN": "This registration number is already used by another request.",
       "NETWORK_ERROR": "Cannot reach the server. Check your connection.",
@@ -415,6 +416,347 @@
           ]
         }
       ]
+    }
+  },
+  "App": {
+    "toggleSidebar": "Show or hide the menu",
+    "logout": "Sign out",
+    "search": "Search",
+    "reset": "Reset",
+    "empty": "No results.",
+    "roles": {
+      "super_admin": "Administration",
+      "professor": "Professor area",
+      "student": "Student area"
+    },
+    "nav": {
+      "groupManage": "Management",
+      "groupAccount": "Account",
+      "groupStudy": "My area",
+      "dashboard": "Dashboard",
+      "students": "Students",
+      "requests": "Registration requests",
+      "registry": "Official registry",
+      "catalog": "Catalog",
+      "accounts": "Accounts",
+      "courses": "My courses",
+      "account": "My account"
+    },
+    "pagination": {
+      "summary": "{count} result(s) · page {page} of {pages}",
+      "previous": "Previous",
+      "next": "Next"
+    },
+    "comingSoon": {
+      "professorTitle": "Hello {name}",
+      "professorText": "Your professor area will be available soon."
+    }
+  },
+  "Errors": {
+    "GENERIC": "Something went wrong. Please try again.",
+    "FORBIDDEN": "You are not allowed to perform this action.",
+    "RATE_LIMITED": "Too many attempts. Please wait a few minutes and try again.",
+    "INVALID_FIELD": "One of the fields is invalid or too long.",
+    "INVALID_NAME": "First and last name are required (100 characters maximum).",
+    "INVALID_PHONE": "Invalid phone number.",
+    "INVALID_CREDENTIALS": "Incorrect password.",
+    "WEAK_PASSWORD": "The new password does not meet all the conditions.",
+    "PASSWORD_MISMATCH": "The two passwords do not match.",
+    "LAST_SUPER_ADMIN": "You are the last active super administrator: appoint another one before leaving the platform.",
+    "REQUEST_NOT_FOUND": "Request not found.",
+    "REQUEST_NOT_PROCESSABLE": "This request can no longer be processed.",
+    "NOT_IN_REGISTRY": "This registration number is not in the official registry: the request cannot be approved.",
+    "REASON_REQUIRED": "A reason is required (3 to 500 characters).",
+    "UNLOCK_FAILED": "Unlocking failed.",
+    "INVALID_CODE": "Invalid code (2 to 30 characters: letters, digits, - _ .).",
+    "FILIERE_CODE_TAKEN": "This program code already exists.",
+    "PARCOURS_CODE_TAKEN": "This track code already exists in this program.",
+    "FILE_REQUIRED": "Choose a file.",
+    "FILE_TOO_LARGE": "File too large.",
+    "FILE_TYPE_NOT_ALLOWED": "Unsupported format (Excel .xlsx, .xls or CSV).",
+    "FILE_UNREADABLE": "Unreadable file.",
+    "MISSING_REGISTRATION_COLUMN": "\"Registration number\" column not found in the first 10 rows.",
+    "TOO_MANY_ROWS": "Too many rows in the file.",
+    "EMPTY_FILE": "The file has no usable rows.",
+    "FILE_ALREADY_IMPORTED": "This file has already been imported.",
+    "IMPORT_NOT_FOUND": "Import not found.",
+    "IMPORT_NOT_READY": "This import has already been processed.",
+    "STORAGE_ERROR": "Could not store the file."
+  },
+  "Admin": {
+    "dashboard": {
+      "title": "Dashboard",
+      "description": "Overview of the platform.",
+      "stats": {
+        "students": "Registered students",
+        "pending": "Requests to review",
+        "registry": "Registry numbers",
+        "locked": "Locked accounts"
+      },
+      "latestTitle": "Latest pending requests",
+      "latestDescription": "Students who confirmed their e-mail and await your decision.",
+      "noPending": "No pending requests.",
+      "seeAll": "See all requests"
+    },
+    "students": {
+      "title": "Students",
+      "description": "Approved students with their program, track and level.",
+      "searchPlaceholder": "Name, registration number or e-mail",
+      "allFilieres": "All programs",
+      "allLevels": "All levels",
+      "columns": {
+        "registration": "Reg. number",
+        "name": "Name",
+        "email": "E-mail",
+        "filiere": "Program",
+        "parcours": "Track",
+        "level": "Level",
+        "approvedAt": "Approved on",
+        "status": "Account"
+      }
+    },
+    "requests": {
+      "title": "Registration requests",
+      "description": "Check each registration number against the official registry, then approve or reject.",
+      "searchPlaceholder": "Name, registration number or e-mail",
+      "allStatuses": "All states",
+      "checkAll": "Check all",
+      "checking": "Checking…",
+      "checkedAll": "{count} request(s) compared with the official registry.",
+      "matricule": "Registration number",
+      "columns": {
+        "applicant": "Applicant",
+        "email": "E-mail",
+        "registry": "Official registry",
+        "status": "State",
+        "submittedAt": "Submitted on"
+      },
+      "status": {
+        "pending_email": "E-mail to confirm",
+        "pending_admin": "To review",
+        "approved": "Approved",
+        "rejected": "Rejected"
+      },
+      "match": {
+        "found": "In the registry",
+        "mismatch": "Different identity",
+        "not_found": "Not in the registry",
+        "unchecked": "Not checked"
+      },
+      "review": "Review",
+      "emailConfirmed": "E-mail confirmed",
+      "emailPending": "E-mail not confirmed",
+      "recheck": "Check again",
+      "declared": "Declared",
+      "official": "Official registry",
+      "same": "Same",
+      "different": "Different",
+      "fields": {
+        "lastName": "Last name",
+        "firstName": "First name",
+        "birthDate": "Date of birth",
+        "academic": "Official curriculum",
+        "filiere": "Program",
+        "parcours": "Track",
+        "level": "Level"
+      },
+      "notFoundHelp": "This registration number is not in the imported official registry. Import an up-to-date registry, or reject the request.",
+      "uncheckedHelp": "This request has not been compared with the official registry yet. Click \"Check again\".",
+      "reason": "Reason",
+      "reject": "Reject",
+      "approve": "Approve",
+      "approveBlocked": "Approval requires a confirmed e-mail and a registration number present in the official registry.",
+      "waitingEmail": "Waiting for the student to confirm their e-mail.",
+      "mismatchWarning": "The registration number exists but the declared identity differs from the registry. Check before approving.",
+      "choose": "Choose…",
+      "noParcours": "No track",
+      "cancel": "Cancel",
+      "saving": "Saving…",
+      "confirmApprove": "Confirm approval",
+      "reasonLabel": "Reason for rejection (visible to the student)",
+      "confirmReject": "Confirm rejection"
+    },
+    "registry": {
+      "title": "Official registry",
+      "description": "{count} registration number(s) currently in the registry. Import the administration's Excel file to verify registrations.",
+      "importTitle": "Import the registry",
+      "importHelp": "Excel (.xlsx, .xls) or CSV file, {size} MB maximum. The \"Registration number\" column is required; last name, first name, date of birth, program, track, level and status are recognized automatically.",
+      "file": "Registry file",
+      "analyse": "Analyze file",
+      "analysing": "Analyzing…",
+      "doneTitle": "Import complete",
+      "doneText": "{inserted} number(s) added, {updated} updated. {checked} registration request(s) checked again.",
+      "stats": {
+        "total": "Rows read",
+        "valid": "Valid",
+        "duplicate": "Duplicates",
+        "invalid": "Invalid",
+        "warnings": "Warnings"
+      },
+      "missingColumns": "Columns not found: {columns}. Identity checks will be limited.",
+      "columns": {
+        "lastName": "Last name",
+        "firstName": "First name",
+        "dateOfBirth": "Date of birth"
+      },
+      "row": "Row",
+      "registration": "Reg. number",
+      "content": "Content",
+      "state": "State",
+      "rowStatus": {
+        "valid": "Valid"
+      },
+      "issues": {
+        "EMPTY_REGISTRATION_NUMBER": "Empty registration number",
+        "REGISTRATION_NUMBER_TOO_LONG": "Registration number too long",
+        "DUPLICATE_IN_FILE": "Duplicate in file",
+        "UNKNOWN_FILIERE": "Unknown program (ignored)",
+        "UNKNOWN_PARCOURS": "Unknown track (ignored)",
+        "UNKNOWN_LEVEL": "Unknown level (ignored)",
+        "INVALID_DATE": "Unreadable date (ignored)"
+      },
+      "sampleNote": "Preview of the first {shown} rows out of {total}.",
+      "cancel": "Cancel",
+      "importing": "Importing…",
+      "confirm": "Confirm import ({count} rows)",
+      "historyTitle": "Import history",
+      "historyDescription": "Report of each import: rows read, added, updated, duplicates and invalid.",
+      "historyEmpty": "No imports yet.",
+      "history": {
+        "file": "File",
+        "date": "Date",
+        "status": "State",
+        "inserted": "Added",
+        "updated": "Updated"
+      },
+      "importStatus": {
+        "uploaded": "Received",
+        "validating": "Checking",
+        "ready": "Ready",
+        "processing": "In progress",
+        "completed": "Completed",
+        "completed_with_errors": "Completed with errors",
+        "failed": "Failed"
+      }
+    },
+    "accounts": {
+      "title": "Accounts",
+      "description": "All platform accounts. An account locked after 5 failed sign-ins is unlocked here.",
+      "searchPlaceholder": "Name or e-mail",
+      "allStatuses": "All states",
+      "allRoles": "All roles",
+      "columns": {
+        "name": "Name",
+        "email": "E-mail",
+        "roles": "Role",
+        "status": "State",
+        "lastSeen": "Last sign-in"
+      },
+      "status": {
+        "pending_email": "E-mail to confirm",
+        "pending_admin": "Awaiting validation",
+        "approved": "Active",
+        "rejected": "Rejected",
+        "suspended": "Suspended",
+        "locked": "Locked",
+        "deactivated": "Deactivated"
+      },
+      "unlock": "Unlock",
+      "unlockTitle": "Unlock {name}'s account",
+      "unlockHelp": "The failed-attempt counter is reset. The action is recorded with your name and the date.",
+      "reasonLabel": "Reason (optional)",
+      "cancel": "Cancel",
+      "saving": "Saving…",
+      "unlockConfirm": "Unlock account"
+    },
+    "catalog": {
+      "title": "Catalog",
+      "description": "Programs and tracks used to classify students and read the official registry.",
+      "newFiliere": "New program",
+      "newParcours": "New track",
+      "newParcoursFor": "New track — {filiere}",
+      "codeHelp": "The code must be unique; a program or track in use is deactivated, never deleted.",
+      "code": "Code",
+      "name": "Name",
+      "faculty": "Faculty or department (optional)",
+      "cancel": "Cancel",
+      "saving": "Saving…",
+      "create": "Create",
+      "empty": "No program yet. Create one to get started.",
+      "noParcours": "No track.",
+      "active": "Active",
+      "inactive": "Inactive",
+      "activate": "Activate",
+      "deactivate": "Deactivate"
+    }
+  },
+  "Student": {
+    "sidebarCourses": "My courses",
+    "info": {
+      "level": "Level",
+      "filiere": "Program",
+      "parcours": "Track",
+      "courses": "Available courses",
+      "noParcours": "Common core"
+    },
+    "dashboard": {
+      "title": "Hello {name}",
+      "registration": "Registration number {number}",
+      "noRecord": "Your student record is not linked to a program yet. Contact the administration."
+    },
+    "courses": {
+      "title": "My courses",
+      "description": "Published courses for your program, track and level.",
+      "empty": "No published course yet.",
+      "seeAll": "See all my courses",
+      "by": "By {name}",
+      "publishedOn": "Published on {date}"
+    }
+  },
+  "Account": {
+    "title": "My account",
+    "description": "Manage your personal information and your account security.",
+    "saving": "Saving…",
+    "save": "Save",
+    "cancel": "Cancel",
+    "fields": {
+      "email": "E-mail address",
+      "lastName": "Last name",
+      "firstName": "First name",
+      "pseudo": "Nickname",
+      "phone": "Phone",
+      "language": "Language"
+    },
+    "profile": {
+      "title": "Personal information",
+      "description": "Your e-mail address cannot be changed here.",
+      "saved": "Changes saved."
+    },
+    "password": {
+      "title": "Password",
+      "description": "Enter your current password to choose a new one.",
+      "current": "Current password",
+      "new": "New password",
+      "confirm": "Confirm new password",
+      "submit": "Change password",
+      "saved": "Password changed."
+    },
+    "danger": {
+      "title": "Sensitive area",
+      "description": "These actions require your password.",
+      "confirmPassword": "Your password",
+      "deactivate": {
+        "button": "Deactivate my account",
+        "title": "Deactivate your account?",
+        "text": "You will be signed out of all your devices and will no longer be able to sign in. Only the administration can reactivate the account.",
+        "confirm": "Deactivate"
+      },
+      "delete": {
+        "button": "Delete my account",
+        "title": "Delete your account?",
+        "text": "Your account will be deleted and you will be signed out of all your devices. Your teaching contributions are kept.",
+        "confirm": "Delete"
+      }
     }
   }
 }

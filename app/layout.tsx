@@ -8,6 +8,7 @@ import { Analytics } from "@/components/analytics/Analytics";
 import { CookieConsent } from "@/components/layout/CookieConsent";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
+import { SiteChrome } from "@/components/layout/SiteChrome";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { SITE_NAME, getSiteUrl } from "@/lib/site";
 import { AuthProviders } from "@/shared/providers/AuthProviders";
@@ -77,9 +78,9 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
         <NextIntlClientProvider>
           <AuthProviders>
             <TooltipProvider>
-              <Header />
-              <main id="main" tabIndex={-1} className="flex flex-1 flex-col outline-none">{children}</main>
-              <Footer />
+              <SiteChrome header={<Header />} footer={<Footer />}>
+                {children}
+              </SiteChrome>
               <CookieConsent />
               <Analytics />
             </TooltipProvider>

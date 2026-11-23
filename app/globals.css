@@ -84,14 +84,15 @@
   --chart-4: #f6cf7a;
   --chart-5: #0b1236;
   --radius: 0.625rem;
-  --sidebar: #ffffff;
-  --sidebar-foreground: #0b1236;
-  --sidebar-primary: #011c86;
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #fff3d3;
-  --sidebar-accent-foreground: #011c86;
-  --sidebar-border: #dfe3f1;
-  --sidebar-ring: #3f5bd6;
+  /* Sidebar des espaces connectés : bleu du logo, texte blanc, accent doré (comme l'en-tête du site) */
+  --sidebar: #011c86;
+  --sidebar-foreground: #ffffff;
+  --sidebar-primary: #eeaf2e;
+  --sidebar-primary-foreground: #0b1236;
+  --sidebar-accent: rgb(255 255 255 / 12%);
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: rgb(255 255 255 / 14%);
+  --sidebar-ring: #eeaf2e;
 }
 
 .dark {

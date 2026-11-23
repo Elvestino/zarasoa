@@ -149,6 +149,7 @@
       "ACCOUNT_PENDING_ADMIN": "Miandry ny fanamarinan'ny fitantanana ny fisoratanao anarana.",
       "ACCOUNT_REJECTED": "Nolavina ny fisoratanao anarana.",
       "ACCOUNT_INACTIVE": "Natsahatra na tsy mandeha ity kaonty ity.",
+      "NO_ROLE": "Tsy misy andraikitra mifandray amin'ity kaonty ity. Mifandraisa amin'ny fanjakana.",
       "EMAIL_ALREADY_USED": "Efa nampiasaina ity adiresy mailaka ity.",
       "REGISTRATION_NUMBER_TAKEN": "Efa nampiasain'ny fangatahana hafa ity matricule ity.",
       "NETWORK_ERROR": "Tsy tafiditra amin'ny mpizara. Jereo ny fifandraisanao.",
@@ -415,6 +416,347 @@
           ]
         }
       ]
+    }
+  },
+  "App": {
+    "toggleSidebar": "Asehoy na afeno ny menio",
+    "logout": "Hivoaka",
+    "search": "Hikaroka",
+    "reset": "Averina",
+    "empty": "Tsy misy valiny.",
+    "roles": {
+      "super_admin": "Fitantanana",
+      "professor": "Toerana ho an'ny mpampianatra",
+      "student": "Toerana ho an'ny mpianatra"
+    },
+    "nav": {
+      "groupManage": "Fitantanana",
+      "groupAccount": "Kaonty",
+      "groupStudy": "Ny toerako",
+      "dashboard": "Tabilao fanaraha-maso",
+      "students": "Mpianatra",
+      "requests": "Fangatahana fisoratana anarana",
+      "registry": "Rejisitra ofisialy",
+      "catalog": "Katalaogy",
+      "accounts": "Kaonty",
+      "courses": "Ny lesoko",
+      "account": "Ny kaontiko"
+    },
+    "pagination": {
+      "summary": "{count} valiny · pejy {page} amin'ny {pages}",
+      "previous": "Teo aloha",
+      "next": "Manaraka"
+    },
+    "comingSoon": {
+      "professorTitle": "Manao ahoana {name}",
+      "professorText": "Ho vonona tsy ho ela ny toerana ho an'ny mpampianatra."
+    }
+  },
+  "Errors": {
+    "GENERIC": "Nisy olana. Andramo indray.",
+    "FORBIDDEN": "Tsy mahazo manao izany ianao.",
+    "RATE_LIMITED": "Be loatra ny andrana. Miandrasa minitra vitsy ary andramo indray.",
+    "INVALID_FIELD": "Tsy mety na lava loatra ny saha iray.",
+    "INVALID_NAME": "Voatery ny anarana sy ny fanampin'anarana (tarehintsoratra 100 fara-fahabetsany).",
+    "INVALID_PHONE": "Tsy mety ny laharana finday.",
+    "INVALID_CREDENTIALS": "Diso ny teny miafina.",
+    "WEAK_PASSWORD": "Tsy mahafeno ny fepetra rehetra ny teny miafina vaovao.",
+    "PASSWORD_MISMATCH": "Tsy mitovy ny teny miafina roa.",
+    "LAST_SUPER_ADMIN": "Ianao no super administratera mavitrika farany: manendre iray hafa alohan'ny hialanao.",
+    "REQUEST_NOT_FOUND": "Tsy hita ny fangatahana.",
+    "REQUEST_NOT_PROCESSABLE": "Tsy azo tanterahina intsony ity fangatahana ity.",
+    "NOT_IN_REGISTRY": "Tsy ao amin'ny rejisitra ofisialy io matricule io: tsy azo ekena ny fangatahana.",
+    "REASON_REQUIRED": "Voatery ny antony (tarehintsoratra 3 ka hatramin'ny 500).",
+    "UNLOCK_FAILED": "Tsy vita ny famahana.",
+    "INVALID_CODE": "Tsy mety ny kaody (tarehintsoratra 2 ka hatramin'ny 30: litera, isa, - _ .).",
+    "FILIERE_CODE_TAKEN": "Efa misy io kaody sampana io.",
+    "PARCOURS_CODE_TAKEN": "Efa misy io kaody lalana io ao amin'ity sampana ity.",
+    "FILE_REQUIRED": "Misafidiha rakitra.",
+    "FILE_TOO_LARGE": "Lehibe loatra ny rakitra.",
+    "FILE_TYPE_NOT_ALLOWED": "Tsy ekena ny endrika (Excel .xlsx, .xls na CSV).",
+    "FILE_UNREADABLE": "Tsy azo vakiana ny rakitra.",
+    "MISSING_REGISTRATION_COLUMN": "Tsy hita ny tsanganana « Matricule » ao amin'ny andalana 10 voalohany.",
+    "TOO_MANY_ROWS": "Be loatra ny andalana ao amin'ny rakitra.",
+    "EMPTY_FILE": "Tsy misy andalana azo ampiasaina ny rakitra.",
+    "FILE_ALREADY_IMPORTED": "Efa nampidirina io rakitra io.",
+    "IMPORT_NOT_FOUND": "Tsy hita ny fampidirana.",
+    "IMPORT_NOT_READY": "Efa voahodina io fampidirana io.",
+    "STORAGE_ERROR": "Tsy voatahiry ny rakitra."
+  },
+  "Admin": {
+    "dashboard": {
+      "title": "Tabilao fanaraha-maso",
+      "description": "Topimaso ankapobeny ny sehatra.",
+      "stats": {
+        "students": "Mpianatra voasoratra",
+        "pending": "Fangatahana hodinihina",
+        "registry": "Matricule ao amin'ny rejisitra",
+        "locked": "Kaonty voasakana"
+      },
+      "latestTitle": "Fangatahana vao miandry",
+      "latestDescription": "Mpianatra efa nanamarina ny mailaka ary miandry ny fanapahan-kevitrao.",
+      "noPending": "Tsy misy fangatahana miandry.",
+      "seeAll": "Jereo ny fangatahana rehetra"
+    },
+    "students": {
+      "title": "Mpianatra",
+      "description": "Lisitry ny mpianatra nekena miaraka amin'ny sampana, lalana ary ambaratonga.",
+      "searchPlaceholder": "Anarana, matricule na mailaka",
+      "allFilieres": "Sampana rehetra",
+      "allLevels": "Ambaratonga rehetra",
+      "columns": {
+        "registration": "Matricule",
+        "name": "Anarana",
+        "email": "Mailaka",
+        "filiere": "Sampana",
+        "parcours": "Lalana",
+        "level": "Ambaratonga",
+        "approvedAt": "Nekena tamin'ny",
+        "status": "Kaonty"
+      }
+    },
+    "requests": {
+      "title": "Fangatahana fisoratana anarana",
+      "description": "Hamarino ao amin'ny rejisitra ofisialy ny matricule tsirairay, avy eo ekeo na laviho.",
+      "searchPlaceholder": "Anarana, matricule na mailaka",
+      "allStatuses": "Toe-javatra rehetra",
+      "checkAll": "Hamarino daholo",
+      "checking": "Fanamarinana…",
+      "checkedAll": "{count} fangatahana nampitahaina tamin'ny rejisitra ofisialy.",
+      "matricule": "Matricule",
+      "columns": {
+        "applicant": "Mpangataka",
+        "email": "Mailaka",
+        "registry": "Rejisitra ofisialy",
+        "status": "Toe-javatra",
+        "submittedAt": "Nalefa tamin'ny"
+      },
+      "status": {
+        "pending_email": "Mailaka hamarinina",
+        "pending_admin": "Hodinihina",
+        "approved": "Nekena",
+        "rejected": "Nolavina"
+      },
+      "match": {
+        "found": "Ao amin'ny rejisitra",
+        "mismatch": "Tsy mitovy ny maha-izy azy",
+        "not_found": "Tsy ao amin'ny rejisitra",
+        "unchecked": "Tsy voamarina"
+      },
+      "review": "Hodinihina",
+      "emailConfirmed": "Voamarina ny mailaka",
+      "emailPending": "Tsy voamarina ny mailaka",
+      "recheck": "Hamarino indray",
+      "declared": "Voalaza",
+      "official": "Rejisitra ofisialy",
+      "same": "Mitovy",
+      "different": "Samy hafa",
+      "fields": {
+        "lastName": "Anarana",
+        "firstName": "Fanampin'anarana",
+        "birthDate": "Daty nahaterahana",
+        "academic": "Fianarana ofisialy",
+        "filiere": "Sampana",
+        "parcours": "Lalana",
+        "level": "Ambaratonga"
+      },
+      "notFoundHelp": "Tsy ao amin'ny rejisitra ofisialy nampidirina io matricule io. Ampidiro ny rejisitra vaovao, na lavo ny fangatahana.",
+      "uncheckedHelp": "Mbola tsy nampitahaina tamin'ny rejisitra ofisialy ity fangatahana ity. Tsindrio ny « Hamarino indray ».",
+      "reason": "Antony",
+      "reject": "Laviho",
+      "approve": "Ekeo",
+      "approveBlocked": "Mitaky mailaka voamarina sy matricule ao amin'ny rejisitra ofisialy ny fankatoavana.",
+      "waitingEmail": "Miandry ny fanamarinan'ny mpianatra ny mailakany.",
+      "mismatchWarning": "Misy ny matricule saingy hafa ny maha-izy azy voalaza noho ny rejisitra. Hamarino aloha vao ekena.",
+      "choose": "Misafidiha…",
+      "noParcours": "Tsy misy lalana",
+      "cancel": "Foano",
+      "saving": "Mitahiry…",
+      "confirmApprove": "Hamafiso ny fankatoavana",
+      "reasonLabel": "Antony ny fandavana (hita amin'ny mpianatra)",
+      "confirmReject": "Hamafiso ny fandavana"
+    },
+    "registry": {
+      "title": "Rejisitra ofisialy",
+      "description": "{count} matricule ao amin'ny rejisitra ankehitriny. Ampidiro ny rakitra Excel avy amin'ny fitantanana mba hanamarinana ny fisoratana anarana.",
+      "importTitle": "Ampidiro ny rejisitra",
+      "importHelp": "Rakitra Excel (.xlsx, .xls) na CSV, {size} Mo fara-fahabetsany. Voatery ny tsanganana « Matricule »; fantatra ho azy ny anarana, fanampin'anarana, daty nahaterahana, sampana, lalana, ambaratonga ary toe-javatra.",
+      "file": "Rakitry ny rejisitra",
+      "analyse": "Hodinihina ny rakitra",
+      "analysing": "Fandinihana…",
+      "doneTitle": "Vita ny fampidirana",
+      "doneText": "{inserted} matricule nampiana, {updated} nohavaozina. {checked} fangatahana nohamarinina indray.",
+      "stats": {
+        "total": "Andalana novakiana",
+        "valid": "Mety",
+        "duplicate": "Mitovy",
+        "invalid": "Tsy mety",
+        "warnings": "Fampitandremana"
+      },
+      "missingColumns": "Tsy hita ny tsanganana: {columns}. Voafetra ny fanamarinana ny maha-izy azy.",
+      "columns": {
+        "lastName": "Anarana",
+        "firstName": "Fanampin'anarana",
+        "dateOfBirth": "Daty nahaterahana"
+      },
+      "row": "Andalana",
+      "registration": "Matricule",
+      "content": "Votoaty",
+      "state": "Toe-javatra",
+      "rowStatus": {
+        "valid": "Mety"
+      },
+      "issues": {
+        "EMPTY_REGISTRATION_NUMBER": "Foana ny matricule",
+        "REGISTRATION_NUMBER_TOO_LONG": "Lava loatra ny matricule",
+        "DUPLICATE_IN_FILE": "Mitovy ao amin'ny rakitra",
+        "UNKNOWN_FILIERE": "Sampana tsy fantatra (lavina)",
+        "UNKNOWN_PARCOURS": "Lalana tsy fantatra (lavina)",
+        "UNKNOWN_LEVEL": "Ambaratonga tsy fantatra (lavina)",
+        "INVALID_DATE": "Tsy azo vakiana ny daty (lavina)"
+      },
+      "sampleNote": "Topimaso ny andalana {shown} voalohany amin'ny {total}.",
+      "cancel": "Foano",
+      "importing": "Mampiditra…",
+      "confirm": "Hamafiso ny fampidirana (andalana {count})",
+      "historyTitle": "Tantaran'ny fampidirana",
+      "historyDescription": "Tatitra isaky ny fampidirana: andalana novakiana, nampiana, nohavaozina, mitovy ary tsy mety.",
+      "historyEmpty": "Mbola tsy misy fampidirana.",
+      "history": {
+        "file": "Rakitra",
+        "date": "Daty",
+        "status": "Toe-javatra",
+        "inserted": "Nampiana",
+        "updated": "Nohavaozina"
+      },
+      "importStatus": {
+        "uploaded": "Voaray",
+        "validating": "Fanamarinana",
+        "ready": "Vonona",
+        "processing": "Mandeha",
+        "completed": "Vita",
+        "completed_with_errors": "Vita misy fahadisoana",
+        "failed": "Tsy nahomby"
+      }
+    },
+    "accounts": {
+      "title": "Kaonty",
+      "description": "Ny kaonty rehetra amin'ny sehatra. Eto no sokafana ny kaonty voasakana taorian'ny fanandramana diso im-5.",
+      "searchPlaceholder": "Anarana na mailaka",
+      "allStatuses": "Toe-javatra rehetra",
+      "allRoles": "Andraikitra rehetra",
+      "columns": {
+        "name": "Anarana",
+        "email": "Mailaka",
+        "roles": "Andraikitra",
+        "status": "Toe-javatra",
+        "lastSeen": "Fidirana farany"
+      },
+      "status": {
+        "pending_email": "Mailaka hamarinina",
+        "pending_admin": "Miandry fankatoavana",
+        "approved": "Mavitrika",
+        "rejected": "Nolavina",
+        "suspended": "Nampiato",
+        "locked": "Voasakana",
+        "deactivated": "Nofoanana"
+      },
+      "unlock": "Sokafy",
+      "unlockTitle": "Sokafy ny kaontin'i {name}",
+      "unlockHelp": "Averina amin'ny aotra ny isan'ny fanandramana diso. Voasoratra miaraka amin'ny anaranao sy ny daty ny hetsika.",
+      "reasonLabel": "Antony (tsy voatery)",
+      "cancel": "Foano",
+      "saving": "Mitahiry…",
+      "unlockConfirm": "Sokafy ny kaonty"
+    },
+    "catalog": {
+      "title": "Katalaogy",
+      "description": "Sampana sy lalana ampiasaina amin'ny fanasokajiana ny mpianatra sy ny famakiana ny rejisitra ofisialy.",
+      "newFiliere": "Sampana vaovao",
+      "newParcours": "Lalana vaovao",
+      "newParcoursFor": "Lalana vaovao — {filiere}",
+      "codeHelp": "Tsy maintsy tokana ny kaody; ny sampana na lalana efa ampiasaina dia tsy afafy fa atsahatra.",
+      "code": "Kaody",
+      "name": "Anarana",
+      "faculty": "Fakiolte na departemanta (tsy voatery)",
+      "cancel": "Foano",
+      "saving": "Mitahiry…",
+      "create": "Mamorona",
+      "empty": "Mbola tsy misy sampana. Mamorona iray hanombohana.",
+      "noParcours": "Tsy misy lalana.",
+      "active": "Mavitrika",
+      "inactive": "Tsy mavitrika",
+      "activate": "Ampandehano",
+      "deactivate": "Atsaharo"
+    }
+  },
+  "Student": {
+    "sidebarCourses": "Ny lesoko",
+    "info": {
+      "level": "Ambaratonga",
+      "filiere": "Sampana",
+      "parcours": "Lalana",
+      "courses": "Lesona misy",
+      "noParcours": "Fototra iraisana"
+    },
+    "dashboard": {
+      "title": "Manao ahoana {name}",
+      "registration": "Matricule {number}",
+      "noRecord": "Mbola tsy mifandray amin'ny sampana ny rakitrao. Mifandraisa amin'ny fitantanana."
+    },
+    "courses": {
+      "title": "Ny lesoko",
+      "description": "Ny lesona navoaka ho an'ny sampana, lalana ary ambaratonganao.",
+      "empty": "Mbola tsy misy lesona navoaka.",
+      "seeAll": "Jereo ny lesoko rehetra",
+      "by": "Avy amin'i {name}",
+      "publishedOn": "Navoaka tamin'ny {date}"
+    }
+  },
+  "Account": {
+    "title": "Ny kaontiko",
+    "description": "Tantano ny mombamomba anao sy ny fiarovana ny kaontinao.",
+    "saving": "Mitahiry…",
+    "save": "Tahiry",
+    "cancel": "Foano",
+    "fields": {
+      "email": "Adiresy mailaka",
+      "lastName": "Anarana",
+      "firstName": "Fanampin'anarana",
+      "pseudo": "Solon'anarana",
+      "phone": "Finday",
+      "language": "Fiteny"
+    },
+    "profile": {
+      "title": "Mombamomba anao",
+      "description": "Tsy azo ovaina eto ny adiresy mailakao.",
+      "saved": "Voatahiry ny fanovana."
+    },
+    "password": {
+      "title": "Teny miafina",
+      "description": "Ampidiro ny teny miafina ankehitriny mba hisafidianana vaovao.",
+      "current": "Teny miafina ankehitriny",
+      "new": "Teny miafina vaovao",
+      "confirm": "Hamafiso ny teny miafina vaovao",
+      "submit": "Ovay ny teny miafina",
+      "saved": "Niova ny teny miafina."
+    },
+    "danger": {
+      "title": "Faritra saro-pady",
+      "description": "Mitaky ny teny miafinao ireo hetsika ireo.",
+      "confirmPassword": "Ny teny miafinao",
+      "deactivate": {
+        "button": "Atsaharo ny kaontiko",
+        "title": "Atsahatra ve ny kaontinao?",
+        "text": "Hivoaka amin'ny fitaovanao rehetra ianao ary tsy afaka miditra intsony. Ny fitantanana ihany no afaka mamerina ny kaonty.",
+        "confirm": "Atsaharo"
+      },
+      "delete": {
+        "button": "Fafao ny kaontiko",
+        "title": "Fafana ve ny kaontinao?",
+        "text": "Ho voafafa ny kaontinao ary hivoaka amin'ny fitaovanao rehetra ianao. Voatahiry ny fandraisanao anjara amin'ny fampianarana.",
+        "confirm": "Fafao"
+      }
     }
   }
 }

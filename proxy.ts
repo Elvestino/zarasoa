@@ -25,7 +25,7 @@ export async function proxy(request: NextRequest) {
   const isProtected = PROTECTED_PREFIXES.some((p) => pathname === p || pathname.startsWith(`${p}/`));
   if (isProtected && !user) return redirectKeepingCookies(request, response, ROUTES.login);
   if (user && (GUEST_ONLY_ROUTES as readonly string[]).includes(pathname)) {
-    return redirectKeepingCookies(request, response, ROUTES.home);
+    return redirectKeepingCookies(request, response, ROUTES.continue);
   }
 
   return response;
