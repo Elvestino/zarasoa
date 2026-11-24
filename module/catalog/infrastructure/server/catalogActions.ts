@@ -47,7 +47,48 @@ export async function createParcoursAction(input: { filiereId: string; code: str
   }
 }
 
-/** Une filière ou un parcours utilisé est désactivé, jamais supprimé (US-024/025). */
+export async function updateFiliereAction(input: { id: string; code: string; name: string; facultyName?: string }): Promise<ActionResult> {
+  try {
+    const { db } = await requireRoleForAction("super_admin");
+    await new FiliereRepository(db).updateFiliere(requireUuid(input?.id), {
+      code: code(input?.code),
+      name: requireText(input?.name, 2, 150),
+      facultyName: optionalText(input?.facultyName, 150),
+    });
+    return done();
+  } catch (e) {
+    return failure(e, "updateFiliere");
+  }
+}
+
+export async function updateParcoursAction(input: { id: string; code: string; name: string }): Promise<ActionResult> {
+  try {
+    const { db } = await requireRoleForAction("super_admin");
+    await new FiliereRepository(db).updateParcours(requireUuid(input?.id), {
+      code: code(input?.code),
+      name: requireText(input?.name, 2, 150),
+    });
+    return done();
+  } catch (e) {
+    return failure(e, "updateParcours");
+  }
+}
+
+/** Suppression réelle, mais refusée par la base tant que l'élément est référencé : on le désactive alors. */
+export async function deleteCatalogAction(input: { kind: "filiere" | "parcours"; id: string }): Promise<ActionResult> {
+  try {
+    const { db } = await requireRoleForAction("super_admin");
+    const repo = new FiliereRepository(db);
+    const id = requireUuid(input?.id);
+    if (input.kind === "filiere") await repo.deleteFiliere(id);
+    else await repo.deleteParcours(id);
+    return done();
+  } catch (e) {
+    return failure(e, "deleteCatalog");
+  }
+}
+
+/** Activer / désactiver : la voie à suivre pour une filière ou un parcours déjà utilisé (US-024/025). */
 export async function setCatalogActiveAction(input: { kind: "filiere" | "parcours"; id: string; active: boolean }): Promise<ActionResult> {
   try {
     const { db } = await requireRoleForAction("super_admin");

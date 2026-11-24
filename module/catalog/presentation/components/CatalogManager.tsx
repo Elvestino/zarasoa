@@ -1,65 +1,105 @@
 "use client";
 
-import { Plus } from "lucide-react";
+import { Pencil, Plus, Trash2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
-import { useState, useTransition } from "react";
+import { useId, useState, useTransition } from "react";
 import { StatusBadge } from "@/components/admin/StatusBadge";
 import { useActionError } from "@/components/admin/useActionError";
-import { Alert, AlertDescription } from "@/components/ui/alert";
+import {
+  AlertDialog,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { notify } from "@/lib/notify";
 import type { ActionResult } from "@/shared/domain/Page";
 import type { Filiere } from "../../domain/entities/Filiere";
-import { createFiliereAction, createParcoursAction, setCatalogActiveAction } from "../../infrastructure/server/catalogActions";
+import {
+  createFiliereAction,
+  createParcoursAction,
+  deleteCatalogAction,
+  setCatalogActiveAction,
+  updateFiliereAction,
+  updateParcoursAction,
+} from "../../infrastructure/server/catalogActions";
 
-/** Petit formulaire en fenêtre : un champ code, un champ nom (et la faculté pour une filière). */
-function CreateDialog({
-  trigger,
+interface FormValues {
+  code: string;
+  name: string;
+  facultyName: string;
+}
+
+/** Formulaire en fenêtre (création ou modification) : code, nom, et la faculté pour une filière. */
+function CatalogFormDialog({
+  mode,
+  triggerLabel,
   title,
+  submitLabel,
+  successText,
   withFaculty,
+  initial,
   onSubmit,
 }: {
-  trigger: string;
+  /** « create » : bouton « + Nouveau… » · « edit » : bouton « Modifier » (le titre de la fenêtre précise la cible). */
+  mode: "create" | "edit";
+  triggerLabel: string;
   title: string;
+  submitLabel: string;
+  successText: string;
   withFaculty?: boolean;
-  onSubmit: (v: { code: string; name: string; facultyName: string }) => Promise<ActionResult>;
+  initial: FormValues;
+  onSubmit: (v: FormValues) => Promise<ActionResult>;
 }) {
   const t = useTranslations("Admin.catalog");
   const errorText = useActionError();
   const router = useRouter();
+  const uid = useId();
   const [open, setOpen] = useState(false);
-  const [code, setCode] = useState("");
-  const [name, setName] = useState("");
-  const [faculty, setFaculty] = useState("");
-  const [error, setError] = useState<string | null>(null);
+  const [values, setValues] = useState<FormValues>(initial);
   const [pending, start] = useTransition();
+  const set = (k: keyof FormValues) => (e: { target: { value: string } }) => setValues((v) => ({ ...v, [k]: e.target.value }));
 
   function submit() {
-    setError(null);
     start(async () => {
-      const res = await onSubmit({ code, name, facultyName: faculty });
+      const res = await onSubmit(values);
       if (res.ok) {
+        notify.success(successText);
         setOpen(false);
-        setCode("");
-        setName("");
-        setFaculty("");
         router.refresh();
       } else {
-        setError(errorText(res.code));
+        notify.error(errorText(res.code));
       }
     });
   }
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger render={<Button type="button" size="sm" variant="outline" />}>
-        <Plus data-icon="inline-start" />
-        {trigger}
-      </DialogTrigger>
+    <Dialog
+      open={open}
+      onOpenChange={(next) => {
+        if (next) setValues(initial); // repart des valeurs courantes (ou vides en création)
+        setOpen(next);
+      }}
+    >
+      {mode === "create" ? (
+        <DialogTrigger render={<Button type="button" size="sm" variant="outline" />}>
+          <Plus data-icon="inline-start" />
+          {triggerLabel}
+        </DialogTrigger>
+      ) : (
+        <DialogTrigger render={<Button type="button" size="xs" variant="outline" />}>
+          <Pencil data-icon="inline-start" />
+          {t("edit")}
+        </DialogTrigger>
+      )}
       <DialogContent>
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
@@ -73,30 +113,25 @@ function CreateDialog({
           }}
         >
           <div className="grid gap-1.5">
-            <Label htmlFor="cat-code">{t("code")}</Label>
-            <Input id="cat-code" value={code} onChange={(e) => setCode(e.target.value)} required minLength={2} maxLength={30} />
+            <Label htmlFor={`${uid}-code`}>{t("code")}</Label>
+            <Input id={`${uid}-code`} value={values.code} onChange={set("code")} required minLength={2} maxLength={30} />
           </div>
           <div className="grid gap-1.5">
-            <Label htmlFor="cat-name">{t("name")}</Label>
-            <Input id="cat-name" value={name} onChange={(e) => setName(e.target.value)} required minLength={2} maxLength={150} />
+            <Label htmlFor={`${uid}-name`}>{t("name")}</Label>
+            <Input id={`${uid}-name`} value={values.name} onChange={set("name")} required minLength={2} maxLength={150} />
           </div>
           {withFaculty ? (
             <div className="grid gap-1.5">
-              <Label htmlFor="cat-faculty">{t("faculty")}</Label>
-              <Input id="cat-faculty" value={faculty} onChange={(e) => setFaculty(e.target.value)} maxLength={150} />
+              <Label htmlFor={`${uid}-faculty`}>{t("faculty")}</Label>
+              <Input id={`${uid}-faculty`} value={values.facultyName} onChange={set("facultyName")} maxLength={150} />
             </div>
-          ) : null}
-          {error ? (
-            <Alert variant="destructive" role="alert">
-              <AlertDescription>{error}</AlertDescription>
-            </Alert>
           ) : null}
           <DialogFooter>
             <Button type="button" variant="ghost" onClick={() => setOpen(false)}>
               {t("cancel")}
             </Button>
             <Button type="submit" disabled={pending}>
-              {pending ? t("saving") : t("create")}
+              {pending ? t("saving") : submitLabel}
             </Button>
           </DialogFooter>
         </form>
@@ -105,8 +140,57 @@ function CreateDialog({
   );
 }
 
+const EMPTY: FormValues = { code: "", name: "", facultyName: "" };
+
+/** Suppression avec confirmation. La base refuse si l'élément est encore utilisé : on l'explique par un toast. */
+function DeleteButton({ kind, id, name }: { kind: "filiere" | "parcours"; id: string; name: string }) {
+  const t = useTranslations("Admin.catalog");
+  const errorText = useActionError();
+  const router = useRouter();
+  const [open, setOpen] = useState(false);
+  const [pending, start] = useTransition();
+
+  function confirm() {
+    start(async () => {
+      const res = await deleteCatalogAction({ kind, id });
+      if (res.ok) {
+        notify.success(t("deleted"));
+        setOpen(false);
+        router.refresh();
+      } else {
+        notify.error(errorText(res.code));
+        setOpen(false);
+      }
+    });
+  }
+
+  return (
+    <>
+      <Button type="button" size="xs" variant="outline" className="text-destructive" onClick={() => setOpen(true)}>
+        <Trash2 data-icon="inline-start" />
+        {t("delete")}
+      </Button>
+      <AlertDialog open={open} onOpenChange={setOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>{t(kind === "filiere" ? "deleteFiliereTitle" : "deleteParcoursTitle", { name })}</AlertDialogTitle>
+            <AlertDialogDescription>{t(kind === "filiere" ? "deleteFiliereText" : "deleteParcoursText")}</AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>{t("cancel")}</AlertDialogCancel>
+            <Button type="button" variant="destructive" disabled={pending} onClick={confirm}>
+              {pending ? t("saving") : t("confirmDelete")}
+            </Button>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </>
+  );
+}
+
 function ActiveToggle({ kind, id, active }: { kind: "filiere" | "parcours"; id: string; active: boolean }) {
   const t = useTranslations("Admin.catalog");
+  const errorText = useActionError();
   const router = useRouter();
   const [pending, start] = useTransition();
   return (
@@ -117,8 +201,13 @@ function ActiveToggle({ kind, id, active }: { kind: "filiere" | "parcours"; id: 
       disabled={pending}
       onClick={() =>
         start(async () => {
-          await setCatalogActiveAction({ kind, id, active: !active });
-          router.refresh();
+          const res = await setCatalogActiveAction({ kind, id, active: !active });
+          if (res.ok) {
+            notify.success(t("updated"));
+            router.refresh();
+          } else {
+            notify.error(errorText(res.code));
+          }
         })
       }
     >
@@ -133,10 +222,14 @@ export function CatalogManager({ filieres }: { filieres: Filiere[] }) {
   return (
     <div className="grid gap-4">
       <div>
-        <CreateDialog
-          trigger={t("newFiliere")}
+        <CatalogFormDialog
+          mode="create"
+          triggerLabel={t("newFiliere")}
           title={t("newFiliere")}
+          submitLabel={t("create")}
+          successText={t("created")}
           withFaculty
+          initial={EMPTY}
           onSubmit={(v) => createFiliereAction({ code: v.code, name: v.name, facultyName: v.facultyName })}
         />
       </div>
@@ -152,12 +245,27 @@ export function CatalogManager({ filieres }: { filieres: Filiere[] }) {
               <StatusBadge tone={f.isActive ? "success" : "neutral"}>{f.isActive ? t("active") : t("inactive")}</StatusBadge>
             </CardTitle>
             <div className="flex items-center gap-1">
-              <CreateDialog
-                trigger={t("newParcours")}
+              <CatalogFormDialog
+                mode="create"
+                triggerLabel={t("newParcours")}
                 title={t("newParcoursFor", { filiere: f.name })}
+                submitLabel={t("create")}
+                successText={t("created")}
+                initial={EMPTY}
                 onSubmit={(v) => createParcoursAction({ filiereId: f.id, code: v.code, name: v.name })}
               />
               <ActiveToggle kind="filiere" id={f.id} active={f.isActive} />
+              <CatalogFormDialog
+                mode="edit"
+                triggerLabel={t("editFiliere")}
+                title={t("editFiliere")}
+                submitLabel={t("save")}
+                successText={t("updated")}
+                withFaculty
+                initial={{ code: f.code, name: f.name, facultyName: f.facultyName ?? "" }}
+                onSubmit={(v) => updateFiliereAction({ id: f.id, code: v.code, name: v.name, facultyName: v.facultyName })}
+              />
+              <DeleteButton kind="filiere" id={f.id} name={f.name} />
             </div>
           </CardHeader>
           <CardContent>
@@ -173,7 +281,19 @@ export function CatalogManager({ filieres }: { filieres: Filiere[] }) {
                       {p.name}
                       {!p.isActive ? <StatusBadge tone="neutral">{t("inactive")}</StatusBadge> : null}
                     </span>
-                    <ActiveToggle kind="parcours" id={p.id} active={p.isActive} />
+                    <span className="flex items-center gap-1">
+                      <ActiveToggle kind="parcours" id={p.id} active={p.isActive} />
+                      <CatalogFormDialog
+                        mode="edit"
+                        triggerLabel={t("editParcours")}
+                        title={t("editParcours")}
+                        submitLabel={t("save")}
+                        successText={t("updated")}
+                        initial={{ code: p.code, name: p.name, facultyName: "" }}
+                        onSubmit={(v) => updateParcoursAction({ id: p.id, code: v.code, name: v.name })}
+                      />
+                      <DeleteButton kind="parcours" id={p.id} name={p.name} />
+                    </span>
                   </li>
                 ))}
               </ul>

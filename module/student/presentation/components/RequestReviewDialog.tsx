@@ -12,6 +12,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Label } from "@/components/ui/label";
 import { NativeSelect, NativeSelectOption } from "@/components/ui/native-select";
 import { Textarea } from "@/components/ui/textarea";
+import { notify } from "@/lib/notify";
 import type { AcademicLevel } from "@/module/catalog/domain/entities/AcademicLevel";
 import type { Filiere } from "@/module/catalog/domain/entities/Filiere";
 import { canApprove, type RegistrationRequest } from "../../domain/entities/RegistrationRequest";
@@ -37,7 +38,6 @@ export function RequestReviewDialog({
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [pending, start] = useTransition();
-  const [error, setError] = useState<string | null>(null);
   const [mode, setMode] = useState<"approve" | "reject" | null>(null);
 
   const off = request.official;
@@ -74,16 +74,16 @@ export function RequestReviewDialog({
     },
   ];
 
-  function run(fn: () => Promise<{ ok: true } | { ok: false; code: string }>) {
-    setError(null);
+  function run(fn: () => Promise<{ ok: true } | { ok: false; code: string }>, successText: string) {
     start(async () => {
       const res = await fn();
       if (res.ok) {
+        notify.success(successText);
         setOpen(false);
         setMode(null);
         router.refresh();
       } else {
-        setError(errorText(res.code));
+        notify.error(errorText(res.code));
       }
     });
   }
@@ -107,7 +107,7 @@ export function RequestReviewDialog({
             {request.emailConfirmedAt ? t("emailConfirmed") : t("emailPending")}
           </StatusBadge>
           {open_ ? (
-            <Button type="button" size="sm" variant="ghost" disabled={pending} onClick={() => run(() => checkRequestAction(request.id))}>
+            <Button type="button" size="sm" variant="ghost" disabled={pending} onClick={() => run(() => checkRequestAction(request.id), t("recheckedDone"))}>
               {t("recheck")}
             </Button>
           ) : null}
@@ -161,12 +161,6 @@ export function RequestReviewDialog({
           </p>
         ) : null}
 
-        {error ? (
-          <Alert variant="destructive" role="alert">
-            <AlertDescription>{error}</AlertDescription>
-          </Alert>
-        ) : null}
-
         {open_ && mode === null ? (
           <div className="flex flex-wrap justify-end gap-2">
             <Button type="button" variant="destructive" onClick={() => setMode("reject")}>
@@ -186,7 +180,7 @@ export function RequestReviewDialog({
             className="grid gap-3 rounded-lg border p-3"
             onSubmit={(e) => {
               e.preventDefault();
-              run(() => approveRequestAction({ requestId: request.id, filiereId, parcoursId: parcoursId || undefined, levelId }));
+              run(() => approveRequestAction({ requestId: request.id, filiereId, parcoursId: parcoursId || undefined, levelId }), t("approvedDone"));
             }}
           >
             {matchKey === "mismatch" ? (
@@ -233,7 +227,7 @@ export function RequestReviewDialog({
             className="grid gap-3 rounded-lg border p-3"
             onSubmit={(e) => {
               e.preventDefault();
-              run(() => rejectRequestAction({ requestId: request.id, reason }));
+              run(() => rejectRequestAction({ requestId: request.id, reason }), t("rejectedDone"));
             }}
           >
             <div className="grid gap-1.5">
