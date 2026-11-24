@@ -1983,6 +1983,10 @@ export type Database = {
         }
         Returns: string
       }
+      assign_role: {
+        Args: { p_reason?: string; p_role: string; p_user_id: string }
+        Returns: undefined
+      }
       assert_not_last_super_admin: { Args: never; Returns: undefined }
       can_view_profile: { Args: { _uid: string }; Returns: boolean }
       check_pending_requests: { Args: never; Returns: number }
@@ -2002,6 +2006,10 @@ export type Database = {
       is_homework_responsible: { Args: { _hw: string }; Returns: boolean }
       is_professor: { Args: never; Returns: boolean }
       is_super_admin: { Args: never; Returns: boolean }
+      lift_account_suspension: {
+        Args: { p_reason: string; p_user_id: string }
+        Returns: undefined
+      }
       log_admin_action: {
         Args: {
           p_action_code: string
@@ -2028,6 +2036,10 @@ export type Database = {
         Args: { _professor: string; _subject: string }
         Returns: boolean
       }
+      reactivate_account: {
+        Args: { p_reason: string; p_user_id: string }
+        Returns: undefined
+      }
       register_login_failure: {
         Args: { p_email: string; p_ip?: unknown; p_user_agent?: string }
         Returns: Json
@@ -2040,12 +2052,20 @@ export type Database = {
         Args: { p_reason: string; p_request_id: string }
         Returns: undefined
       }
+      revoke_role: {
+        Args: { p_reason: string; p_role: string; p_user_id: string }
+        Returns: undefined
+      }
       safe_uuid: { Args: { p: string }; Returns: string }
       student_can_see_course: { Args: { _course: string }; Returns: boolean }
       student_can_see_homework: { Args: { _hw: string }; Returns: boolean }
       student_in_scope_of_subject: {
         Args: { _subject: string }
         Returns: boolean
+      }
+      suspend_account: {
+        Args: { p_reason: string; p_user_id: string }
+        Returns: undefined
       }
       unlock_account: {
         Args: { p_reason?: string; p_user_id: string }

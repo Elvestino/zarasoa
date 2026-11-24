@@ -3,7 +3,27 @@ import type { Page } from "@/shared/domain/Page";
 import { BaseRepository, type Db } from "@/shared/infrastructure/repository/BaseRepository";
 import { rangeFor, sanitizeSearch } from "@/shared/infrastructure/repository/search";
 import type { AccountFilters, AccountSummary } from "../../domain/entities/Account";
-import { isRoleCode } from "../../domain/value-object/Role";
+import { isRoleCode, type ManageableRole } from "../../domain/value-object/Role";
+
+/** Codes métier levés par les fonctions SQL (`hint`) : ils deviennent des messages côté interface. */
+const SQL_HINT_CODES = new Set([
+  "REASON_REQUIRED",
+  "ACCOUNT_NOT_FOUND",
+  "ACCOUNT_DELETED",
+  "ACCOUNT_NOT_DEACTIVATED",
+  "ACCOUNT_NOT_APPROVED",
+  "ACCOUNT_NOT_SUSPENDED",
+  "SELF_ACTION_FORBIDDEN",
+  "ROLE_NOT_MANAGEABLE",
+  "ROLE_ALREADY_ASSIGNED",
+  "ROLE_NOT_ASSIGNED",
+]);
+
+function rpcFailure(error: { code?: string; hint?: string | null }, fallback: string): ApiError {
+  if (error.code === "42501") return new ApiError("Accès refusé.", 403, "FORBIDDEN");
+  const hint = error.hint ?? "";
+  return new ApiError(hint || fallback, 409, SQL_HINT_CODES.has(hint) ? hint : fallback);
+}
 
 interface AccountRow {
   id: string;
@@ -20,7 +40,7 @@ interface AccountRow {
   roles: string[] | null;
 }
 
-/** Comptes vus par le super administrateur (vue `v_accounts`) + déblocage via la fonction SQL contrôlée. */
+/** Comptes vus par le super administrateur (vue `v_accounts`) + actions d'administration via des fonctions SQL contrôlées. */
 export class AccountRepository extends BaseRepository {
   constructor(db: Db) {
     super(db);
@@ -65,6 +85,33 @@ export class AccountRepository extends BaseRepository {
 
   async unlock(userId: string, reason: string | null): Promise<void> {
     const { error } = await this.db.rpc("unlock_account", { p_user_id: userId, p_reason: reason ?? undefined });
-    if (error) throw new ApiError(error.message, error.code === "42501" ? 403 : 409, error.code === "42501" ? "FORBIDDEN" : "UNLOCK_FAILED");
+    if (error) throw rpcFailure(error, "UNLOCK_FAILED");
+  }
+
+  /** Réactive un compte désactivé (événement `account_reactivated` + audit, motif obligatoire). */
+  async reactivate(userId: string, reason: string): Promise<void> {
+    const { error } = await this.db.rpc("reactivate_account", { p_user_id: userId, p_reason: reason });
+    if (error) throw rpcFailure(error, "REACTIVATE_FAILED");
+  }
+
+  /** Suspend un compte actif (événement `account_suspended` + audit, motif obligatoire). */
+  async suspend(userId: string, reason: string): Promise<void> {
+    const { error } = await this.db.rpc("suspend_account", { p_user_id: userId, p_reason: reason });
+    if (error) throw rpcFailure(error, "SUSPEND_FAILED");
+  }
+
+  async liftSuspension(userId: string, reason: string): Promise<void> {
+    const { error } = await this.db.rpc("lift_account_suspension", { p_user_id: userId, p_reason: reason });
+    if (error) throw rpcFailure(error, "SUSPEND_FAILED");
+  }
+
+  async assignRole(userId: string, role: ManageableRole, reason: string | null): Promise<void> {
+    const { error } = await this.db.rpc("assign_role", { p_user_id: userId, p_role: role, p_reason: reason ?? undefined });
+    if (error) throw rpcFailure(error, "ROLE_FAILED");
+  }
+
+  async revokeRole(userId: string, role: ManageableRole, reason: string): Promise<void> {
+    const { error } = await this.db.rpc("revoke_role", { p_user_id: userId, p_role: role, p_reason: reason });
+    if (error) throw rpcFailure(error, "ROLE_FAILED");
   }
 }

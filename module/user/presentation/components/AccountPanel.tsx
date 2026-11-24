@@ -4,7 +4,6 @@ import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useState, useTransition, type FormEvent } from "react";
 import { useActionError } from "@/components/admin/useActionError";
-import { Alert, AlertDescription } from "@/components/ui/alert";
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -22,6 +21,7 @@ import { Label } from "@/components/ui/label";
 import { NativeSelect, NativeSelectOption } from "@/components/ui/native-select";
 import { LOCALE_LABELS, routing } from "@/i18n/routing";
 import { ROUTES } from "@/lib/constants";
+import { notify } from "@/lib/notify";
 import { PasswordChecklist } from "@/module/auth/presentation/components/PasswordChecklist";
 import { PasswordInput } from "@/module/auth/presentation/components/PasswordInput";
 import { changePasswordAction, deactivateAccountAction, deleteAccountAction, updateProfileAction } from "../../infrastructure/server/accountActions";
@@ -33,17 +33,6 @@ export interface AccountPanelProps {
   pseudo: string | null;
   phoneNumber: string | null;
   preferredLocale: string;
-}
-
-type Feedback = { kind: "ok" | "error"; text: string } | null;
-
-function FeedbackAlert({ feedback }: { feedback: Feedback }) {
-  if (!feedback) return null;
-  return (
-    <Alert variant={feedback.kind === "error" ? "destructive" : "default"} role={feedback.kind === "error" ? "alert" : "status"}>
-      <AlertDescription>{feedback.text}</AlertDescription>
-    </Alert>
-  );
 }
 
 /** Page « Mon compte » commune à tous les rôles : profil, mot de passe, désactivation et suppression du compte. */
@@ -60,19 +49,17 @@ export function AccountPanel(props: AccountPanelProps) {
     phoneNumber: props.phoneNumber ?? "",
     preferredLocale: props.preferredLocale,
   });
-  const [profileFeedback, setProfileFeedback] = useState<Feedback>(null);
   const [profilePending, startProfile] = useTransition();
 
   function saveProfile(e: FormEvent) {
     e.preventDefault();
-    setProfileFeedback(null);
     startProfile(async () => {
       const res = await updateProfileAction(profile);
       if (res.ok) {
-        setProfileFeedback({ kind: "ok", text: t("profile.saved") });
+        notify.success(t("profile.saved"));
         router.refresh();
       } else {
-        setProfileFeedback({ kind: "error", text: errorText(res.code) });
+        notify.error(errorText(res.code));
       }
     });
   }
@@ -80,35 +67,31 @@ export function AccountPanel(props: AccountPanelProps) {
   // ── mot de passe ──
   const [pw, setPw] = useState({ current: "", next: "", confirm: "" });
   const [showPw, setShowPw] = useState(false);
-  const [pwFeedback, setPwFeedback] = useState<Feedback>(null);
   const [pwPending, startPw] = useTransition();
 
   function savePassword(e: FormEvent) {
     e.preventDefault();
-    setPwFeedback(null);
-    if (pw.next !== pw.confirm) return setPwFeedback({ kind: "error", text: errorText("PASSWORD_MISMATCH") });
+    if (pw.next !== pw.confirm) return notify.error(errorText("PASSWORD_MISMATCH"));
     startPw(async () => {
       const res = await changePasswordAction({ currentPassword: pw.current, newPassword: pw.next });
       if (res.ok) {
         setPw({ current: "", next: "", confirm: "" });
-        setPwFeedback({ kind: "ok", text: t("password.saved") });
+        notify.success(t("password.saved"));
       } else {
-        setPwFeedback({ kind: "error", text: errorText(res.code) });
+        notify.error(errorText(res.code));
       }
     });
   }
 
   // ── zone sensible ──
   const [confirmPw, setConfirmPw] = useState("");
-  const [dangerError, setDangerError] = useState<string | null>(null);
   const [dangerPending, startDanger] = useTransition();
 
   function endAccount(kind: "deactivate" | "delete") {
-    setDangerError(null);
     startDanger(async () => {
       const res = kind === "deactivate" ? await deactivateAccountAction({ password: confirmPw }) : await deleteAccountAction({ password: confirmPw });
       if (res.ok) window.location.assign(ROUTES.login);
-      else setDangerError(errorText(res.code));
+      else notify.error(errorText(res.code));
     });
   }
 
@@ -153,13 +136,10 @@ export function AccountPanel(props: AccountPanelProps) {
                 ))}
               </NativeSelect>
             </div>
-            <div className="grid gap-3 sm:col-span-2">
-              <FeedbackAlert feedback={profileFeedback} />
-              <div>
-                <Button type="submit" disabled={profilePending}>
-                  {profilePending ? t("saving") : t("save")}
-                </Button>
-              </div>
+            <div className="sm:col-span-2">
+              <Button type="submit" disabled={profilePending}>
+                {profilePending ? t("saving") : t("save")}
+              </Button>
             </div>
           </form>
         </CardContent>
@@ -196,7 +176,6 @@ export function AccountPanel(props: AccountPanelProps) {
               <Label htmlFor="pw-confirm">{t("password.confirm")}</Label>
               <PasswordInput id="pw-confirm" variant="box" autoComplete="new-password" required maxLength={128} value={pw.confirm} onChange={(e) => setPw((p) => ({ ...p, confirm: e.target.value }))} visible={showPw} showToggle={false} />
             </div>
-            <FeedbackAlert feedback={pwFeedback} />
             <div>
               <Button type="submit" disabled={pwPending}>
                 {pwPending ? t("saving") : t("password.submit")}
@@ -213,7 +192,7 @@ export function AccountPanel(props: AccountPanelProps) {
         </CardHeader>
         <CardContent className="flex flex-wrap gap-2">
           {(["deactivate", "delete"] as const).map((kind) => (
-            <AlertDialog key={kind} onOpenChange={() => { setConfirmPw(""); setDangerError(null); }}>
+            <AlertDialog key={kind} onOpenChange={() => setConfirmPw("")}>
               <AlertDialogTrigger render={<Button type="button" variant={kind === "delete" ? "destructive" : "outline"} />}>
                 {t(`danger.${kind}.button`)}
               </AlertDialogTrigger>
@@ -226,11 +205,6 @@ export function AccountPanel(props: AccountPanelProps) {
                   <Label htmlFor={`confirm-${kind}`}>{t("danger.confirmPassword")}</Label>
                   <PasswordInput id={`confirm-${kind}`} variant="box" autoComplete="current-password" maxLength={256} value={confirmPw} onChange={(e) => setConfirmPw(e.target.value)} />
                 </div>
-                {dangerError ? (
-                  <Alert variant="destructive" role="alert">
-                    <AlertDescription>{dangerError}</AlertDescription>
-                  </Alert>
-                ) : null}
                 <AlertDialogFooter>
                   <AlertDialogCancel>{t("cancel")}</AlertDialogCancel>
                   <Button type="button" variant="destructive" disabled={dangerPending || !confirmPw} onClick={() => endAccount(kind)}>

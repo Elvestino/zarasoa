@@ -57,6 +57,29 @@ export class FiliereRepository extends BaseRepository implements IFiliereReposit
     if (error) throw this.mapError(error.code, error.message, "PARCOURS_CODE_TAKEN");
   }
 
+  async updateFiliere(id: string, input: { code: string; name: string; facultyName?: string }): Promise<void> {
+    const { error } = await this.db
+      .from("filieres")
+      .update({ code: input.code, name: input.name, faculty_name: input.facultyName ?? null })
+      .eq("id", id);
+    if (error) throw this.mapError(error.code, error.message, "FILIERE_CODE_TAKEN");
+  }
+
+  async updateParcours(id: string, input: { code: string; name: string }): Promise<void> {
+    const { error } = await this.db.from("parcours").update({ code: input.code, name: input.name }).eq("id", id);
+    if (error) throw this.mapError(error.code, error.message, "PARCOURS_CODE_TAKEN");
+  }
+
+  async deleteFiliere(id: string): Promise<void> {
+    const { error } = await this.db.from("filieres").delete().eq("id", id);
+    if (error) throw this.mapError(error.code, error.message, "FILIERE_CODE_TAKEN");
+  }
+
+  async deleteParcours(id: string): Promise<void> {
+    const { error } = await this.db.from("parcours").delete().eq("id", id);
+    if (error) throw this.mapError(error.code, error.message, "PARCOURS_CODE_TAKEN");
+  }
+
   async setFiliereActive(id: string, active: boolean): Promise<void> {
     this.unwrap(await this.db.from("filieres").update({ is_active: active }).eq("id", id), "Mise à jour de la filière impossible");
   }
@@ -67,6 +90,8 @@ export class FiliereRepository extends BaseRepository implements IFiliereReposit
 
   private mapError(code: string | undefined, message: string, duplicateCode: string): ApiError {
     if (code === "23505") return new ApiError("Code déjà utilisé.", 409, duplicateCode);
+    // Clé étrangère : l'élément est référencé (parcours, matières, étudiants, registre) → on ne le supprime pas.
+    if (code === "23503") return new ApiError("Élément encore utilisé.", 409, "CATALOG_IN_USE");
     return new ApiError(message, 500, code || "DB_ERROR");
   }
 }

@@ -9,7 +9,8 @@ import { ROUTES } from "@/lib/constants";
 import { getContainer } from "@/lib/container";
 import { ACCOUNT_STATUSES } from "@/module/user/domain/value-object/AccountStatus";
 import { ROLE_CODES } from "@/module/user/domain/value-object/Role";
-import { UnlockAccountButton } from "@/module/user/presentation/components/UnlockAccountButton";
+import { getSessionProfile } from "@/module/user/infrastructure/server/guards";
+import { AccountActions } from "@/module/user/presentation/components/AccountActions";
 import { DEFAULT_PAGE_SIZE, parsePage } from "@/shared/domain/Page";
 
 type SearchParams = Promise<Record<string, string | string[] | undefined>>;
@@ -22,6 +23,7 @@ export default async function AccountsPage({ searchParams }: { searchParams: Sea
   const tr = await getTranslations("App.roles");
   const format = await getFormatter();
   const { accounts } = await getContainer();
+  const me = await getSessionProfile();
 
   const q = one(sp.q);
   const status = (ACCOUNT_STATUSES as readonly string[]).includes(one(sp.status) ?? "") ? one(sp.status) : undefined;
@@ -60,7 +62,7 @@ export default async function AccountsPage({ searchParams }: { searchParams: Sea
               <TableHead>{t("columns.roles")}</TableHead>
               <TableHead>{t("columns.status")}</TableHead>
               <TableHead className="hidden xl:table-cell">{t("columns.lastSeen")}</TableHead>
-              <TableHead className="w-28" />
+              <TableHead className="w-px" />
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -81,7 +83,14 @@ export default async function AccountsPage({ searchParams }: { searchParams: Sea
                     {a.lastSeenAt ? format.dateTime(a.lastSeenAt, { dateStyle: "medium" }) : "—"}
                   </TableCell>
                   <TableCell>
-                    {a.accountStatus === "locked" ? <UnlockAccountButton userId={a.id} name={`${a.firstName} ${a.lastName}`} /> : null}
+                    <AccountActions
+                      userId={a.id}
+                      name={`${a.firstName} ${a.lastName}`.trim() || a.email}
+                      status={a.accountStatus}
+                      roles={a.roles}
+                      isSelf={a.id === me?.id}
+                      deleted={a.deletedAt !== null}
+                    />
                   </TableCell>
                 </TableRow>
               ))

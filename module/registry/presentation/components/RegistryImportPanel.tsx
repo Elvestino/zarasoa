@@ -6,13 +6,14 @@ import { useRouter } from "next/navigation";
 import { useMemo, useRef, useState, useTransition } from "react";
 import { StatusBadge, type Tone } from "@/components/admin/StatusBadge";
 import { useActionError } from "@/components/admin/useActionError";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { notify } from "@/lib/notify";
 import {
   REGISTRY_ACCEPTED_EXTENSIONS,
   REGISTRY_MAX_FILE_BYTES,
@@ -38,8 +39,6 @@ export function RegistryImportPanel() {
   const [preview, setPreview] = useState<ImportPreview | null>(null);
   /** Clés des colonnes cochées (= importées et affichées dans l'aperçu). */
   const [selected, setSelected] = useState<Set<string>>(new Set());
-  const [error, setError] = useState<string | null>(null);
-  const [done, setDone] = useState<{ inserted: number; updated: number; checkedRequests: number } | null>(null);
 
   /** Au départ : colonnes reconnues cochées, colonnes inconnues décochées (elles ne sont jamais enregistrées). */
   const defaultSelection = (columns: PreviewColumn[]) => new Set(columns.filter((c) => c.field !== null).map((c) => c.key));
@@ -71,26 +70,23 @@ export function RegistryImportPanel() {
     setPreview(null);
     setSelected(new Set());
     setFile(null);
-    setError(null);
     if (inputRef.current) inputRef.current.value = "";
   };
 
   async function analyse() {
     if (!file) return;
-    setError(null);
-    setDone(null);
-    if (file.size > REGISTRY_MAX_FILE_BYTES) return setError(errorText("FILE_TOO_LARGE"));
+    if (file.size > REGISTRY_MAX_FILE_BYTES) return notify.error(errorText("FILE_TOO_LARGE"));
     setBusy(true);
     try {
       const body = new FormData();
       body.set("file", file);
       const res = await fetch("/api/admin/registry/import", { method: "POST", body });
       const json = (await res.json().catch(() => null)) as { data?: ImportPreview; error?: { code: string } } | null;
-      if (!res.ok || !json?.data) return setError(errorText(json?.error?.code));
+      if (!res.ok || !json?.data) return notify.error(errorText(json?.error?.code));
       setPreview(json.data);
       setSelected(defaultSelection(json.data.columns));
     } catch {
-      setError(errorText("GENERIC"));
+      notify.error(errorText("GENERIC"));
     } finally {
       setBusy(false);
     }
@@ -103,11 +99,11 @@ export function RegistryImportPanel() {
       const excluded = preview.columns.filter((c) => c.field && c.field !== REQUIRED_REGISTRY_FIELD && !selected.has(c.key)).map((c) => c.field as string);
       const res = await confirmRegistryImportAction(preview.importId, excluded);
       if (res.ok) {
-        setDone(res.data);
+        notify.success(t("doneTitle"), t("doneText", { inserted: res.data.inserted, updated: res.data.updated, checked: res.data.checkedRequests }));
         reset();
         router.refresh();
       } else {
-        setError(errorText(res.code));
+        notify.error(errorText(res.code));
       }
     });
   }
@@ -128,18 +124,6 @@ export function RegistryImportPanel() {
         <CardDescription>{t("importHelp", { size: Math.round(REGISTRY_MAX_FILE_BYTES / 1024 / 1024) })}</CardDescription>
       </CardHeader>
       <CardContent className="grid gap-4">
-        {done ? (
-          <Alert role="status">
-            <AlertTitle>{t("doneTitle")}</AlertTitle>
-            <AlertDescription>{t("doneText", { inserted: done.inserted, updated: done.updated, checked: done.checkedRequests })}</AlertDescription>
-          </Alert>
-        ) : null}
-        {error ? (
-          <Alert variant="destructive" role="alert">
-            <AlertDescription>{error}</AlertDescription>
-          </Alert>
-        ) : null}
-
         {!preview ? (
           <div className="flex flex-wrap items-end gap-3">
             <div className="grid min-w-64 flex-1 gap-1.5 sm:max-w-md">
