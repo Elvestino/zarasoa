@@ -70,7 +70,7 @@ export class LoginService {
       const { data, error } = await this.adminDb().rpc("register_login_failure", {
         p_email: email,
         p_ip: meta.ip ?? null,
-        p_user_agent: meta.userAgent ?? null,
+        p_user_agent: meta.userAgent ?? undefined,
       });
       if (error) throw error;
       return Boolean((data as { locked?: boolean } | null)?.locked);

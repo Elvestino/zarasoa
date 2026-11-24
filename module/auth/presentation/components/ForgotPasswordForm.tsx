@@ -4,25 +4,26 @@ import { useTranslations } from "next-intl";
 import { useState, type FormEvent } from "react";
 import { Link } from "@/i18n/navigation";
 import { ROUTES } from "@/lib/constants";
+import { notify } from "@/lib/notify";
 import { useAuth } from "../hooks/useAuth";
 import { useAuthError } from "../hooks/useAuthError";
-import { Field, FieldInput, FormError, Honeypot, PillButton } from "./AuthFields";
+import { Field, FieldInput, Honeypot, PillButton } from "./AuthFields";
 import { AuthShell } from "./AuthShell";
 
 export function ForgotPasswordForm() {
   const t = useTranslations("Auth");
   const { requestPasswordReset, pending } = useAuth();
   const errorMessage = useAuthError();
-  const [error, setError] = useState<string | null>(null);
   const [sent, setSent] = useState(false);
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setError(null);
     const form = new FormData(e.currentTarget);
     if (form.get("website")) return setSent(true); // piège à robots : même réponse, rien n'est envoyé
     const result = await requestPasswordReset(String(form.get("email")));
-    if (!result.ok) return setError(errorMessage(result.code));
+    if (!result.ok) return notify.error(errorMessage(result.code) ?? t("errors.generic"));
+    // Message volontairement identique que le compte existe ou non (pas d'énumération des comptes).
+    notify.success(t("forgot.sentTitle"), t("forgot.sent"));
     setSent(true);
   }
 
@@ -34,7 +35,6 @@ export function ForgotPasswordForm() {
       ) : (
         <form onSubmit={onSubmit} className="relative flex flex-col gap-5">
           <Honeypot />
-          <FormError message={error} />
           <Field id="email" label={t("fields.email")}>
             <FieldInput id="email" name="email" type="email" autoComplete="email" required maxLength={254} spellCheck={false} autoCapitalize="none" />
           </Field>

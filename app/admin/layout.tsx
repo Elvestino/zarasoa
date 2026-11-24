@@ -1,0 +1,48 @@
+import type { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
+import type { ReactNode } from "react";
+import { AppShell, type NavGroup } from "@/components/layout/AppShell";
+import { ROUTES } from "@/lib/constants";
+import { getContainer } from "@/lib/container";
+import { displayName } from "@/module/user/domain/entities/Profile";
+import { requireRole } from "@/module/user/infrastructure/server/guards";
+
+export const metadata: Metadata = { robots: { index: false, follow: false } };
+
+export default async function AdminLayout({ children }: { children: ReactNode }) {
+  const profile = await requireRole("super_admin");
+  const t = await getTranslations("App");
+  const { registrationRequests } = await getContainer();
+  const pending = (await registrationRequests.countByStatus()).pending_admin;
+
+  const groups: NavGroup[] = [
+    {
+      label: t("nav.groupManage"),
+      items: [
+        { href: ROUTES.admin, label: t("nav.dashboard"), icon: "dashboard", exact: true },
+        {
+          label: t("nav.students"),
+          icon: "students",
+          items: [
+            { href: `${ROUTES.admin}/etudiants`, label: t("nav.studentsList"), icon: "students" },
+            { href: `${ROUTES.admin}/demandes`, label: t("nav.requests"), icon: "requests", badge: pending },
+            { href: `${ROUTES.admin}/registre`, label: t("nav.registry"), icon: "registry" },
+          ],
+        },
+        {
+          label: t("nav.professors"),
+          icon: "professors",
+          items: [{ href: `${ROUTES.admin}/comptes?role=professor`, label: t("nav.professorsList"), icon: "professors" }],
+        },
+        { href: `${ROUTES.admin}/catalogue`, label: t("nav.catalog"), icon: "catalog" },
+        { href: `${ROUTES.admin}/comptes`, label: t("nav.accounts"), icon: "accounts" },
+      ],
+    },
+  ];
+
+  return (
+    <AppShell groups={groups} accountHref={`${ROUTES.admin}/compte`} user={{ name: displayName(profile), email: profile.email, roleLabel: t("roles.super_admin") }}>
+      {children}
+    </AppShell>
+  );
+}

@@ -13,7 +13,9 @@
     "resetDescription": "Choisissez un nouveau mot de passe pour votre compte ZARASOA.",
     "privacyDescription": "Découvrez quelles données ZARASOA collecte, pourquoi, et comment exercer vos droits.",
     "termsDescription": "Conditions d'utilisation de ZARASOA : inscription, compte, règles d'usage et contenus.",
-    "notFoundTitle": "Page introuvable"
+    "notFoundTitle": "Page introuvable",
+    "expiredTitle": "Lien expiré",
+    "expiredDescription": "Ce lien n'est plus valide : demandez-en un nouveau."
   },
   "Common": {
     "close": "Fermer",
@@ -32,7 +34,8 @@
     "features": "Fonctionnalités",
     "how": "Comment ça marche",
     "roles": "Rôles",
-    "menu": "Menu"
+    "menu": "Menu",
+    "mySpace": "Mon espace"
   },
   "Footer": {
     "text": "© ZARASOA — Plateforme universitaire",
@@ -123,7 +126,8 @@
       "submit": "Envoyer le lien",
       "submitting": "Envoi…",
       "sent": "Si cette adresse correspond à un compte, un e-mail de réinitialisation vient d'être envoyé.",
-      "back": "Retour à la connexion"
+      "back": "Retour à la connexion",
+      "sentTitle": "Vérifiez votre boîte mail"
     },
     "reset": {
       "title": "Nouveau mot de passe",
@@ -132,7 +136,9 @@
       "submit": "Enregistrer",
       "submitting": "Enregistrement…",
       "expiredTitle": "Lien expiré",
-      "expired": "Ce lien n'est plus valide. Refaites une demande de réinitialisation."
+      "expired": "Ce lien n'est plus valide. Refaites une demande de réinitialisation.",
+      "success": "Mot de passe modifié",
+      "successText": "Connectez-vous avec votre nouveau mot de passe."
     },
     "errors": {
       "generic": "Une erreur est survenue. Réessayez.",
@@ -149,11 +155,23 @@
       "ACCOUNT_PENDING_ADMIN": "Votre inscription est en attente de validation par l'administration.",
       "ACCOUNT_REJECTED": "Votre inscription a été refusée.",
       "ACCOUNT_INACTIVE": "Ce compte est suspendu ou désactivé.",
+      "NO_ROLE": "Aucun rôle n'est associé à ce compte. Contactez l'administration.",
       "EMAIL_ALREADY_USED": "Cette adresse e-mail est déjà utilisée.",
       "REGISTRATION_NUMBER_TAKEN": "Ce matricule est déjà utilisé par une autre demande.",
       "NETWORK_ERROR": "Impossible de joindre le serveur. Vérifiez votre connexion.",
       "RATE_LIMITED": "Trop de tentatives. Patientez quelques minutes puis réessayez.",
-      "INVALID_PHONE": "Numéro de téléphone invalide."
+      "INVALID_PHONE": "Numéro de téléphone invalide.",
+      "SESSION_EXPIRED": "Votre session de réinitialisation a expiré. Demandez un nouveau lien."
+    },
+    "linkExpired": {
+      "title": "Lien expiré",
+      "recoveryHeading": "Ce lien de réinitialisation a expiré",
+      "recoveryText": "Pour votre sécurité, un lien n'est valable qu'une heure et une seule fois. Demandez-en un nouveau pour choisir votre mot de passe.",
+      "signupHeading": "Ce lien de confirmation a expiré",
+      "signupText": "Un lien n'est valable qu'une heure et une seule fois. Refaites votre demande d'inscription pour recevoir un nouveau lien.",
+      "requestNew": "Demander un nouveau lien",
+      "registerAgain": "Refaire l'inscription",
+      "backToLogin": "Retour à la connexion"
     }
   },
   "Features": {
@@ -407,6 +425,366 @@
           ]
         }
       ]
+    }
+  },
+  "App": {
+    "toggleSidebar": "Afficher ou masquer le menu",
+    "logout": "Se déconnecter",
+    "search": "Rechercher",
+    "reset": "Réinitialiser",
+    "empty": "Aucun résultat.",
+    "roles": {
+      "super_admin": "Administration",
+      "professor": "Espace professeur",
+      "student": "Espace étudiant"
+    },
+    "nav": {
+      "groupManage": "Gestion",
+      "groupAccount": "Compte",
+      "groupStudy": "Mon espace",
+      "dashboard": "Tableau de bord",
+      "students": "Étudiants",
+      "requests": "Demandes d'inscription",
+      "registry": "Registre officiel",
+      "catalog": "Catalogue",
+      "accounts": "Comptes",
+      "courses": "Mes cours",
+      "account": "Mon compte",
+      "studentsList": "Liste des étudiants",
+      "professors": "Professeurs",
+      "professorsList": "Liste des professeurs"
+    },
+    "pagination": {
+      "summary": "{count} résultat(s) · page {page} sur {pages}",
+      "previous": "Précédent",
+      "next": "Suivant"
+    },
+    "comingSoon": {
+      "professorTitle": "Bonjour {name}",
+      "professorText": "Votre espace professeur sera disponible prochainement."
+    },
+    "userMenu": "Menu du compte"
+  },
+  "Errors": {
+    "GENERIC": "Une erreur est survenue. Réessayez.",
+    "FORBIDDEN": "Vous n'avez pas le droit d'effectuer cette action.",
+    "RATE_LIMITED": "Trop de tentatives. Patientez quelques minutes puis réessayez.",
+    "INVALID_FIELD": "Un des champs est invalide ou trop long.",
+    "INVALID_NAME": "Le nom et le prénom sont obligatoires (100 caractères maximum).",
+    "INVALID_PHONE": "Numéro de téléphone invalide.",
+    "INVALID_CREDENTIALS": "Mot de passe incorrect.",
+    "WEAK_PASSWORD": "Le nouveau mot de passe ne respecte pas toutes les conditions.",
+    "PASSWORD_MISMATCH": "Les deux mots de passe ne correspondent pas.",
+    "LAST_SUPER_ADMIN": "Vous êtes le dernier super administrateur actif : nommez-en un autre avant de quitter la plateforme.",
+    "REQUEST_NOT_FOUND": "Demande introuvable.",
+    "REQUEST_NOT_PROCESSABLE": "Cette demande ne peut plus être traitée.",
+    "NOT_IN_REGISTRY": "Ce matricule ne figure pas dans le registre officiel : la demande ne peut pas être approuvée.",
+    "REASON_REQUIRED": "Le motif est obligatoire (3 à 500 caractères).",
+    "UNLOCK_FAILED": "Déblocage impossible.",
+    "INVALID_CODE": "Code invalide (2 à 30 caractères : lettres, chiffres, - _ .).",
+    "FILIERE_CODE_TAKEN": "Ce code de filière existe déjà.",
+    "PARCOURS_CODE_TAKEN": "Ce code de parcours existe déjà dans cette filière.",
+    "FILE_REQUIRED": "Choisissez un fichier.",
+    "FILE_TOO_LARGE": "Fichier trop volumineux.",
+    "FILE_TYPE_NOT_ALLOWED": "Format non accepté (Excel .xlsx, .xls ou CSV).",
+    "FILE_UNREADABLE": "Fichier illisible.",
+    "MISSING_REGISTRATION_COLUMN": "Colonne « Matricule » introuvable dans les 10 premières lignes.",
+    "TOO_MANY_ROWS": "Trop de lignes dans le fichier.",
+    "EMPTY_FILE": "Le fichier ne contient aucune ligne exploitable.",
+    "FILE_ALREADY_IMPORTED": "Ce fichier a déjà été importé.",
+    "IMPORT_NOT_FOUND": "Import introuvable.",
+    "IMPORT_NOT_READY": "Cet import a déjà été traité.",
+    "STORAGE_ERROR": "Enregistrement du fichier impossible."
+  },
+  "Admin": {
+    "dashboard": {
+      "title": "Tableau de bord",
+      "description": "Vue d'ensemble de la plateforme.",
+      "stats": {
+        "students": "Étudiants inscrits",
+        "pending": "Demandes à traiter",
+        "registry": "Matricules au registre",
+        "locked": "Comptes bloqués"
+      },
+      "latestTitle": "Dernières demandes en attente",
+      "latestDescription": "Étudiants ayant confirmé leur e-mail, en attente de votre décision.",
+      "noPending": "Aucune demande en attente.",
+      "seeAll": "Voir toutes les demandes"
+    },
+    "students": {
+      "title": "Étudiants",
+      "description": "Liste des étudiants approuvés, avec leur filière, parcours et niveau.",
+      "searchPlaceholder": "Nom, matricule ou e-mail",
+      "allFilieres": "Toutes les filières",
+      "allLevels": "Tous les niveaux",
+      "columns": {
+        "registration": "Matricule",
+        "name": "Nom et prénom",
+        "email": "E-mail",
+        "filiere": "Filière",
+        "parcours": "Parcours",
+        "level": "Niveau",
+        "approvedAt": "Approuvé le",
+        "status": "Compte"
+      }
+    },
+    "requests": {
+      "title": "Demandes d'inscription",
+      "description": "Vérifiez chaque matricule dans le registre officiel, puis approuvez ou refusez.",
+      "searchPlaceholder": "Nom, matricule ou e-mail",
+      "allStatuses": "Tous les états",
+      "checkAll": "Tout vérifier",
+      "checking": "Vérification…",
+      "checkedAll": "{count} demande(s) comparée(s) au registre officiel.",
+      "matricule": "Matricule",
+      "columns": {
+        "applicant": "Candidat",
+        "email": "E-mail",
+        "registry": "Registre officiel",
+        "status": "État",
+        "submittedAt": "Soumise le"
+      },
+      "status": {
+        "pending_email": "E-mail à confirmer",
+        "pending_admin": "À traiter",
+        "approved": "Approuvée",
+        "rejected": "Refusée"
+      },
+      "match": {
+        "found": "Dans le registre",
+        "mismatch": "Identité différente",
+        "not_found": "Absent du registre",
+        "unchecked": "Non vérifié"
+      },
+      "review": "Examiner",
+      "emailConfirmed": "E-mail confirmé",
+      "emailPending": "E-mail non confirmé",
+      "recheck": "Revérifier",
+      "declared": "Déclaré",
+      "official": "Registre officiel",
+      "same": "Identique",
+      "different": "Différent",
+      "fields": {
+        "lastName": "Nom",
+        "firstName": "Prénom",
+        "birthDate": "Date de naissance",
+        "academic": "Cursus officiel",
+        "filiere": "Filière",
+        "parcours": "Parcours",
+        "level": "Niveau"
+      },
+      "notFoundHelp": "Ce matricule ne figure pas dans le registre officiel importé. Importez un registre à jour, ou refusez la demande.",
+      "uncheckedHelp": "Cette demande n'a pas encore été comparée au registre officiel. Cliquez sur « Revérifier ».",
+      "reason": "Motif",
+      "reject": "Refuser",
+      "approve": "Approuver",
+      "approveBlocked": "L'approbation exige un e-mail confirmé et un matricule présent dans le registre officiel.",
+      "waitingEmail": "En attente de la confirmation de l'e-mail par l'étudiant.",
+      "mismatchWarning": "Le matricule existe mais l'identité déclarée diffère du registre. Vérifiez avant d'approuver.",
+      "choose": "Choisir…",
+      "noParcours": "Aucun parcours",
+      "cancel": "Annuler",
+      "saving": "Enregistrement…",
+      "confirmApprove": "Confirmer l'approbation",
+      "reasonLabel": "Motif du refus (visible par l'étudiant)",
+      "confirmReject": "Confirmer le refus"
+    },
+    "registry": {
+      "title": "Registre officiel",
+      "description": "{count} matricule(s) dans le registre actuellement. Importez le fichier Excel de l'administration pour vérifier les inscriptions.",
+      "importTitle": "Importer le registre",
+      "importHelp": "Fichier Excel (.xlsx, .xls) ou CSV, {size} Mo maximum. La colonne « Matricule » est obligatoire ; nom, prénom, date de naissance, filière, parcours, niveau et statut sont reconnus automatiquement.",
+      "file": "Fichier du registre",
+      "analyse": "Analyser le fichier",
+      "analysing": "Analyse…",
+      "doneTitle": "Import terminé",
+      "doneText": "{inserted} matricule(s) ajouté(s), {updated} mis à jour. {checked} demande(s) d'inscription revérifiée(s).",
+      "stats": {
+        "total": "Lignes lues",
+        "valid": "Valides",
+        "duplicate": "Doublons",
+        "invalid": "Invalides",
+        "warnings": "Avertissements"
+      },
+      "missingColumns": "Colonnes non trouvées : {columns}. Les contrôles d'identité seront limités.",
+      "columns": {
+        "lastName": "Nom",
+        "firstName": "Prénom",
+        "dateOfBirth": "Date de naissance"
+      },
+      "row": "Ligne",
+      "registration": "Matricule",
+      "content": "Contenu",
+      "state": "État",
+      "rowStatus": {
+        "valid": "Valide"
+      },
+      "issues": {
+        "EMPTY_REGISTRATION_NUMBER": "Matricule vide",
+        "REGISTRATION_NUMBER_TOO_LONG": "Matricule trop long",
+        "DUPLICATE_IN_FILE": "Doublon dans le fichier",
+        "UNKNOWN_FILIERE": "Filière inconnue (ignorée)",
+        "UNKNOWN_PARCOURS": "Parcours inconnu (ignoré)",
+        "UNKNOWN_LEVEL": "Niveau inconnu (ignoré)",
+        "INVALID_DATE": "Date illisible (ignorée)"
+      },
+      "sampleNote": "Aperçu des {shown} premières lignes sur {total}.",
+      "cancel": "Annuler",
+      "importing": "Import en cours…",
+      "confirm": "Confirmer l'import ({count} lignes)",
+      "historyTitle": "Historique des imports",
+      "historyDescription": "Rapport de chaque import : lignes lues, ajoutées, mises à jour, doublons et invalides.",
+      "historyEmpty": "Aucun import pour le moment.",
+      "history": {
+        "file": "Fichier",
+        "date": "Date",
+        "status": "État",
+        "inserted": "Ajoutés",
+        "updated": "Mis à jour"
+      },
+      "importStatus": {
+        "uploaded": "Reçu",
+        "validating": "Contrôle",
+        "ready": "Prêt",
+        "processing": "En cours",
+        "completed": "Terminé",
+        "completed_with_errors": "Terminé avec erreurs",
+        "failed": "Échec"
+      },
+      "columnsTitle": "Colonnes à importer",
+      "columnsHelp": "{selected} colonne(s) sélectionnée(s) sur {total}. Seules les colonnes cochées sont affichées dans l'aperçu et enregistrées.",
+      "columnRequired": "Obligatoire",
+      "columnUnknown": "Non reconnue — ignorée",
+      "columnNeedsFiliere": "Nécessite la filière",
+      "fields": {
+        "registrationNumber": "Matricule",
+        "lastName": "Nom",
+        "firstName": "Prénom",
+        "dateOfBirth": "Date de naissance",
+        "filiere": "Filière",
+        "parcours": "Parcours",
+        "level": "Niveau",
+        "status": "Statut"
+      }
+    },
+    "accounts": {
+      "title": "Comptes",
+      "description": "Tous les comptes de la plateforme. Un compte bloqué après 5 échecs de connexion se débloque ici.",
+      "searchPlaceholder": "Nom ou e-mail",
+      "allStatuses": "Tous les états",
+      "allRoles": "Tous les rôles",
+      "columns": {
+        "name": "Nom",
+        "email": "E-mail",
+        "roles": "Rôle",
+        "status": "État",
+        "lastSeen": "Dernière connexion"
+      },
+      "status": {
+        "pending_email": "E-mail à confirmer",
+        "pending_admin": "En attente de validation",
+        "approved": "Actif",
+        "rejected": "Refusé",
+        "suspended": "Suspendu",
+        "locked": "Bloqué",
+        "deactivated": "Désactivé"
+      },
+      "unlock": "Débloquer",
+      "unlockTitle": "Débloquer le compte de {name}",
+      "unlockHelp": "Le compteur d'échecs est remis à zéro. L'action est enregistrée avec votre nom et la date.",
+      "reasonLabel": "Motif (facultatif)",
+      "cancel": "Annuler",
+      "saving": "Enregistrement…",
+      "unlockConfirm": "Débloquer le compte"
+    },
+    "catalog": {
+      "title": "Catalogue",
+      "description": "Filières et parcours utilisés pour classer les étudiants et lire le registre officiel.",
+      "newFiliere": "Nouvelle filière",
+      "newParcours": "Nouveau parcours",
+      "newParcoursFor": "Nouveau parcours — {filiere}",
+      "codeHelp": "Le code doit être unique ; une filière ou un parcours utilisé se désactive, il ne se supprime pas.",
+      "code": "Code",
+      "name": "Nom",
+      "faculty": "Faculté ou département (facultatif)",
+      "cancel": "Annuler",
+      "saving": "Enregistrement…",
+      "create": "Créer",
+      "empty": "Aucune filière pour le moment. Créez-en une pour commencer.",
+      "noParcours": "Aucun parcours.",
+      "active": "Active",
+      "inactive": "Inactive",
+      "activate": "Activer",
+      "deactivate": "Désactiver"
+    }
+  },
+  "Student": {
+    "sidebarCourses": "Mes cours",
+    "info": {
+      "level": "Niveau",
+      "filiere": "Filière",
+      "parcours": "Parcours",
+      "courses": "Cours disponibles",
+      "noParcours": "Tronc commun"
+    },
+    "dashboard": {
+      "title": "Bonjour {name}",
+      "registration": "Matricule {number}",
+      "noRecord": "Votre dossier étudiant n'est pas encore rattaché à une filière. Contactez l'administration."
+    },
+    "courses": {
+      "title": "Mes cours",
+      "description": "Les cours publiés de votre filière, de votre parcours et de votre niveau.",
+      "empty": "Aucun cours publié pour le moment.",
+      "seeAll": "Voir tous mes cours",
+      "by": "Par {name}",
+      "publishedOn": "Publié le {date}"
+    }
+  },
+  "Account": {
+    "title": "Mon compte",
+    "description": "Gérez vos informations personnelles et la sécurité de votre compte.",
+    "saving": "Enregistrement…",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "fields": {
+      "email": "Adresse e-mail",
+      "lastName": "Nom",
+      "firstName": "Prénom",
+      "pseudo": "Pseudo",
+      "phone": "Téléphone",
+      "language": "Langue"
+    },
+    "profile": {
+      "title": "Informations personnelles",
+      "description": "Votre adresse e-mail ne peut pas être modifiée ici.",
+      "saved": "Modifications enregistrées."
+    },
+    "password": {
+      "title": "Mot de passe",
+      "description": "Saisissez votre mot de passe actuel pour en choisir un nouveau.",
+      "current": "Mot de passe actuel",
+      "new": "Nouveau mot de passe",
+      "confirm": "Confirmer le nouveau mot de passe",
+      "submit": "Changer le mot de passe",
+      "saved": "Mot de passe modifié."
+    },
+    "danger": {
+      "title": "Zone sensible",
+      "description": "Ces actions demandent votre mot de passe.",
+      "confirmPassword": "Votre mot de passe",
+      "deactivate": {
+        "button": "Désactiver mon compte",
+        "title": "Désactiver votre compte ?",
+        "text": "Vous serez déconnecté de tous vos appareils et ne pourrez plus vous connecter. Seule l'administration peut réactiver le compte.",
+        "confirm": "Désactiver"
+      },
+      "delete": {
+        "button": "Supprimer mon compte",
+        "title": "Supprimer votre compte ?",
+        "text": "Votre compte sera supprimé et vous serez déconnecté de tous vos appareils. Vos contributions pédagogiques sont conservées.",
+        "confirm": "Supprimer"
+      }
     }
   }
 }

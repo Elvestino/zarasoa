@@ -17,11 +17,13 @@ const KNOWN_CODES = [
   "ACCOUNT_PENDING_ADMIN",
   "ACCOUNT_REJECTED",
   "ACCOUNT_INACTIVE",
+  "NO_ROLE",
   "EMAIL_ALREADY_USED",
   "REGISTRATION_NUMBER_TAKEN",
   "INVALID_PHONE",
   "RATE_LIMITED",
   "NETWORK_ERROR",
+  "SESSION_EXPIRED",
 ] as const;
 
 /** Transforme un code d'erreur (DomainError / ApiError) en message dans la langue courante. */
