@@ -32,7 +32,8 @@
     "features": "Fonctionnalités",
     "how": "Comment ça marche",
     "roles": "Rôles",
-    "menu": "Menu"
+    "menu": "Menu",
+    "mySpace": "Mon espace"
   },
   "Footer": {
     "text": "© ZARASOA — Plateforme universitaire",
@@ -432,7 +433,10 @@
       "catalog": "Catalogue",
       "accounts": "Comptes",
       "courses": "Mes cours",
-      "account": "Mon compte"
+      "account": "Mon compte",
+      "studentsList": "Liste des étudiants",
+      "professors": "Professeurs",
+      "professorsList": "Liste des professeurs"
     },
     "pagination": {
       "summary": "{count} résultat(s) · page {page} sur {pages}",
@@ -629,6 +633,21 @@
         "completed": "Terminé",
         "completed_with_errors": "Terminé avec erreurs",
         "failed": "Échec"
+      },
+      "columnsTitle": "Colonnes à importer",
+      "columnsHelp": "{selected} colonne(s) sélectionnée(s) sur {total}. Seules les colonnes cochées sont affichées dans l'aperçu et enregistrées.",
+      "columnRequired": "Obligatoire",
+      "columnUnknown": "Non reconnue — ignorée",
+      "columnNeedsFiliere": "Nécessite la filière",
+      "fields": {
+        "registrationNumber": "Matricule",
+        "lastName": "Nom",
+        "firstName": "Prénom",
+        "dateOfBirth": "Date de naissance",
+        "filiere": "Filière",
+        "parcours": "Parcours",
+        "level": "Niveau",
+        "status": "Statut"
       }
     },
     "accounts": {

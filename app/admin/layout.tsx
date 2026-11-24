@@ -20,9 +20,20 @@ export default async function AdminLayout({ children }: { children: ReactNode })
       label: t("nav.groupManage"),
       items: [
         { href: ROUTES.admin, label: t("nav.dashboard"), icon: "dashboard", exact: true },
-        { href: `${ROUTES.admin}/etudiants`, label: t("nav.students"), icon: "students" },
-        { href: `${ROUTES.admin}/demandes`, label: t("nav.requests"), icon: "requests", badge: pending },
-        { href: `${ROUTES.admin}/registre`, label: t("nav.registry"), icon: "registry" },
+        {
+          label: t("nav.students"),
+          icon: "students",
+          items: [
+            { href: `${ROUTES.admin}/etudiants`, label: t("nav.studentsList"), icon: "students" },
+            { href: `${ROUTES.admin}/demandes`, label: t("nav.requests"), icon: "requests", badge: pending },
+            { href: `${ROUTES.admin}/registre`, label: t("nav.registry"), icon: "registry" },
+          ],
+        },
+        {
+          label: t("nav.professors"),
+          icon: "professors",
+          items: [{ href: `${ROUTES.admin}/comptes?role=professor`, label: t("nav.professorsList"), icon: "professors" }],
+        },
         { href: `${ROUTES.admin}/catalogue`, label: t("nav.catalog"), icon: "catalog" },
         { href: `${ROUTES.admin}/comptes`, label: t("nav.accounts"), icon: "accounts" },
       ],

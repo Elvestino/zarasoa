@@ -32,7 +32,8 @@
     "features": "Features",
     "how": "How it works",
     "roles": "Roles",
-    "menu": "Menu"
+    "menu": "Menu",
+    "mySpace": "My area"
   },
   "Footer": {
     "text": "© ZARASOA — University platform",
@@ -440,7 +441,10 @@
       "catalog": "Catalog",
       "accounts": "Accounts",
       "courses": "My courses",
-      "account": "My account"
+      "account": "My account",
+      "studentsList": "Student list",
+      "professors": "Professors",
+      "professorsList": "Professor list"
     },
     "pagination": {
       "summary": "{count} result(s) · page {page} of {pages}",
@@ -637,6 +641,21 @@
         "completed": "Completed",
         "completed_with_errors": "Completed with errors",
         "failed": "Failed"
+      },
+      "columnsTitle": "Columns to import",
+      "columnsHelp": "{selected} of {total} column(s) selected. Only checked columns are shown in the preview and saved.",
+      "columnRequired": "Required",
+      "columnUnknown": "Not recognized — ignored",
+      "columnNeedsFiliere": "Requires the program",
+      "fields": {
+        "registrationNumber": "Registration number",
+        "lastName": "Last name",
+        "firstName": "First name",
+        "dateOfBirth": "Date of birth",
+        "filiere": "Program",
+        "parcours": "Track",
+        "level": "Level",
+        "status": "Status"
       }
     },
     "accounts": {

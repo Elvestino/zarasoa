@@ -7,6 +7,34 @@ export const normalizeRegistrationNumber = (raw: string): string => raw.trim().t
 
 export type RowStatus = "valid" | "duplicate" | "invalid";
 
+/** Colonnes du fichier que l'import sait reconnaître et écrire dans official_student_registry. */
+export const REGISTRY_FIELDS = ["registrationNumber", "lastName", "firstName", "dateOfBirth", "filiere", "parcours", "level", "status"] as const;
+export type RegistryField = (typeof REGISTRY_FIELDS)[number];
+
+/** Le matricule identifie la ligne : cette colonne est toujours importée. */
+export const REQUIRED_REGISTRY_FIELD: RegistryField = "registrationNumber";
+
+/** Une colonne de l'en-tête du fichier, telle qu'affichée dans l'aperçu (case à cocher). */
+export interface PreviewColumn {
+  /** Libellé unique de la colonne (clé de `cells`). */
+  key: string;
+  /** Champ du registre reconnu pour cette colonne, ou null si elle n'est pas reconnue (alors ignorée). */
+  field: RegistryField | null;
+}
+
+/**
+ * Champs que l'administrateur a décochés. Le matricule ne peut jamais être exclu ; le parcours dépend de la filière
+ * (clé étrangère composite en base) : sans filière, il n'est pas importé non plus.
+ */
+export function sanitizeExcludedFields(raw: unknown): RegistryField[] {
+  const list = Array.isArray(raw) ? raw : [];
+  const set = new Set<RegistryField>(
+    list.filter((f): f is RegistryField => (REGISTRY_FIELDS as readonly string[]).includes(String(f)) && f !== REQUIRED_REGISTRY_FIELD),
+  );
+  if (set.has("filiere")) set.add("parcours");
+  return [...set];
+}
+
 /** Fiche prête à être écrite dans official_student_registry. */
 export interface RegistryRecord {
   registrationNumber: string;
@@ -39,6 +67,8 @@ export interface ParsedRegistry {
   warnings: number;
   /** Colonnes attendues non trouvées dans l'en-tête (la colonne matricule est obligatoire). */
   missingColumns: string[];
+  /** Toutes les colonnes de l'en-tête du fichier, dans l'ordre. */
+  columns: PreviewColumn[];
 }
 
 export interface ImportSummary {
@@ -63,6 +93,8 @@ export interface ImportPreview {
   invalid: number;
   warnings: number;
   missingColumns: string[];
+  /** Colonnes du fichier (aperçu avec case à cocher « importer cette colonne »). */
+  columns: PreviewColumn[];
   /** Les premières lignes, pour contrôle visuel avant confirmation. */
   sample: Pick<ParsedRegistryRow, "rowNumber" | "normalizedNumber" | "status" | "errorCode" | "cells">[];
 }

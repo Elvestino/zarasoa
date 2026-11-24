@@ -3,16 +3,24 @@
 import { FileSpreadsheet, Upload } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
-import { useRef, useState, useTransition } from "react";
+import { useMemo, useRef, useState, useTransition } from "react";
 import { StatusBadge, type Tone } from "@/components/admin/StatusBadge";
 import { useActionError } from "@/components/admin/useActionError";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { REGISTRY_ACCEPTED_EXTENSIONS, REGISTRY_MAX_FILE_BYTES, type ImportPreview } from "../../domain/RegistryImport";
+import {
+  REGISTRY_ACCEPTED_EXTENSIONS,
+  REGISTRY_MAX_FILE_BYTES,
+  REQUIRED_REGISTRY_FIELD,
+  type ImportPreview,
+  type PreviewColumn,
+  type RegistryField,
+} from "../../domain/RegistryImport";
 import { cancelRegistryImportAction, confirmRegistryImportAction } from "../../infrastructure/server/registryActions";
 
 const ROW_TONE: Record<string, Tone> = { valid: "success", duplicate: "warning", invalid: "danger" };
@@ -28,11 +36,40 @@ export function RegistryImportPanel() {
   const [busy, setBusy] = useState(false);
   const [pending, start] = useTransition();
   const [preview, setPreview] = useState<ImportPreview | null>(null);
+  /** Clés des colonnes cochées (= importées et affichées dans l'aperçu). */
+  const [selected, setSelected] = useState<Set<string>>(new Set());
   const [error, setError] = useState<string | null>(null);
   const [done, setDone] = useState<{ inserted: number; updated: number; checkedRequests: number } | null>(null);
 
+  /** Au départ : colonnes reconnues cochées, colonnes inconnues décochées (elles ne sont jamais enregistrées). */
+  const defaultSelection = (columns: PreviewColumn[]) => new Set(columns.filter((c) => c.field !== null).map((c) => c.key));
+
+  const fieldColumn = (field: RegistryField) => preview?.columns.find((c) => c.field === field);
+  /** Le parcours dépend de la filière : sans filière cochée, il ne peut pas être importé. */
+  const parcoursBlocked = (() => {
+    const filiere = fieldColumn("filiere");
+    return filiere ? !selected.has(filiere.key) : false;
+  })();
+
+  function toggleColumn(column: PreviewColumn, checked: boolean) {
+    setSelected((prev) => {
+      const next = new Set(prev);
+      if (checked) next.add(column.key);
+      else next.delete(column.key);
+      // Décocher la filière décoche aussi le parcours.
+      if (!checked && column.field === "filiere") {
+        const parcours = preview?.columns.find((c) => c.field === "parcours");
+        if (parcours) next.delete(parcours.key);
+      }
+      return next;
+    });
+  }
+
+  const visibleColumns = useMemo(() => (preview ? preview.columns.filter((c) => selected.has(c.key)) : []), [preview, selected]);
+
   const reset = () => {
     setPreview(null);
+    setSelected(new Set());
     setFile(null);
     setError(null);
     if (inputRef.current) inputRef.current.value = "";
@@ -51,6 +88,7 @@ export function RegistryImportPanel() {
       const json = (await res.json().catch(() => null)) as { data?: ImportPreview; error?: { code: string } } | null;
       if (!res.ok || !json?.data) return setError(errorText(json?.error?.code));
       setPreview(json.data);
+      setSelected(defaultSelection(json.data.columns));
     } catch {
       setError(errorText("GENERIC"));
     } finally {
@@ -61,7 +99,9 @@ export function RegistryImportPanel() {
   function confirm() {
     if (!preview) return;
     start(async () => {
-      const res = await confirmRegistryImportAction(preview.importId);
+      // Champs reconnus dont la colonne est décochée : le serveur ne les écrit pas.
+      const excluded = preview.columns.filter((c) => c.field && c.field !== REQUIRED_REGISTRY_FIELD && !selected.has(c.key)).map((c) => c.field as string);
+      const res = await confirmRegistryImportAction(preview.importId, excluded);
       if (res.ok) {
         setDone(res.data);
         reset();
@@ -148,13 +188,49 @@ export function RegistryImportPanel() {
               </Alert>
             ) : null}
 
+            <div className="grid gap-3 rounded-lg border p-3">
+              <div>
+                <p className="text-sm font-medium">{t("columnsTitle")}</p>
+                <p className="text-xs text-muted-foreground">{t("columnsHelp", { selected: visibleColumns.length, total: preview.columns.length })}</p>
+              </div>
+              <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+                {preview.columns.map((c) => {
+                  const required = c.field === REQUIRED_REGISTRY_FIELD;
+                  const unknown = c.field === null;
+                  const blocked = c.field === "parcours" && parcoursBlocked;
+                  const disabled = required || unknown || blocked;
+                  const note = required ? t("columnRequired") : unknown ? t("columnUnknown") : blocked ? t("columnNeedsFiliere") : c.field ? t(`fields.${c.field}`) : "";
+                  return (
+                    <label
+                      key={c.key}
+                      className={`flex items-center gap-2 rounded-md border px-2.5 py-2 text-sm ${disabled ? "cursor-not-allowed opacity-70" : "cursor-pointer hover:bg-muted"}`}
+                    >
+                      <Checkbox
+                        checked={selected.has(c.key)}
+                        disabled={disabled}
+                        onCheckedChange={(checked) => toggleColumn(c, checked === true)}
+                        aria-label={c.key}
+                      />
+                      <span className="min-w-0 flex-1">
+                        <span className="block truncate font-medium">{c.key}</span>
+                        <span className="block truncate text-xs text-muted-foreground">{note}</span>
+                      </span>
+                    </label>
+                  );
+                })}
+              </div>
+            </div>
+
             <div className="max-h-96 overflow-auto rounded-lg border">
               <Table>
                 <TableHeader className="sticky top-0 bg-card">
                   <TableRow>
                     <TableHead className="w-16">{t("row")}</TableHead>
-                    <TableHead>{t("registration")}</TableHead>
-                    <TableHead>{t("content")}</TableHead>
+                    {visibleColumns.map((c) => (
+                      <TableHead key={c.key} className="whitespace-nowrap">
+                        {c.key}
+                      </TableHead>
+                    ))}
                     <TableHead>{t("state")}</TableHead>
                   </TableRow>
                 </TableHeader>
@@ -162,10 +238,14 @@ export function RegistryImportPanel() {
                   {preview.sample.map((r) => (
                     <TableRow key={r.rowNumber}>
                       <TableCell className="text-muted-foreground">{r.rowNumber}</TableCell>
-                      <TableCell className="font-mono text-xs">{r.normalizedNumber ?? "—"}</TableCell>
-                      <TableCell className="max-w-xs truncate text-xs text-muted-foreground">
-                        {Object.values(r.cells).filter(Boolean).slice(0, 5).join(" · ")}
-                      </TableCell>
+                      {visibleColumns.map((c) => (
+                        <TableCell
+                          key={c.key}
+                          className={c.field === REQUIRED_REGISTRY_FIELD ? "max-w-48 truncate font-mono text-xs" : "max-w-48 truncate text-xs text-muted-foreground"}
+                        >
+                          {r.cells[c.key] || "—"}
+                        </TableCell>
+                      ))}
                       <TableCell>
                         <StatusBadge tone={r.errorCode && r.status === "valid" ? "warning" : (ROW_TONE[r.status] ?? "neutral")}>
                           {r.errorCode ? t(`issues.${r.errorCode}`) : t("rowStatus.valid")}

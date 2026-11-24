@@ -32,7 +32,8 @@
     "features": "Endri-javatra",
     "how": "Ny fomba fiasa",
     "roles": "Andraikitra",
-    "menu": "Menio"
+    "menu": "Menio",
+    "mySpace": "Ny toerako"
   },
   "Footer": {
     "text": "© ZARASOA — Sehatra ho an'ny oniversite",
@@ -440,7 +441,10 @@
       "catalog": "Katalaogy",
       "accounts": "Kaonty",
       "courses": "Ny lesoko",
-      "account": "Ny kaontiko"
+      "account": "Ny kaontiko",
+      "studentsList": "Lisitry ny mpianatra",
+      "professors": "Mpampianatra",
+      "professorsList": "Lisitry ny mpampianatra"
     },
     "pagination": {
       "summary": "{count} valiny · pejy {page} amin'ny {pages}",
@@ -637,6 +641,21 @@
         "completed": "Vita",
         "completed_with_errors": "Vita misy fahadisoana",
         "failed": "Tsy nahomby"
+      },
+      "columnsTitle": "Tsanganana horesahina",
+      "columnsHelp": "Voafidy ny tsanganana {selected} amin'ny {total}. Ireo voamarika ihany no aseho ao amin'ny topi-maso ary voatahiry.",
+      "columnRequired": "Voatery",
+      "columnUnknown": "Tsy fantatra — lavina",
+      "columnNeedsFiliere": "Mila ny sampana",
+      "fields": {
+        "registrationNumber": "Matricule",
+        "lastName": "Anarana",
+        "firstName": "Fanampin'anarana",
+        "dateOfBirth": "Daty nahaterahana",
+        "filiere": "Sampana",
+        "parcours": "Lalana",
+        "level": "Ambaratonga",
+        "status": "Toe-javatra"
       }
     },
     "accounts": {

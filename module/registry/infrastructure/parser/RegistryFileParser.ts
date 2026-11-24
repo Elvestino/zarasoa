@@ -7,9 +7,11 @@ import {
   normalizeRegistrationNumber,
   type ParsedRegistry,
   type ParsedRegistryRow,
+  type PreviewColumn,
+  type RegistryField,
 } from "../../domain/RegistryImport";
 
-type Field = "registrationNumber" | "lastName" | "firstName" | "dateOfBirth" | "filiere" | "parcours" | "level" | "status";
+type Field = RegistryField;
 
 /** Synonymes d'en-têtes (comparés sans accents, majuscules ni ponctuation). Le vrai fichier administratif pourra en ajouter. */
 const HEADER_SYNONYMS: Record<Field, string[]> = {
@@ -86,7 +88,17 @@ export function parseRegistryFile(buffer: Buffer, catalog: CatalogForMapping): P
     }
   });
   const missingColumns = (["lastName", "firstName", "dateOfBirth"] as Field[]).filter((f) => !columns.has(f));
-  const headers = grid[headerIndex]!.map(text);
+  // Libellés d'affichage uniques (en-tête vide → « colN », doublon → « Nom (2) ») : ils servent de clés aux cellules.
+  const used = new Map<string, number>();
+  const headers = grid[headerIndex]!.map((cell, idx) => {
+    const base = text(cell) || `col${idx + 1}`;
+    const n = (used.get(base) ?? 0) + 1;
+    used.set(base, n);
+    return n === 1 ? base : `${base} (${n})`;
+  });
+  const fieldOfColumn = new Map<number, Field>();
+  columns.forEach((index, field) => fieldOfColumn.set(index, field));
+  const previewColumns: PreviewColumn[] = headers.map((key, idx) => ({ key, field: fieldOfColumn.get(idx) ?? null }));
 
   const dataRows = grid.slice(headerIndex + 1);
   if (dataRows.length > REGISTRY_MAX_ROWS) throw new DomainError("Trop de lignes.", "TOO_MANY_ROWS");
@@ -111,7 +123,7 @@ export function parseRegistryFile(buffer: Buffer, catalog: CatalogForMapping): P
     if (cells.every((c) => text(c) === "")) return;
     const cellMap: Record<string, string> = {};
     cells.forEach((c, idx) => {
-      const label = headers[idx] || `col${idx + 1}`;
+      const label = headers[idx] ?? `col${idx + 1}`;
       cellMap[label] = c instanceof Date ? c.toISOString().slice(0, 10) : text(c);
     });
     const get = (f: Field) => (columns.has(f) ? cells[columns.get(f)!] : "");
@@ -179,5 +191,5 @@ export function parseRegistryFile(buffer: Buffer, catalog: CatalogForMapping): P
     });
   });
 
-  return { rows, total: rows.length, valid, duplicate, invalid, warnings, missingColumns };
+  return { rows, total: rows.length, valid, duplicate, invalid, warnings, missingColumns, columns: previewColumns };
 }

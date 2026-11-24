@@ -3,7 +3,7 @@ import { ApiError } from "@/shared/errors/ApiError";
 import { DomainError } from "@/shared/errors/DomainError";
 import { BaseRepository, type Db } from "@/shared/infrastructure/repository/BaseRepository";
 import type { Json } from "@/shared/infrastructure/supabase/database.types";
-import type { ImportPreview, ImportSummary, ParsedRegistry } from "../../domain/RegistryImport";
+import { sanitizeExcludedFields, type ImportPreview, type ImportSummary, type ParsedRegistry } from "../../domain/RegistryImport";
 
 const BUCKET = "registry-imports";
 const CHUNK = 500;
@@ -110,6 +110,7 @@ export class RegistryImportRepository extends BaseRepository {
       invalid: parsed.invalid,
       warnings: parsed.warnings,
       missingColumns: parsed.missingColumns,
+      columns: parsed.columns,
       sample: parsed.rows.slice(0, 100).map((r) => ({
         rowNumber: r.rowNumber,
         normalizedNumber: r.normalizedNumber,
@@ -120,8 +121,16 @@ export class RegistryImportRepository extends BaseRepository {
     };
   }
 
-  /** Écrit les lignes valides dans le registre officiel puis rapproche les demandes d'inscription en attente. */
-  async confirm(importId: string): Promise<{ inserted: number; updated: number; checkedRequests: number }> {
+  /**
+   * Écrit les lignes valides dans le registre officiel puis rapproche les demandes d'inscription en attente.
+   * `excludedFields` : colonnes décochées dans l'aperçu — elles ne sont pas écrites (une valeur déjà présente dans le registre
+   * pour un matricule connu n'est donc pas écrasée).
+   */
+  async confirm(
+    importId: string,
+    excludedFields: readonly string[] = [],
+  ): Promise<{ inserted: number; updated: number; checkedRequests: number }> {
+    const excluded = new Set<string>(sanitizeExcludedFields(excludedFields));
     const imp = this.unwrap(
       await this.db.from("registry_imports").select("id, import_status").eq("id", importId).maybeSingle(),
       "Lecture de l'import impossible",
@@ -160,22 +169,27 @@ export class RegistryImportRepository extends BaseRepository {
           ) ?? []) as { registration_number: string }[]).map((r) => r.registration_number),
         );
 
+        // Seules les colonnes cochées sont écrites : une clé absente du paquet n'est ni mise à null ni écrasée.
+        const payload = rows.map((r) => {
+          const rec = r.raw_data.record;
+          const row: Record<string, string | boolean | null> = {
+            registration_number: r.normalized_registration_number,
+            source_import_id: importId,
+            is_current: true,
+          };
+          if (!excluded.has("lastName")) row.last_name = rec.lastName ?? null;
+          if (!excluded.has("firstName")) row.first_name = rec.firstName ?? null;
+          if (!excluded.has("dateOfBirth")) row.date_of_birth = rec.dateOfBirth ?? null;
+          if (!excluded.has("filiere")) row.filiere_id = rec.filiereId ?? null;
+          if (!excluded.has("parcours")) row.parcours_id = rec.parcoursId ?? null;
+          if (!excluded.has("level")) row.level_id = rec.levelId ?? null;
+          if (!excluded.has("status")) row.academic_status = rec.academicStatus ?? null;
+          return row;
+        });
         this.unwrap(
-          await this.db.from("official_student_registry").upsert(
-            rows.map((r) => ({
-              registration_number: r.normalized_registration_number,
-              last_name: r.raw_data.record.lastName,
-              first_name: r.raw_data.record.firstName,
-              date_of_birth: r.raw_data.record.dateOfBirth,
-              filiere_id: r.raw_data.record.filiereId,
-              parcours_id: r.raw_data.record.parcoursId,
-              level_id: r.raw_data.record.levelId,
-              academic_status: r.raw_data.record.academicStatus,
-              source_import_id: importId,
-              is_current: true,
-            })),
-            { onConflict: "registration_number" },
-          ),
+          await this.db
+            .from("official_student_registry")
+            .upsert(payload as never, { onConflict: "registration_number", defaultToNull: false }),
           "Écriture dans le registre impossible",
         );
 

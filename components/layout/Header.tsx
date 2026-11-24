@@ -3,6 +3,7 @@
 import { Menu, X } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetClose, SheetContent, SheetDescription, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
@@ -18,6 +19,21 @@ const LANDING_LINKS = [
   { href: "/#how", key: "how" },
   { href: "/#roles", key: "roles" },
 ] as const;
+
+/** Initiales tirées de l'adresse e-mail (« jean.rakoto@… » → « JR ») ; l'e-mail lui-même n'est plus affiché. */
+const emailInitials = (email: string): string => {
+  const parts = (email.split("@")[0] ?? "").split(/[._\-+]+/).filter(Boolean);
+  const letters = parts.length > 1 ? parts.slice(0, 2).map((p) => p[0]) : (parts[0] ?? "").slice(0, 2).split("");
+  return letters.join("").toUpperCase() || "?";
+};
+
+function UserAvatar({ email }: { email: string }) {
+  return (
+    <Avatar className="size-8">
+      <AvatarFallback className="bg-secondary text-xs font-semibold text-secondary-foreground">{emailInitials(email)}</AvatarFallback>
+    </Avatar>
+  );
+}
 
 export function Header() {
   const t = useTranslations("Header");
@@ -67,7 +83,10 @@ export function Header() {
           <div className="hidden items-center gap-2 md:flex">
             {loading ? null : user ? (
               <>
-                <span className="max-w-40 truncate text-sm text-white/80">{user.email}</span>
+                {/* Route serveur : redirige vers l'espace du rôle (admin, professeur ou étudiant). */}
+                <a href={ROUTES.continue} aria-label={t("mySpace")} title={t("mySpace")} className="rounded-full outline-none focus-visible:ring-2 focus-visible:ring-white/60">
+                  <UserAvatar email={user.email} />
+                </a>
                 <Button
                   type="button"
                   variant="outline"
@@ -155,7 +174,14 @@ export function Header() {
                 <div className="mt-auto flex flex-col gap-2">
                   {loading ? null : user ? (
                     <>
-                      <span className="truncate px-3 text-sm text-white/70">{user.email}</span>
+                      <a
+                        href={ROUTES.continue}
+                        aria-label={t("mySpace")}
+                        className="flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-white/90 transition-colors hover:bg-white/10"
+                      >
+                        <UserAvatar email={user.email} />
+                        <span>{t("mySpace")}</span>
+                      </a>
                       <Button
                         type="button"
                         variant="outline"

@@ -6,10 +6,10 @@ import { failure } from "@/shared/infrastructure/actionError";
 import { requireRoleForAction } from "@/module/user/infrastructure/server/guards";
 import { RegistryImportRepository } from "../repository/RegistryImportRepository";
 
-export async function confirmRegistryImportAction(importId: string): Promise<ActionResult<{ inserted: number; updated: number; checkedRequests: number }>> {
+export async function confirmRegistryImportAction(importId: string, excludedFields: string[] = []): Promise<ActionResult<{ inserted: number; updated: number; checkedRequests: number }>> {
   try {
     const { db } = await requireRoleForAction("super_admin");
-    const data = await new RegistryImportRepository(db).confirm(String(importId));
+    const data = await new RegistryImportRepository(db).confirm(String(importId), excludedFields);
     revalidatePath("/admin", "layout");
     return { ok: true, data };
   } catch (e) {
