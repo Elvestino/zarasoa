@@ -25,7 +25,6 @@ export default async function StudentLayout({ children }: { children: ReactNode 
       items: [
         { href: ROUTES.student, label: t("nav.dashboard"), icon: "dashboard", exact: true },
         { href: `${ROUTES.student}/cours`, label: t("nav.courses"), icon: "courses", exact: true },
-        { href: `${ROUTES.student}/compte`, label: t("nav.account"), icon: "account" },
       ],
     },
   ];
@@ -47,6 +46,7 @@ export default async function StudentLayout({ children }: { children: ReactNode 
   return (
     <AppShell
       groups={groups}
+      accountHref={`${ROUTES.student}/compte`}
       user={{ name: displayName(profile), email: profile.email, roleLabel: t("roles.student") }}
       sidebarTop={
         info.length ? (

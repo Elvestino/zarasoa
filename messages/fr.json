@@ -13,7 +13,9 @@
     "resetDescription": "Choisissez un nouveau mot de passe pour votre compte ZARASOA.",
     "privacyDescription": "Découvrez quelles données ZARASOA collecte, pourquoi, et comment exercer vos droits.",
     "termsDescription": "Conditions d'utilisation de ZARASOA : inscription, compte, règles d'usage et contenus.",
-    "notFoundTitle": "Page introuvable"
+    "notFoundTitle": "Page introuvable",
+    "expiredTitle": "Lien expiré",
+    "expiredDescription": "Ce lien n'est plus valide : demandez-en un nouveau."
   },
   "Common": {
     "close": "Fermer",
@@ -124,7 +126,8 @@
       "submit": "Envoyer le lien",
       "submitting": "Envoi…",
       "sent": "Si cette adresse correspond à un compte, un e-mail de réinitialisation vient d'être envoyé.",
-      "back": "Retour à la connexion"
+      "back": "Retour à la connexion",
+      "sentTitle": "Vérifiez votre boîte mail"
     },
     "reset": {
       "title": "Nouveau mot de passe",
@@ -133,7 +136,9 @@
       "submit": "Enregistrer",
       "submitting": "Enregistrement…",
       "expiredTitle": "Lien expiré",
-      "expired": "Ce lien n'est plus valide. Refaites une demande de réinitialisation."
+      "expired": "Ce lien n'est plus valide. Refaites une demande de réinitialisation.",
+      "success": "Mot de passe modifié",
+      "successText": "Connectez-vous avec votre nouveau mot de passe."
     },
     "errors": {
       "generic": "Une erreur est survenue. Réessayez.",
@@ -155,7 +160,18 @@
       "REGISTRATION_NUMBER_TAKEN": "Ce matricule est déjà utilisé par une autre demande.",
       "NETWORK_ERROR": "Impossible de joindre le serveur. Vérifiez votre connexion.",
       "RATE_LIMITED": "Trop de tentatives. Patientez quelques minutes puis réessayez.",
-      "INVALID_PHONE": "Numéro de téléphone invalide."
+      "INVALID_PHONE": "Numéro de téléphone invalide.",
+      "SESSION_EXPIRED": "Votre session de réinitialisation a expiré. Demandez un nouveau lien."
+    },
+    "linkExpired": {
+      "title": "Lien expiré",
+      "recoveryHeading": "Ce lien de réinitialisation a expiré",
+      "recoveryText": "Pour votre sécurité, un lien n'est valable qu'une heure et une seule fois. Demandez-en un nouveau pour choisir votre mot de passe.",
+      "signupHeading": "Ce lien de confirmation a expiré",
+      "signupText": "Un lien n'est valable qu'une heure et une seule fois. Refaites votre demande d'inscription pour recevoir un nouveau lien.",
+      "requestNew": "Demander un nouveau lien",
+      "registerAgain": "Refaire l'inscription",
+      "backToLogin": "Retour à la connexion"
     }
   },
   "Features": {
@@ -446,7 +462,8 @@
     "comingSoon": {
       "professorTitle": "Bonjour {name}",
       "professorText": "Votre espace professeur sera disponible prochainement."
-    }
+    },
+    "userMenu": "Menu du compte"
   },
   "Errors": {
     "GENERIC": "Une erreur est survenue. Réessayez.",

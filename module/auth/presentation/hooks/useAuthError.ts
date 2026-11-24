@@ -23,6 +23,7 @@ const KNOWN_CODES = [
   "INVALID_PHONE",
   "RATE_LIMITED",
   "NETWORK_ERROR",
+  "SESSION_EXPIRED",
 ] as const;
 
 /** Transforme un code d'erreur (DomainError / ApiError) en message dans la langue courante. */

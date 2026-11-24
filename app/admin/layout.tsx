@@ -38,11 +38,10 @@ export default async function AdminLayout({ children }: { children: ReactNode })
         { href: `${ROUTES.admin}/comptes`, label: t("nav.accounts"), icon: "accounts" },
       ],
     },
-    { label: t("nav.groupAccount"), items: [{ href: `${ROUTES.admin}/compte`, label: t("nav.account"), icon: "account" }] },
   ];
 
   return (
-    <AppShell groups={groups} user={{ name: displayName(profile), email: profile.email, roleLabel: t("roles.super_admin") }}>
+    <AppShell groups={groups} accountHref={`${ROUTES.admin}/compte`} user={{ name: displayName(profile), email: profile.email, roleLabel: t("roles.super_admin") }}>
       {children}
     </AppShell>
   );

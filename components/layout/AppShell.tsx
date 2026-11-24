@@ -8,7 +8,6 @@ import {
   GraduationCap,
   LayoutDashboard,
   Library,
-  LogOut,
   ShieldCheck,
   UserCog,
   UserRoundCog,
@@ -20,7 +19,7 @@ import { useState, type ReactNode } from "react";
 import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
 import { LogoIcon, LogoSmart } from "@/components/layout/Logo";
 import { ThemeToggle } from "@/components/layout/ThemeToggle";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { UserMenu } from "@/components/layout/UserMenu";
 import {
   Sidebar,
   SidebarContent,
@@ -43,8 +42,6 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { Link, usePathname } from "@/i18n/navigation";
-import { ROUTES } from "@/lib/constants";
-import { useAuth } from "@/module/auth/presentation/hooks/useAuth";
 
 /** Les icônes sont désignées par un nom (une fonction ne peut pas passer d'un Server Component à un Client Component). */
 const ICONS = {
@@ -91,18 +88,12 @@ const isDropdown = (entry: NavEntry): entry is NavDropdown => "items" in entry;
 interface AppShellProps {
   groups: NavGroup[];
   user: { name: string; email: string; roleLabel: string };
+  /** Page « Mon compte » de l'espace (ouverte depuis le menu de l'avatar). */
+  accountHref: string;
   /** Bloc affiché sous le logo (ex. filière / parcours / niveau de l'étudiant). */
   sidebarTop?: ReactNode;
   children: ReactNode;
 }
-
-const initials = (name: string) =>
-  name
-    .split(/\s+/)
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((w) => w[0]!.toUpperCase())
-    .join("") || "?";
 
 const splitHref = (href: string) => {
   const [path = "", query = ""] = href.split("?");
@@ -132,7 +123,7 @@ function NavDropdownEntry({ entry, isActive }: { entry: NavDropdown; isActive: (
 
   return (
     <SidebarMenuItem>
-      <SidebarMenuButton onClick={toggle} isActive={hasActive && !open} tooltip={entry.label} aria-expanded={open}>
+      <SidebarMenuButton onClick={toggle} isActive={hasActive && !open} tooltip={entry.label} aria-expanded={open} className="h-9">
         <Icon />
         <span>{entry.label}</span>
         {total > 0 && !open ? (
@@ -146,10 +137,10 @@ function NavDropdownEntry({ entry, isActive }: { entry: NavDropdown; isActive: (
         />
       </SidebarMenuButton>
       {open ? (
-        <SidebarMenuSub>
+        <SidebarMenuSub className="my-1.5 gap-1.5 py-1">
           {entry.items.map((item) => (
             <SidebarMenuSubItem key={item.href}>
-              <SidebarMenuSubButton render={<Link href={item.href} />} isActive={isActive(item)}>
+              <SidebarMenuSubButton render={<Link href={item.href} />} isActive={isActive(item)} className="h-8">
                 <span>{item.label}</span>
                 {item.badge ? <span className="ml-auto text-xs font-medium tabular-nums">{item.badge}</span> : null}
               </SidebarMenuSubButton>
@@ -162,18 +153,11 @@ function NavDropdownEntry({ entry, isActive }: { entry: NavDropdown; isActive: (
 }
 
 /** Coque commune des espaces connectés : sidebar shadcn (logo, navigation, compte) + barre supérieure. */
-export function AppShell({ groups, user, sidebarTop, children }: AppShellProps) {
+export function AppShell({ groups, user, accountHref, sidebarTop, children }: AppShellProps) {
   const t = useTranslations("App");
+  const tf = useTranslations("Footer");
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const { logout, pending } = useAuth();
-
-  async function onLogout() {
-    await logout();
-    // Navigation complète : repart d'un état serveur propre (aucune donnée de l'espace quitté en cache).
-    window.location.assign(ROUTES.login);
-  }
-
   const allItems = groups.flatMap((g) => g.items.flatMap((e) => (isDropdown(e) ? e.items : [e])));
   const onPath = (item: NavItem) => {
     const { path } = splitHref(item.href);
@@ -194,31 +178,35 @@ export function AppShell({ groups, user, sidebarTop, children }: AppShellProps) 
   return (
     <SidebarProvider>
       <Sidebar collapsible="icon">
-        <SidebarHeader className="border-b border-sidebar-border group-data-[collapsible=icon]:px-1">
-          <Link href="/" aria-label="ZARASOA" className="flex h-10 items-center px-1 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:px-0">
-            {/* Barre ouverte : icône + nom ; barre réduite : icône seule, à ses proportions d'origine. */}
-            <span className="group-data-[collapsible=icon]:hidden">
-              <LogoSmart />
-            </span>
-            <span className="hidden group-data-[collapsible=icon]:block">
-              <LogoIcon />
-            </span>
-          </Link>
+        <SidebarHeader className="border-b border-sidebar-border py-3 group-data-[collapsible=icon]:px-1">
+          {/* Logo + bouton d'ouverture/fermeture côte à côte ; barre réduite : l'un sous l'autre. */}
+          <div className="flex items-center justify-between gap-2 group-data-[collapsible=icon]:flex-col group-data-[collapsible=icon]:justify-center">
+            <Link href="/" aria-label="ZARASOA" className="flex h-10 min-w-0 items-center px-1 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:px-0">
+              {/* Barre ouverte : icône + nom ; barre réduite : icône seule, à ses proportions d'origine. */}
+              <span className="group-data-[collapsible=icon]:hidden">
+                <LogoSmart />
+              </span>
+              <span className="hidden group-data-[collapsible=icon]:block">
+                <LogoIcon />
+              </span>
+            </Link>
+            <SidebarTrigger aria-label={t("toggleSidebar")} className="shrink-0" />
+          </div>
         </SidebarHeader>
 
-        <SidebarContent>
+        <SidebarContent className="gap-2 py-3 group-data-[collapsible=icon]:py-2">
           {sidebarTop ? <div className="group-data-[collapsible=icon]:hidden">{sidebarTop}</div> : null}
           {groups.map((group, i) => (
-            <SidebarGroup key={group.label ?? i}>
-              {group.label ? <SidebarGroupLabel>{group.label}</SidebarGroupLabel> : null}
+            <SidebarGroup key={group.label ?? i} className="px-3 py-3 group-data-[collapsible=icon]:p-2">
+              {group.label ? <SidebarGroupLabel className="mb-1.5">{group.label}</SidebarGroupLabel> : null}
               <SidebarGroupContent>
-                <SidebarMenu>
+                <SidebarMenu className="gap-1.5">
                   {group.items.map((entry) => {
                     if (isDropdown(entry)) return <NavDropdownEntry key={entry.label} entry={entry} isActive={isActive} />;
                     const Icon = ICONS[entry.icon];
                     return (
                       <SidebarMenuItem key={entry.href}>
-                        <SidebarMenuButton render={<Link href={entry.href} />} isActive={isActive(entry)} tooltip={entry.label}>
+                        <SidebarMenuButton render={<Link href={entry.href} />} isActive={isActive(entry)} tooltip={entry.label} className="h-9">
                           <Icon />
                           <span>{entry.label}</span>
                         </SidebarMenuButton>
@@ -232,40 +220,24 @@ export function AppShell({ groups, user, sidebarTop, children }: AppShellProps) 
           ))}
         </SidebarContent>
 
-        <SidebarFooter className="border-t border-sidebar-border">
-          <div className="flex items-center gap-2 px-1 py-1 group-data-[collapsible=icon]:justify-center">
-            <Avatar className="size-8">
-              <AvatarFallback className="bg-secondary text-xs font-semibold text-secondary-foreground">
-                {initials(user.name)}
-              </AvatarFallback>
-            </Avatar>
-            <div className="min-w-0 flex-1 text-xs leading-tight group-data-[collapsible=icon]:hidden">
-              <p className="truncate font-medium">{user.name}</p>
-              <p className="truncate opacity-70">{user.email}</p>
-            </div>
-          </div>
-          <SidebarMenu>
-            <SidebarMenuItem>
-              <SidebarMenuButton onClick={onLogout} disabled={pending} tooltip={t("logout")}>
-                <LogOut />
-                <span>{t("logout")}</span>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          </SidebarMenu>
+        <SidebarFooter className="border-t border-sidebar-border px-4 py-4 group-data-[collapsible=icon]:hidden">
+          <p className="text-xs leading-snug text-sidebar-foreground/70">{tf("text")}</p>
         </SidebarFooter>
         <SidebarRail />
       </Sidebar>
 
       <SidebarInset className="min-w-0">
         <header className="sticky top-0 z-30 flex h-14 shrink-0 items-center gap-2 border-b border-white/10 bg-primary px-3 text-white dark:bg-card sm:px-4">
+          {/* Sur ordinateur le bouton est dans la sidebar ; sur mobile la sidebar est fermée, il reste donc ici. */}
           <SidebarTrigger
             aria-label={t("toggleSidebar")}
-            className="text-white hover:bg-white/10 hover:text-white dark:hover:bg-white/10"
+            className="text-white hover:bg-white/10 hover:text-white md:hidden dark:hover:bg-white/10"
           />
           <span className="truncate text-sm font-medium text-white/80">{user.roleLabel}</span>
           <div className="ml-auto flex items-center gap-1.5 sm:gap-2">
             <LanguageSwitcher />
             <ThemeToggle />
+            <UserMenu name={user.name} email={user.email} accountHref={accountHref} />
           </div>
         </header>
         <div id="main" tabIndex={-1} className="flex-1 p-4 outline-none sm:p-6">

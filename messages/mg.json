@@ -13,7 +13,9 @@
     "resetDescription": "Mifidiana tenimiafina vaovao ho an'ny kaontinao ZARASOA.",
     "privacyDescription": "Fantaro izay angon-drakitra angonin'ny ZARASOA, ny antony, ary ny fomba hampiasana ny zonao.",
     "termsDescription": "Fepetra fampiasana ny ZARASOA: fisoratana anarana, kaonty, fitsipika sy votoatra.",
-    "notFoundTitle": "Tsy hita ny pejy"
+    "notFoundTitle": "Tsy hita ny pejy",
+    "expiredTitle": "Tapitra ny rohy",
+    "expiredDescription": "Tsy mandeha intsony ity rohy ity: mangataha vaovao."
   },
   "Common": {
     "close": "Hidina",
@@ -124,7 +126,8 @@
       "submit": "Alefaso ny rohy",
       "submitting": "Alefa…",
       "sent": "Raha misy kaonty mifanaraka amin'ity adiresy ity, dia voalefa ny mailaka fanovana teny miafina.",
-      "back": "Miverina amin'ny fidirana"
+      "back": "Miverina amin'ny fidirana",
+      "sentTitle": "Jereo ny mailaka"
     },
     "reset": {
       "title": "Teny miafina vaovao",
@@ -133,7 +136,9 @@
       "submit": "Tehirizina",
       "submitting": "Mitahiry…",
       "expiredTitle": "Tapitra ny rohy",
-      "expired": "Tsy mandeha intsony ity rohy ity. Mangataha fanovana vaovao."
+      "expired": "Tsy mandeha intsony ity rohy ity. Mangataha fanovana vaovao.",
+      "success": "Voasolo ny teny miafina",
+      "successText": "Midira amin'ny teny miafina vaovao."
     },
     "errors": {
       "generic": "Nisy olana. Andramo indray.",
@@ -155,7 +160,18 @@
       "REGISTRATION_NUMBER_TAKEN": "Efa nampiasain'ny fangatahana hafa ity matricule ity.",
       "NETWORK_ERROR": "Tsy tafiditra amin'ny mpizara. Jereo ny fifandraisanao.",
       "RATE_LIMITED": "Be loatra ny andrana. Miandrasa minitra vitsy dia andramo indray.",
-      "INVALID_PHONE": "Laharana finday tsy mety."
+      "INVALID_PHONE": "Laharana finday tsy mety.",
+      "SESSION_EXPIRED": "Tapitra ny session fanovana. Mangataha rohy vaovao."
+    },
+    "linkExpired": {
+      "title": "Tapitra ny rohy",
+      "recoveryHeading": "Tapitra ny fe-potoana amin'ity rohy fanovana ity",
+      "recoveryText": "Noho ny fiarovana anao, adiny iray ihany no manan-kery ny rohy ary indray mandeha ihany no azo ampiasaina. Mangataha vaovao mba hisafidianao teny miafina.",
+      "signupHeading": "Tapitra ny fe-potoana amin'ity rohy fanamafisana ity",
+      "signupText": "Adiny iray ihany no manan-kery ny rohy ary indray mandeha ihany. Avereno ny fisoratana anarana mba handraisana rohy vaovao.",
+      "requestNew": "Mangataha rohy vaovao",
+      "registerAgain": "Avereno ny fisoratana anarana",
+      "backToLogin": "Hiverina amin'ny fidirana"
     }
   },
   "Features": {
@@ -454,7 +470,8 @@
     "comingSoon": {
       "professorTitle": "Manao ahoana {name}",
       "professorText": "Ho vonona tsy ho ela ny toerana ho an'ny mpampianatra."
-    }
+    },
+    "userMenu": "Menio ny kaonty"
   },
   "Errors": {
     "GENERIC": "Nisy olana. Andramo indray.",

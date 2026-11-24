@@ -7,6 +7,7 @@ export const ROUTES = {
   register: "/register",
   forgotPassword: "/forgot-password",
   resetPassword: "/reset-password",
+  linkExpired: "/link-expired",
   authCallback: "/auth/callback",
   privacy: "/privacy",
   terms: "/terms",

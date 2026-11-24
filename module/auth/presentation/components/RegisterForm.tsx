@@ -4,11 +4,12 @@ import { useTranslations } from "next-intl";
 import { useState, type FormEvent } from "react";
 import { Link } from "@/i18n/navigation";
 import { ROUTES } from "@/lib/constants";
+import { notify } from "@/lib/notify";
 import { DomainError } from "@/shared/errors/DomainError";
 import { validateStudentRegistration } from "../../domain/entities/StudentRegistration";
 import { useAuth } from "../hooks/useAuth";
 import { useAuthError } from "../hooks/useAuthError";
-import { Field, FieldInput, FormError, Honeypot, PillButton } from "./AuthFields";
+import { Field, FieldInput, Honeypot, PillButton } from "./AuthFields";
 import { AuthShell } from "./AuthShell";
 import { PasswordChecklist } from "./PasswordChecklist";
 import { PasswordInput } from "./PasswordInput";
@@ -18,14 +19,12 @@ export function RegisterForm() {
   const t = useTranslations("Auth");
   const { register, pending } = useAuth();
   const errorMessage = useAuthError();
-  const [error, setError] = useState<string | null>(null);
   const [sentTo, setSentTo] = useState<string | null>(null);
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setError(null);
     const f = new FormData(e.currentTarget);
     const value = (name: string) => String(f.get(name) ?? "");
 
@@ -45,10 +44,11 @@ export function RegisterForm() {
         registrationNumber: value("registrationNumber"),
       });
       const result = await register(registration);
-      if (!result.ok) return setError(errorMessage(result.code));
+      if (!result.ok) return notify.error(errorMessage(result.code) ?? t("errors.generic"));
+      notify.success(t("register.sentAlertTitle"), t("register.sentBody", { email: registration.email }));
       setSentTo(registration.email);
     } catch (err) {
-      setError(errorMessage(err instanceof DomainError ? err.code : "generic"));
+      notify.error(errorMessage(err instanceof DomainError ? err.code : "generic") ?? t("errors.generic"));
     }
   }
 
@@ -72,7 +72,6 @@ export function RegisterForm() {
     <AuthShell title={t("register.title")} subtitle1={t("register.subtitle1")} subtitle2={t("register.subtitle2")}>
       <form onSubmit={onSubmit} className="relative flex flex-col gap-4">
         <Honeypot />
-        <FormError message={error} />
           <div className="grid grid-cols-2 gap-x-6 gap-y-4">
             <Field id="lastName" label={t("fields.lastName")}>
               <FieldInput id="lastName" name="lastName" autoComplete="family-name" required maxLength={100} />

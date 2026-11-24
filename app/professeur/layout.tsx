@@ -15,12 +15,11 @@ export default async function ProfessorLayout({ children }: { children: ReactNod
     {
       items: [
         { href: ROUTES.professor, label: t("nav.dashboard"), icon: "dashboard", exact: true },
-        { href: `${ROUTES.professor}/compte`, label: t("nav.account"), icon: "account" },
       ],
     },
   ];
   return (
-    <AppShell groups={groups} user={{ name: displayName(profile), email: profile.email, roleLabel: t("roles.professor") }}>
+    <AppShell groups={groups} accountHref={`${ROUTES.professor}/compte`} user={{ name: displayName(profile), email: profile.email, roleLabel: t("roles.professor") }}>
       {children}
     </AppShell>
   );

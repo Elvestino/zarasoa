@@ -13,7 +13,9 @@
     "resetDescription": "Choose a new password for your ZARASOA account.",
     "privacyDescription": "Find out what data ZARASOA collects, why, and how to exercise your rights.",
     "termsDescription": "ZARASOA terms of use: registration, account, rules of use and content.",
-    "notFoundTitle": "Page not found"
+    "notFoundTitle": "Page not found",
+    "expiredTitle": "Link expired",
+    "expiredDescription": "This link is no longer valid: request a new one."
   },
   "Common": {
     "close": "Close",
@@ -124,7 +126,8 @@
       "submit": "Send the link",
       "submitting": "Sending…",
       "sent": "If this address matches an account, a reset email has just been sent.",
-      "back": "Back to sign in"
+      "back": "Back to sign in",
+      "sentTitle": "Check your inbox"
     },
     "reset": {
       "title": "New password",
@@ -133,7 +136,9 @@
       "submit": "Save",
       "submitting": "Saving…",
       "expiredTitle": "Link expired",
-      "expired": "This link is no longer valid. Please request a new reset."
+      "expired": "This link is no longer valid. Please request a new reset.",
+      "success": "Password changed",
+      "successText": "Sign in with your new password."
     },
     "errors": {
       "generic": "Something went wrong. Please try again.",
@@ -155,7 +160,18 @@
       "REGISTRATION_NUMBER_TAKEN": "This registration number is already used by another request.",
       "NETWORK_ERROR": "Cannot reach the server. Check your connection.",
       "RATE_LIMITED": "Too many attempts. Wait a few minutes and try again.",
-      "INVALID_PHONE": "Invalid phone number."
+      "INVALID_PHONE": "Invalid phone number.",
+      "SESSION_EXPIRED": "Your reset session has expired. Request a new link."
+    },
+    "linkExpired": {
+      "title": "Link expired",
+      "recoveryHeading": "This reset link has expired",
+      "recoveryText": "For your security, a link is valid for one hour and can only be used once. Request a new one to choose your password.",
+      "signupHeading": "This confirmation link has expired",
+      "signupText": "A link is valid for one hour and can only be used once. Register again to receive a new link.",
+      "requestNew": "Request a new link",
+      "registerAgain": "Register again",
+      "backToLogin": "Back to sign in"
     }
   },
   "Features": {
@@ -454,7 +470,8 @@
     "comingSoon": {
       "professorTitle": "Hello {name}",
       "professorText": "Your professor area will be available soon."
-    }
+    },
+    "userMenu": "Account menu"
   },
   "Errors": {
     "GENERIC": "Something went wrong. Please try again.",
