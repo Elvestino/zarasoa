@@ -2048,6 +2048,7 @@ export type Database = {
         Args: { p_user_id: string }
         Returns: undefined
       }
+      registration_number_in_use: { Args: { p_number: string }; Returns: boolean }
       reject_student_request: {
         Args: { p_reason: string; p_request_id: string }
         Returns: undefined

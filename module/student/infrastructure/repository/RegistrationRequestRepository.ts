@@ -4,6 +4,7 @@ import { BaseRepository, type Db } from "@/shared/infrastructure/repository/Base
 import { rangeFor, sanitizeSearch } from "@/shared/infrastructure/repository/search";
 import {
   REQUEST_STATUSES,
+  type MyRegistrationRequest,
   type RegistrationRequest,
   type RegistryMatchStatus,
   type RequestFilters,
@@ -79,6 +80,39 @@ export class RegistrationRequestRepository extends BaseRepository implements IRe
       "Lecture de la demande impossible",
     ) as RequestRow | null;
     return row ? toRequest(row) : null;
+  }
+
+  /**
+   * Colonnes listées une à une (jamais `select("*")`) : le résultat du rapprochement avec le registre officiel
+   * ne doit pas se retrouver dans ce que l'interface de l'étudiant reçoit.
+   */
+  async findMine(userId: string): Promise<MyRegistrationRequest | null> {
+    const row = this.unwrap(
+      await this.db
+        .from("student_registration_requests")
+        .select(
+          "id, registration_number, email, first_name, last_name, phone_number, declared_date_of_birth, email_confirmed_at, request_status, submitted_at, reviewed_at, decision_reason",
+        )
+        .eq("user_id", userId)
+        .maybeSingle(),
+      "Lecture de la demande impossible",
+    );
+    return row
+      ? {
+          id: row.id,
+          registrationNumber: row.registration_number,
+          email: row.email,
+          firstName: row.first_name,
+          lastName: row.last_name,
+          phoneNumber: row.phone_number,
+          declaredDateOfBirth: row.declared_date_of_birth,
+          emailConfirmedAt: row.email_confirmed_at ? new Date(row.email_confirmed_at) : null,
+          status: row.request_status as RequestStatus,
+          submittedAt: new Date(row.submitted_at),
+          reviewedAt: row.reviewed_at ? new Date(row.reviewed_at) : null,
+          decisionReason: row.decision_reason,
+        }
+      : null;
   }
 
   async check(requestId: string): Promise<void> {

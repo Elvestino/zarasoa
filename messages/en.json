@@ -808,6 +808,58 @@
       "publishedOn": "Published on {date}"
     }
   },
+  "Request": {
+    "metaTitle": "My request status",
+    "greeting": "Hello {name}",
+    "intro": "Follow the progress of your registration to the platform here.",
+    "title": "Registration request",
+    "status": {
+      "pending_email": "E-mail to confirm",
+      "pending_admin": "Under review",
+      "approved": "Approved",
+      "rejected": "Rejected"
+    },
+    "headline": {
+      "pending_email": "Confirm your e-mail address",
+      "pending_admin": "Your request is being reviewed",
+      "approved": "Your registration is approved",
+      "rejected": "Your request was rejected"
+    },
+    "description": {
+      "pending_email": "A confirmation link was sent to {email}. Click it to continue your registration.",
+      "pending_admin": "Your e-mail address is confirmed. The administration is checking your registration number before opening access to the platform.",
+      "approved": "Your account is active: you can now access your student space.",
+      "rejected": "The administration could not validate your registration."
+    },
+    "steps": {
+      "submitted": "Request sent",
+      "email": "E-mail address confirmed",
+      "review": "Validation by the administration"
+    },
+    "stepState": {
+      "done": "Completed",
+      "current": "In progress",
+      "pending": "Upcoming",
+      "failed": "Rejected"
+    },
+    "stepAt": {
+      "approved": "Approved on {date}",
+      "rejected": "Rejected on {date}"
+    },
+    "reasonTitle": "Reason given by the administration",
+    "noReason": "No reason was given. Contact the administration to find out more.",
+    "summary": {
+      "title": "Information you submitted",
+      "registrationNumber": "Registration number",
+      "name": "Full name",
+      "email": "E-mail address",
+      "phone": "Phone",
+      "birthDate": "Date of birth",
+      "submittedOn": "Request sent on"
+    },
+    "openSpace": "Go to my space",
+    "contactHint": "Any question? Contact your university's administration."
+  },
   "Account": {
     "title": "My account",
     "description": "Manage your personal information and your account security.",

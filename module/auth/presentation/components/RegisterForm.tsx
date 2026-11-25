@@ -13,6 +13,7 @@ import { Field, FieldInput, Honeypot, PillButton } from "./AuthFields";
 import { AuthShell } from "./AuthShell";
 import { PasswordChecklist } from "./PasswordChecklist";
 import { PasswordInput } from "./PasswordInput";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 
 export function RegisterForm() {
@@ -22,6 +23,8 @@ export function RegisterForm() {
   const [sentTo, setSentTo] = useState<string | null>(null);
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
+  const [termsMissing, setTermsMissing] = useState(false);
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -30,6 +33,12 @@ export function RegisterForm() {
 
     // Piège à robots rempli : on fait semblant que tout s'est bien passé, sans rien envoyer.
     if (value("website")) return setSentTo(value("email"));
+
+    // Le Checkbox shadcn n'a pas de validation native de formulaire : on contrôle ici, et le retour passe par le toast.
+    if (!acceptedTerms) {
+      setTermsMissing(true);
+      return notify.error(t("register.termsRequired"));
+    }
 
     try {
       if (value("password") !== value("confirmPassword")) {
@@ -42,6 +51,7 @@ export function RegisterForm() {
         lastName: value("lastName"),
         phoneNumber: value("phoneNumber"),
         registrationNumber: value("registrationNumber"),
+        dateOfBirth: value("dateOfBirth"),
       });
       const result = await register(registration);
       if (!result.ok) return notify.error(errorMessage(result.code) ?? t("errors.generic"));
@@ -85,6 +95,9 @@ export function RegisterForm() {
             <Field id="phoneNumber" label={t("fields.phone") + optional}>
               <FieldInput id="phoneNumber" name="phoneNumber" type="tel" autoComplete="tel" maxLength={25} />
             </Field>
+            <Field id="dateOfBirth" label={t("fields.birthDate") + optional}>
+              <FieldInput id="dateOfBirth" name="dateOfBirth" type="date" autoComplete="bday" min="1900-01-01" />
+            </Field>
             <Field id="email" label={t("fields.email")} className="col-span-2">
               <FieldInput id="email" name="email" type="email" autoComplete="email" required maxLength={254} spellCheck={false} autoCapitalize="none" />
             </Field>
@@ -108,13 +121,15 @@ export function RegisterForm() {
             </Field>
           </div>
         <Label className="flex items-start gap-2 text-xs text-muted-foreground">
-          <input
-            type="checkbox"
+          <Checkbox
             name="terms"
-            required
-            className="mt-0.5 size-4 accent-primary"
-            onInvalid={(e) => e.currentTarget.setCustomValidity(t("register.termsRequired"))}
-            onChange={(e) => e.currentTarget.setCustomValidity("")}
+            checked={acceptedTerms}
+            onCheckedChange={(checked) => {
+              setAcceptedTerms(checked);
+              if (checked) setTermsMissing(false);
+            }}
+            aria-invalid={termsMissing}
+            className="mt-0.5"
           />
           <span>
             {t.rich("register.terms", {

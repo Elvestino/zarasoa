@@ -3,12 +3,9 @@ import { ROUTES } from "@/lib/constants";
 import { createSupabaseServerClient } from "@/shared/infrastructure/supabase/server";
 import { blockCode, homeFor } from "@/module/user/infrastructure/server/guards";
 import { ProfileRepository } from "@/module/user/infrastructure/repository/ProfileRepository";
+import { RegistrationRequestRepository } from "@/module/student/infrastructure/repository/RegistrationRequestRepository";
 
-/**
- * Point d'entrée après connexion, confirmation d'e-mail ou lien de réinitialisation.
- * Le serveur décide : compte non approuvé / bloqué / sans rôle → session fermée + message sur /login ;
- * sinon → espace du rôle (admin, professeur, étudiant). Aucune session ne survit à un compte non autorisé.
- */
+
 export async function GET() {
   const db = await createSupabaseServerClient();
   const {
@@ -19,6 +16,12 @@ export async function GET() {
   const profile = await new ProfileRepository(db).findById(user.id);
   const home = profile ? homeFor(profile) : null;
   const code = blockCode(profile) ?? (home ? null : "NO_ROLE");
+
+  // Seul un compte qui a réellement déposé une demande d'inscription obtient cette session limitée.
+  if ((code === "ACCOUNT_PENDING_ADMIN" || code === "ACCOUNT_REJECTED") && !profile?.deletedAt) {
+    const request = await new RegistrationRequestRepository(db).findMine(user.id);
+    if (request) redirect(ROUTES.request);
+  }
 
   if (code || !home) {
     await db.auth.signOut();

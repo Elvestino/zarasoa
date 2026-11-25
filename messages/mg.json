@@ -808,6 +808,58 @@
       "publishedOn": "Navoaka tamin'ny {date}"
     }
   },
+  "Request": {
+    "metaTitle": "Ny fandrosoan'ny fangatahako",
+    "greeting": "Manao ahoana {name}",
+    "intro": "Araho eto ny fandrosoan'ny fisoratanao anarana amin'ny sehatra.",
+    "title": "Fangatahana fisoratana anarana",
+    "status": {
+      "pending_email": "Mailaka hamarinina",
+      "pending_admin": "Hodinihina",
+      "approved": "Nekena",
+      "rejected": "Nolavina"
+    },
+    "headline": {
+      "pending_email": "Hamarino ny adiresy mailakao",
+      "pending_admin": "Eo am-pandinihana ny fangatahanao",
+      "approved": "Nekena ny fisoratanao anarana",
+      "rejected": "Nolavina ny fangatahanao"
+    },
+    "description": {
+      "pending_email": "Nandefasana rohy fanamarinana tany amin'i {email}. Tsindrio izany mba hanohizana ny fisoratanao anarana.",
+      "pending_admin": "Voamarina ny adiresy mailakao. Ny fitantanana dia manamarina ny matriculenao alohan'ny hanokafana ny fidirana amin'ny sehatra.",
+      "approved": "Mavitrika ny kaontinao: afaka miditra amin'ny sehatry ny mpianatra ianao izao.",
+      "rejected": "Tsy afaka nanamarina ny fisoratanao anarana ny fitantanana."
+    },
+    "steps": {
+      "submitted": "Nalefa ny fangatahana",
+      "email": "Voamarina ny adiresy mailaka",
+      "review": "Fanamarinan'ny fitantanana"
+    },
+    "stepState": {
+      "done": "Vita",
+      "current": "Mandeha",
+      "pending": "Ho avy",
+      "failed": "Nolavina"
+    },
+    "stepAt": {
+      "approved": "Nekena tamin'ny {date}",
+      "rejected": "Nolavina tamin'ny {date}"
+    },
+    "reasonTitle": "Antony nomen'ny fitantanana",
+    "noReason": "Tsy nisy antony nomena. Mifandraisa amin'ny fitantanana raha mila fanazavana fanampiny.",
+    "summary": {
+      "title": "Fampahalalana nambara",
+      "registrationNumber": "Laharana matricule",
+      "name": "Anarana feno",
+      "email": "Adiresy mailaka",
+      "phone": "Laharana finday",
+      "birthDate": "Daty nahaterahana",
+      "submittedOn": "Nalefa tamin'ny"
+    },
+    "openSpace": "Hiditra amin'ny sehatro",
+    "contactHint": "Misy fanontaniana? Mifandraisa amin'ny fitantanan'ny oniversiteonao."
+  },
   "Account": {
     "title": "Ny kaontiko",
     "description": "Tantano ny mombamomba anao sy ny fiarovana ny kaontinao.",

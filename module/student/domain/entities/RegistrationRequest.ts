@@ -34,6 +34,27 @@ export interface RegistrationRequest {
   official: OfficialRecord | null;
 }
 
+/**
+ * La demande telle que la voit son auteur (US-013). Elle ne porte volontairement ni le résultat du rapprochement
+ * avec le registre officiel ni la fiche officielle : ce sont des éléments d'instruction réservés à l'administration.
+ */
+export interface MyRegistrationRequest {
+  id: string;
+  registrationNumber: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  phoneNumber: string | null;
+  declaredDateOfBirth: string | null;
+  emailConfirmedAt: Date | null;
+  status: RequestStatus;
+  submittedAt: Date;
+  /** Date de la décision de l'administration (approbation ou refus). */
+  reviewedAt: Date | null;
+  /** Motif du refus, s'il a été renseigné. */
+  decisionReason: string | null;
+}
+
 export interface RequestFilters {
   status?: RequestStatus;
   search?: string;
