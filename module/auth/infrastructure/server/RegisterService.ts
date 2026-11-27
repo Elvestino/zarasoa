@@ -4,9 +4,10 @@ import type { Db } from "@/shared/infrastructure/repository/BaseRepository";
 import type { StudentRegistration } from "../../domain/entities/StudentRegistration";
 
 /**
- * Inscription étudiante : création du compte Supabase Auth (le trigger `handle_new_user` crée le profil),
- * puis de la demande `student_registration_requests`. Cette insertion passe par la clé secrète car,
- * tant que l'e-mail n'est pas confirmé, l'utilisateur n'a pas de session (la RLS exige auth.uid()).
+ * Inscription étudiante (US-011, US-014) : contrôle du matricule, création du compte Supabase Auth
+ * (le trigger `handle_new_user` crée le profil), puis de la demande `student_registration_requests`.
+ * Cette insertion passe par la clé secrète car, tant que l'e-mail n'est pas confirmé, l'utilisateur
+ * n'a pas de session (la RLS exige auth.uid()).
  */
 export class RegisterService {
   constructor(
@@ -16,6 +17,9 @@ export class RegisterService {
   ) {}
 
   async register(input: StudentRegistration): Promise<void> {
+    // Avant `signUp` : sinon Supabase enverrait un e-mail de confirmation pour une demande qui sera refusée.
+    await this.assertRegistrationNumberFree(input.registrationNumber);
+
     const { data, error } = await this.userDb.auth.signUp({
       email: input.email,
       password: input.password,
@@ -56,9 +60,9 @@ export class RegisterService {
     if (insertError) {
       // Pas de compte orphelin sans demande : on annule la création Auth (le profil part en cascade).
       await admin.auth.admin.deleteUser(user.id);
-      if (insertError.code === "23505") {
-        throw new ApiError("Ce matricule est déjà utilisé par une autre demande.", 409, "REGISTRATION_NUMBER_TAKEN");
-      }
+      // Filet de sécurité : deux inscriptions simultanées avec le même matricule passent le contrôle ci-dessus,
+      // mais l'index unique n'en laisse survivre qu'une.
+      if (insertError.code === "23505") throw registrationNumberTaken();
       console.error("[auth] insertion de la demande d'inscription :", {
         code: insertError.code,
         message: insertError.message,
@@ -68,6 +72,18 @@ export class RegisterService {
       throw new ApiError("Inscription impossible pour le moment.", 500, "REGISTER_FAILED");
     }
   }
+
+  private async assertRegistrationNumberFree(registrationNumber: string): Promise<void> {
+    const { data, error } = await this.adminDb().rpc("registration_number_in_use", { p_number: registrationNumber });
+    if (error) {
+      console.error("[auth] registration_number_in_use a échoué :", { code: error.code, message: error.message });
+      return;
+    }
+    if (data === true) throw registrationNumberTaken();
+  }
 }
+
+const registrationNumberTaken = () =>
+  new ApiError("Ce matricule est déjà utilisé par une autre demande.", 409, "REGISTRATION_NUMBER_TAKEN");
 
 const emailTaken = () => new ApiError("Cette adresse e-mail est déjà utilisée.", 409, "EMAIL_ALREADY_USED");

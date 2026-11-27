@@ -12,6 +12,7 @@ export const ROUTES = {
   privacy: "/privacy",
   terms: "/terms",
   continue: "/auth/continue",
+  request: "/demande",
   admin: "/admin",
   student: "/etudiant",
   professor: "/professeur",

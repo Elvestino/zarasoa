@@ -11,11 +11,15 @@ interface LoginMeta {
   userAgent?: string | null;
 }
 
+/**
+ * Statuts qui ferment la session dès la connexion. `pending_admin` et `rejected` n'y figurent volontairement pas
+ * (US-013) : l'étudiant dont la demande est en attente ou refusée garde une session pour consulter l'état de sa demande
+ * (page /demande, motif du refus compris). `/auth/continue` l'y envoie et ne lui ouvre aucun espace tant que son
+ * compte n'est pas approuvé ; sans demande associée, le compte est déconnecté comme avant.
+ */
 const BLOCKED_STATUS: Partial<Record<AccountStatus, [number, string, string]>> = {
   locked: [423, "ACCOUNT_LOCKED", "Compte bloqué après 5 échecs de connexion. Contactez l'administrateur."],
   pending_email: [403, "EMAIL_NOT_CONFIRMED", "Confirmez d'abord votre adresse e-mail."],
-  pending_admin: [403, "ACCOUNT_PENDING_ADMIN", "Votre inscription est en attente de validation par l'administration."],
-  rejected: [403, "ACCOUNT_REJECTED", "Votre inscription a été refusée."],
   suspended: [403, "ACCOUNT_INACTIVE", "Ce compte est suspendu."],
   deactivated: [403, "ACCOUNT_INACTIVE", "Ce compte est désactivé."],
 };

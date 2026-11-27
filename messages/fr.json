@@ -774,7 +774,8 @@
       "deleteFiliereText": "Suppression définitive. Elle est refusée si la filière a encore des parcours, des matières, des étudiants ou des lignes de registre : supprimez ses parcours d'abord, ou désactivez-la.",
       "deleteParcoursText": "Suppression définitive. Elle est refusée si le parcours est encore utilisé par des matières, des étudiants ou le registre : désactivez-le dans ce cas.",
       "deleted": "Suppression effectuée.",
-      "edit": "Modifier"
+      "edit": "Modifier",
+      "actions": "Actions"
     }
   },
   "Student": {
@@ -799,6 +800,58 @@
       "by": "Par {name}",
       "publishedOn": "Publié le {date}"
     }
+  },
+  "Request": {
+    "metaTitle": "Suivi de ma demande",
+    "greeting": "Bonjour {name}",
+    "intro": "Suivez ici l'avancement de votre inscription à la plateforme.",
+    "title": "Demande d'inscription",
+    "status": {
+      "pending_email": "E-mail à confirmer",
+      "pending_admin": "En cours d'examen",
+      "approved": "Approuvée",
+      "rejected": "Refusée"
+    },
+    "headline": {
+      "pending_email": "Confirmez votre adresse e-mail",
+      "pending_admin": "Votre demande est en cours d'examen",
+      "approved": "Votre inscription est approuvée",
+      "rejected": "Votre demande a été refusée"
+    },
+    "description": {
+      "pending_email": "Un lien de confirmation a été envoyé à {email}. Cliquez dessus pour poursuivre votre inscription.",
+      "pending_admin": "Votre adresse e-mail est confirmée. L'administration vérifie votre matricule avant de vous ouvrir l'accès à la plateforme.",
+      "approved": "Votre compte est actif : vous pouvez accéder à votre espace étudiant.",
+      "rejected": "L'administration n'a pas pu valider votre inscription."
+    },
+    "steps": {
+      "submitted": "Demande envoyée",
+      "email": "Adresse e-mail confirmée",
+      "review": "Validation par l'administration"
+    },
+    "stepState": {
+      "done": "Terminée",
+      "current": "En cours",
+      "pending": "À venir",
+      "failed": "Refusée"
+    },
+    "stepAt": {
+      "approved": "Approuvée le {date}",
+      "rejected": "Refusée le {date}"
+    },
+    "reasonTitle": "Motif communiqué par l'administration",
+    "noReason": "Aucun motif n'a été communiqué. Contactez l'administration pour en savoir plus.",
+    "summary": {
+      "title": "Informations déclarées",
+      "registrationNumber": "Matricule",
+      "name": "Nom complet",
+      "email": "Adresse e-mail",
+      "phone": "Téléphone",
+      "birthDate": "Date de naissance",
+      "submittedOn": "Demande envoyée le"
+    },
+    "openSpace": "Accéder à mon espace",
+    "contactHint": "Une question ? Contactez l'administration de votre université."
   },
   "Account": {
     "title": "Mon compte",
