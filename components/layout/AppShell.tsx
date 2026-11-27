@@ -2,6 +2,7 @@
 
 import {
   BookOpen,
+  ChevronLeft,
   ChevronRight,
   ClipboardList,
   FileSpreadsheet,
@@ -152,6 +153,23 @@ function NavDropdownEntry({ entry, isActive }: { entry: NavDropdown; isActive: (
   );
 }
 
+/** Bouton rond posé sur le bord droit de la sidebar, sous la barre du haut : ferme / rouvre le menu (ordinateur ; sur mobile, le bouton reste dans la barre du haut). */
+function SidebarEdgeToggle({ label }: { label: string }) {
+  const { state, toggleSidebar } = useSidebar();
+  const Icon = state === "expanded" ? ChevronLeft : ChevronRight;
+  return (
+    <button
+      type="button"
+      onClick={toggleSidebar}
+      aria-label={label}
+      title={label}
+      className="absolute top-15 -right-3 z-30 hidden size-6 items-center justify-center rounded-full border border-sidebar-border bg-sidebar text-sidebar-foreground shadow-sm transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 focus-visible:ring-sidebar-ring focus-visible:outline-none md:flex"
+    >
+      <Icon aria-hidden="true" className="size-4" />
+    </button>
+  );
+}
+
 /** Coque commune des espaces connectés : sidebar shadcn (logo, navigation, compte) + barre supérieure. */
 export function AppShell({ groups, user, accountHref, sidebarTop, children }: AppShellProps) {
   const t = useTranslations("App");
@@ -179,8 +197,7 @@ export function AppShell({ groups, user, accountHref, sidebarTop, children }: Ap
     <SidebarProvider>
       <Sidebar collapsible="icon">
         <SidebarHeader className="border-b border-sidebar-border py-3 group-data-[collapsible=icon]:px-1">
-          {/* Logo + bouton d'ouverture/fermeture côte à côte ; barre réduite : l'un sous l'autre. */}
-          <div className="flex items-center justify-between gap-2 group-data-[collapsible=icon]:flex-col group-data-[collapsible=icon]:justify-center">
+          <div className="flex items-center justify-between gap-2 group-data-[collapsible=icon]:justify-center">
             <Link href="/" aria-label="ZARASOA" className="flex h-10 min-w-0 items-center px-1 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:px-0">
               {/* Barre ouverte : icône + nom ; barre réduite : icône seule, à ses proportions d'origine. */}
               <span className="group-data-[collapsible=icon]:hidden">
@@ -190,7 +207,6 @@ export function AppShell({ groups, user, accountHref, sidebarTop, children }: Ap
                 <LogoIcon />
               </span>
             </Link>
-            <SidebarTrigger aria-label={t("toggleSidebar")} className="shrink-0" />
           </div>
         </SidebarHeader>
 
@@ -224,6 +240,7 @@ export function AppShell({ groups, user, accountHref, sidebarTop, children }: Ap
           <p className="text-xs leading-snug text-sidebar-foreground/70">{tf("text")}</p>
         </SidebarFooter>
         <SidebarRail />
+        <SidebarEdgeToggle label={t("toggleSidebar")} />
       </Sidebar>
 
       <SidebarInset className="min-w-0">

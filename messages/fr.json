@@ -774,7 +774,8 @@
       "deleteFiliereText": "Suppression définitive. Elle est refusée si la filière a encore des parcours, des matières, des étudiants ou des lignes de registre : supprimez ses parcours d'abord, ou désactivez-la.",
       "deleteParcoursText": "Suppression définitive. Elle est refusée si le parcours est encore utilisé par des matières, des étudiants ou le registre : désactivez-le dans ce cas.",
       "deleted": "Suppression effectuée.",
-      "edit": "Modifier"
+      "edit": "Modifier",
+      "actions": "Actions"
     }
   },
   "Student": {

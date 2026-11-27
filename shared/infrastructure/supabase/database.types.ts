@@ -1440,10 +1440,8 @@ export type Database = {
           first_name: string
           id: string
           last_name: string
-          matched_registry_id: string | null
           phone_number: string | null
           registration_number: string
-          registry_match_status: string | null
           request_status: string
           reviewed_at: string | null
           reviewed_by: string | null
@@ -1459,10 +1457,8 @@ export type Database = {
           first_name: string
           id?: string
           last_name: string
-          matched_registry_id?: string | null
           phone_number?: string | null
           registration_number: string
-          registry_match_status?: string | null
           request_status?: string
           reviewed_at?: string | null
           reviewed_by?: string | null
@@ -1478,10 +1474,8 @@ export type Database = {
           first_name?: string
           id?: string
           last_name?: string
-          matched_registry_id?: string | null
           phone_number?: string | null
           registration_number?: string
-          registry_match_status?: string | null
           request_status?: string
           reviewed_at?: string | null
           reviewed_by?: string | null
@@ -1491,38 +1485,91 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "student_registration_requests_matched_registry_id_fkey"
+            foreignKeyName: "student_registration_requests_reviewed_by_fkey"
+            columns: ["reviewed_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "student_registration_requests_reviewed_by_fkey"
+            columns: ["reviewed_by"]
+            isOneToOne: false
+            referencedRelation: "v_accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "student_registration_requests_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "student_registration_requests_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "v_accounts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      student_request_registry_checks: {
+        Row: {
+          checked_at: string
+          checked_by: string | null
+          match_status: string
+          matched_registry_id: string | null
+          registration_request_id: string
+        }
+        Insert: {
+          checked_at?: string
+          checked_by?: string | null
+          match_status: string
+          matched_registry_id?: string | null
+          registration_request_id: string
+        }
+        Update: {
+          checked_at?: string
+          checked_by?: string | null
+          match_status?: string
+          matched_registry_id?: string | null
+          registration_request_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "student_request_registry_checks_checked_by_fkey"
+            columns: ["checked_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "student_request_registry_checks_checked_by_fkey"
+            columns: ["checked_by"]
+            isOneToOne: false
+            referencedRelation: "v_accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "student_request_registry_checks_matched_registry_id_fkey"
             columns: ["matched_registry_id"]
             isOneToOne: false
             referencedRelation: "official_student_registry"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "student_registration_requests_reviewed_by_fkey"
-            columns: ["reviewed_by"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "student_registration_requests_reviewed_by_fkey"
-            columns: ["reviewed_by"]
-            isOneToOne: false
-            referencedRelation: "v_accounts"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "student_registration_requests_user_id_fkey"
-            columns: ["user_id"]
+            foreignKeyName: "student_request_registry_checks_registration_request_id_fkey"
+            columns: ["registration_request_id"]
             isOneToOne: true
-            referencedRelation: "profiles"
+            referencedRelation: "student_registration_requests"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "student_registration_requests_user_id_fkey"
-            columns: ["user_id"]
+            foreignKeyName: "student_request_registry_checks_registration_request_id_fkey"
+            columns: ["registration_request_id"]
             isOneToOne: true
-            referencedRelation: "v_accounts"
+            referencedRelation: "v_registration_requests"
             referencedColumns: ["id"]
           },
         ]
@@ -1910,13 +1957,6 @@ export type Database = {
             referencedColumns: ["id", "filiere_id"]
           },
           {
-            foreignKeyName: "student_registration_requests_matched_registry_id_fkey"
-            columns: ["matched_registry_id"]
-            isOneToOne: false
-            referencedRelation: "official_student_registry"
-            referencedColumns: ["id"]
-          },
-          {
             foreignKeyName: "student_registration_requests_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: true
@@ -1928,6 +1968,13 @@ export type Database = {
             columns: ["user_id"]
             isOneToOne: true
             referencedRelation: "v_accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "student_request_registry_checks_matched_registry_id_fkey"
+            columns: ["matched_registry_id"]
+            isOneToOne: false
+            referencedRelation: "official_student_registry"
             referencedColumns: ["id"]
           },
         ]
@@ -1983,11 +2030,12 @@ export type Database = {
         }
         Returns: string
       }
+      assert_manageable_role: { Args: { p_role: string }; Returns: undefined }
+      assert_not_last_super_admin: { Args: never; Returns: undefined }
       assign_role: {
         Args: { p_reason?: string; p_role: string; p_user_id: string }
         Returns: undefined
       }
-      assert_not_last_super_admin: { Args: never; Returns: undefined }
       can_view_profile: { Args: { _uid: string }; Returns: boolean }
       check_pending_requests: { Args: never; Returns: number }
       check_registration_request: {
@@ -2048,11 +2096,16 @@ export type Database = {
         Args: { p_user_id: string }
         Returns: undefined
       }
-      registration_number_in_use: { Args: { p_number: string }; Returns: boolean }
+      registration_number_in_use: {
+        Args: { p_number: string }
+        Returns: boolean
+      }
       reject_student_request: {
         Args: { p_reason: string; p_request_id: string }
         Returns: undefined
       }
+      require_reason: { Args: { p_reason: string }; Returns: string }
+      restored_account_status: { Args: { p_user_id: string }; Returns: string }
       revoke_role: {
         Args: { p_reason: string; p_role: string; p_user_id: string }
         Returns: undefined

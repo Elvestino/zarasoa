@@ -782,7 +782,8 @@
       "deleteFiliereText": "This is permanent. It is refused while the programme still has tracks, subjects, students or registry rows: delete its tracks first, or deactivate it.",
       "deleteParcoursText": "This is permanent. It is refused while the track is still used by subjects, students or the registry: deactivate it instead.",
       "deleted": "Deleted.",
-      "edit": "Edit"
+      "edit": "Edit",
+      "actions": "Actions"
     }
   },
   "Student": {
