@@ -507,7 +507,8 @@
     "REACTIVATE_FAILED": "Réactivation impossible.",
     "SUSPEND_FAILED": "Impossible de modifier la suspension.",
     "ROLE_FAILED": "Modification du rôle impossible.",
-    "CATALOG_IN_USE": "Suppression impossible : cet élément est encore utilisé (parcours, matières, étudiants ou registre). Désactivez-le plutôt."
+    "CATALOG_IN_USE": "Suppression impossible : cet élément est encore utilisé (parcours, matières, étudiants ou registre). Désactivez-le plutôt.",
+    "FILE_CONTENT_MISMATCH": "Le contenu du fichier ne correspond pas à son format (Excel .xlsx, .xls ou CSV)."
   },
   "Admin": {
     "dashboard": {
@@ -620,7 +621,10 @@
         "valid": "Valides",
         "duplicate": "Doublons",
         "invalid": "Invalides",
-        "warnings": "Avertissements"
+        "warnings": "Avertissements",
+        "willInsert": "À ajouter",
+        "willUpdate": "À mettre à jour",
+        "emptyNumbers": "Matricules vides"
       },
       "missingColumns": "Colonnes non trouvées : {columns}. Les contrôles d'identité seront limités.",
       "columns": {
@@ -656,7 +660,9 @@
         "date": "Date",
         "status": "État",
         "inserted": "Ajoutés",
-        "updated": "Mis à jour"
+        "updated": "Mis à jour",
+        "actions": "Actions",
+        "report": "Rapport"
       },
       "importStatus": {
         "uploaded": "Reçu",
@@ -681,6 +687,31 @@
         "parcours": "Parcours",
         "level": "Niveau",
         "status": "Statut"
+      },
+      "problem": "Problème",
+      "issuesTitle": "Lignes à vérifier",
+      "issuesHelp": "Doublons, matricules vides ou trop longs, et valeurs ignorées : corrigez le fichier ou confirmez en connaissance de cause.",
+      "issuesTruncated": "Les {shown} premières lignes à vérifier sont affichées. Le rapport complet sera disponible après l'import.",
+      "resume": "Reprendre",
+      "resuming": "Reprise…",
+      "report": {
+        "title": "Rapport d'import",
+        "back": "Retour au registre",
+        "issuesTitle": "Erreurs par ligne",
+        "issuesHelp": "Chaque anomalie est rattachée à son numéro de ligne dans le fichier.",
+        "issuesTruncated": "Les {shown} premières anomalies sont affichées.",
+        "noIssues": "Aucune anomalie dans cet import.",
+        "detail": "Détail",
+        "excluded": "Colonnes non importées : {fields}.",
+        "failedNote": "L'import s'est interrompu après {inserted} lignes ajoutées. Les lignes déjà écrites sont conservées : utilisez « Reprendre » pour traiter le reste.",
+        "rowStatus": {
+          "invalid": "Invalide",
+          "duplicate": "Doublon",
+          "skipped": "Ignorée",
+          "valid": "Valide",
+          "inserted": "Ajoutée",
+          "updated": "Mise à jour"
+        }
       }
     },
     "accounts": {

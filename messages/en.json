@@ -515,7 +515,8 @@
     "REACTIVATE_FAILED": "Could not reactivate the account.",
     "SUSPEND_FAILED": "Could not change the suspension.",
     "ROLE_FAILED": "Could not change the role.",
-    "CATALOG_IN_USE": "Cannot delete: this item is still in use (tracks, subjects, students or registry). Deactivate it instead."
+    "CATALOG_IN_USE": "Cannot delete: this item is still in use (tracks, subjects, students or registry). Deactivate it instead.",
+    "FILE_CONTENT_MISMATCH": "The file content does not match its format (Excel .xlsx, .xls or CSV)."
   },
   "Admin": {
     "dashboard": {
@@ -628,7 +629,10 @@
         "valid": "Valid",
         "duplicate": "Duplicates",
         "invalid": "Invalid",
-        "warnings": "Warnings"
+        "warnings": "Warnings",
+        "willInsert": "To add",
+        "willUpdate": "To update",
+        "emptyNumbers": "Empty registration numbers"
       },
       "missingColumns": "Columns not found: {columns}. Identity checks will be limited.",
       "columns": {
@@ -664,7 +668,9 @@
         "date": "Date",
         "status": "State",
         "inserted": "Added",
-        "updated": "Updated"
+        "updated": "Updated",
+        "actions": "Actions",
+        "report": "Report"
       },
       "importStatus": {
         "uploaded": "Received",
@@ -689,6 +695,31 @@
         "parcours": "Track",
         "level": "Level",
         "status": "Status"
+      },
+      "problem": "Issue",
+      "issuesTitle": "Rows to check",
+      "issuesHelp": "Duplicates, empty or too-long registration numbers, and ignored values: fix the file or confirm knowingly.",
+      "issuesTruncated": "The first {shown} rows to check are shown. The full report is available after the import.",
+      "resume": "Resume",
+      "resuming": "Resuming…",
+      "report": {
+        "title": "Import report",
+        "back": "Back to the registry",
+        "issuesTitle": "Errors by row",
+        "issuesHelp": "Each issue is tied to its row number in the file.",
+        "issuesTruncated": "The first {shown} issues are shown.",
+        "noIssues": "No issue in this import.",
+        "detail": "Detail",
+        "excluded": "Columns not imported: {fields}.",
+        "failedNote": "The import stopped after {inserted} rows were added. Rows already written are kept: use “Resume” to process the rest.",
+        "rowStatus": {
+          "invalid": "Invalid",
+          "duplicate": "Duplicate",
+          "skipped": "Skipped",
+          "valid": "Valid",
+          "inserted": "Added",
+          "updated": "Updated"
+        }
       }
     },
     "accounts": {

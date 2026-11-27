@@ -34,6 +34,24 @@ const flat = (v: unknown): string =>
 
 const text = (v: unknown): string => (v instanceof Date ? "" : String(v ?? "")).replace(/\s+/g, " ").trim();
 
+/** Matricule : on ne retire que les espaces de début et de fin (règle US-017), jamais ceux de l'intérieur. */
+const identifier = (v: unknown): string => (v instanceof Date ? "" : String(v ?? "")).trim();
+
+/** Un CSV est du texte : UTF-8 d'abord (avec ou sans BOM), sinon Windows-1252 (export Excel français). */
+function readWorkbook(buffer: Buffer): XLSX.WorkBook {
+  const binary =
+    (buffer[0] === 0x50 && buffer[1] === 0x4b) || // xlsx (ZIP)
+    (buffer[0] === 0xd0 && buffer[1] === 0xcf); // xls (OLE)
+  if (binary) return XLSX.read(buffer, { type: "buffer" });
+  let csv: string;
+  try {
+    csv = new TextDecoder("utf-8", { fatal: true }).decode(buffer);
+  } catch {
+    csv = new TextDecoder("windows-1252").decode(buffer);
+  }
+  return XLSX.read(csv.replace(/^\uFEFF/, ""), { type: "string", raw: true });
+}
+
 /** Date Excel (numéro de série), JJ/MM/AAAA, JJ-MM-AAAA ou AAAA-MM-JJ → AAAA-MM-JJ ; null si illisible. */
 function parseDate(v: unknown): string | null {
   let y: number, m: number, d: number;
@@ -67,7 +85,7 @@ export interface CatalogForMapping {
 export function parseRegistryFile(buffer: Buffer, catalog: CatalogForMapping): ParsedRegistry {
   let grid: unknown[][];
   try {
-    const wb = XLSX.read(buffer, { type: "buffer" });
+    const wb = readWorkbook(buffer);
     const sheet = wb.Sheets[wb.SheetNames[0]!];
     if (!sheet) throw new Error("empty");
     grid = XLSX.utils.sheet_to_json<unknown[]>(sheet, { header: 1, raw: true, defval: "", blankrows: false });
@@ -116,7 +134,7 @@ export function parseRegistryFile(buffer: Buffer, catalog: CatalogForMapping): P
 
   const seen = new Set<string>();
   const rows: ParsedRegistryRow[] = [];
-  let valid = 0, duplicate = 0, invalid = 0, warnings = 0;
+  let valid = 0, duplicate = 0, invalid = 0, emptyNumbers = 0, warnings = 0;
 
   dataRows.forEach((cells, i) => {
     const rowNumber = headerIndex + 2 + i; // numéro de ligne tel qu'affiché dans Excel
@@ -129,9 +147,10 @@ export function parseRegistryFile(buffer: Buffer, catalog: CatalogForMapping): P
     const get = (f: Field) => (columns.has(f) ? cells[columns.get(f)!] : "");
 
     const base = { rowNumber, cells: cellMap };
-    const numberText = text(get("registrationNumber"));
+    const numberText = identifier(get("registrationNumber"));
     if (!numberText || numberText.length > 50) {
       invalid++;
+      if (!numberText) emptyNumbers++;
       rows.push({ ...base, normalizedNumber: null, status: "invalid", record: null,
         errorCode: numberText ? "REGISTRATION_NUMBER_TOO_LONG" : "EMPTY_REGISTRATION_NUMBER",
         errorMessage: numberText ? "Matricule de plus de 50 caractères." : "Matricule vide." });
@@ -191,5 +210,5 @@ export function parseRegistryFile(buffer: Buffer, catalog: CatalogForMapping): P
     });
   });
 
-  return { rows, total: rows.length, valid, duplicate, invalid, warnings, missingColumns, columns: previewColumns };
+  return { rows, total: rows.length, valid, duplicate, invalid, emptyNumbers, warnings, missingColumns, columns: previewColumns };
 }

@@ -3,10 +3,19 @@ import { ApiError } from "@/shared/errors/ApiError";
 import { DomainError } from "@/shared/errors/DomainError";
 import { BaseRepository, type Db } from "@/shared/infrastructure/repository/BaseRepository";
 import type { Json } from "@/shared/infrastructure/supabase/database.types";
-import { sanitizeExcludedFields, type ImportPreview, type ImportSummary, type ParsedRegistry } from "../../domain/RegistryImport";
+import {
+  ISSUES_PREVIEW_LIMIT,
+  sanitizeExcludedFields,
+  type ImportPreview,
+  type ImportReport,
+  type ImportSummary,
+  type ParsedRegistry,
+  type RowIssue,
+} from "../../domain/RegistryImport";
 
 const BUCKET = "registry-imports";
 const CHUNK = 500;
+const ISSUES_REPORT_LIMIT = 500;
 
 const chunks = <T,>(arr: T[], size = CHUNK): T[][] => {
   const out: T[][] = [];
@@ -75,7 +84,7 @@ export class RegistryImportRepository extends BaseRepository {
       total_rows: parsed.total,
       duplicate_rows: parsed.duplicate,
       invalid_rows: parsed.invalid,
-      error_summary: { missing_columns: parsed.missingColumns, warnings: parsed.warnings },
+      error_summary: { missing_columns: parsed.missingColumns, warnings: parsed.warnings, empty_numbers: parsed.emptyNumbers },
       imported_by: input.userId,
     });
     if (insert.error) {
@@ -101,6 +110,21 @@ export class RegistryImportRepository extends BaseRepository {
       }
     }
 
+    // Avant confirmation : combien de lignes valides ajoutent un étudiant au registre, combien mettent à jour une fiche existante.
+    const validNumbers = parsed.rows.filter((r) => r.status === "valid" && r.normalizedNumber).map((r) => r.normalizedNumber as string);
+    let willUpdate = 0;
+    for (const part of chunks(validNumbers, 200)) {
+      const known = this.unwrap(
+        await this.db.from("official_student_registry").select("registration_number").in("registration_number", part),
+        "Lecture du registre impossible",
+      ) as { registration_number: string }[] | null;
+      willUpdate += known?.length ?? 0;
+    }
+    const issues: RowIssue[] = parsed.rows
+      .filter((r) => r.status !== "valid" || r.errorCode)
+      .slice(0, ISSUES_PREVIEW_LIMIT)
+      .map((r) => ({ rowNumber: r.rowNumber, registrationNumber: r.normalizedNumber, status: r.status, errorCode: r.errorCode }));
+
     return {
       importId: id,
       fileName: input.fileName,
@@ -108,7 +132,11 @@ export class RegistryImportRepository extends BaseRepository {
       valid: parsed.valid,
       duplicate: parsed.duplicate,
       invalid: parsed.invalid,
+      emptyNumbers: parsed.emptyNumbers,
       warnings: parsed.warnings,
+      willInsert: parsed.valid - willUpdate,
+      willUpdate,
+      issues,
       missingColumns: parsed.missingColumns,
       columns: parsed.columns,
       sample: parsed.rows.slice(0, 100).map((r) => ({
@@ -130,22 +158,46 @@ export class RegistryImportRepository extends BaseRepository {
     importId: string,
     excludedFields: readonly string[] = [],
   ): Promise<{ inserted: number; updated: number; checkedRequests: number }> {
-    const excluded = new Set<string>(sanitizeExcludedFields(excludedFields));
     const imp = this.unwrap(
-      await this.db.from("registry_imports").select("id, import_status").eq("id", importId).maybeSingle(),
+      await this.db.from("registry_imports").select("id, import_status, error_summary").eq("id", importId).maybeSingle(),
       "Lecture de l'import impossible",
-    ) as { id: string; import_status: string } | null;
+    ) as { id: string; import_status: string; error_summary: Record<string, unknown> | null } | null;
     if (!imp) throw new DomainError("Import introuvable.", "IMPORT_NOT_FOUND");
-    if (imp.import_status !== "ready") throw new DomainError("Import déjà traité.", "IMPORT_NOT_READY");
+    if (imp.import_status !== "ready" && imp.import_status !== "failed") throw new DomainError("Import déjà traité.", "IMPORT_NOT_READY");
 
-    this.unwrap(
-      await this.db.from("registry_imports").update({ import_status: "processing", started_at: new Date().toISOString() }).eq("id", importId),
+    // Reprise d'un import en échec : on garde les colonnes décochées au premier passage, les lignes déjà écrites ne sont pas rejouées.
+    const resuming = imp.import_status === "failed";
+    const previous = Array.isArray(imp.error_summary?.excluded_fields) ? (imp.error_summary.excluded_fields as string[]) : [];
+    const excluded = new Set<string>(sanitizeExcludedFields(resuming ? previous : excludedFields));
+
+    // Prise de verrou atomique : si deux administrateurs confirment en même temps, un seul passe de ready/failed à processing.
+    const claimed = this.unwrap(
+      await this.db
+        .from("registry_imports")
+        .update({
+          import_status: "processing",
+          started_at: new Date().toISOString(),
+          finished_at: null,
+          error_summary: { ...(imp.error_summary ?? {}), excluded_fields: [...excluded] } as unknown as Json,
+        })
+        .eq("id", importId)
+        .eq("import_status", imp.import_status)
+        .select("id"),
       "Démarrage de l'import impossible",
-    );
+    ) as { id: string }[] | null;
+    if (!claimed || claimed.length === 0) throw new DomainError("Import déjà traité.", "IMPORT_NOT_READY");
 
     try {
       let inserted = 0;
       let updated = 0;
+      if (resuming) {
+        const done = this.unwrap(
+          await this.db.from("registry_imports").select("inserted_rows, updated_rows").eq("id", importId).single(),
+          "Lecture de l'import impossible",
+        ) as { inserted_rows: number; updated_rows: number };
+        inserted = done.inserted_rows;
+        updated = done.updated_rows;
+      }
       // Paquets de lignes « valid » : une fois traitée, une ligne passe en inserted/updated et sort du filtre,
       // donc on relit toujours le début de la liste jusqu'à ce qu'il n'en reste plus.
       for (;;) {
@@ -204,6 +256,10 @@ export class RegistryImportRepository extends BaseRepository {
         if (oldRows.length) {
           this.unwrap(await this.db.from("registry_import_rows").update({ row_status: "updated", processed_at: now }).eq("import_id", importId).in("row_number", oldRows), "Mise à jour des lignes impossible");
         }
+        this.unwrap(
+          await this.db.from("registry_imports").update({ inserted_rows: inserted, updated_rows: updated }).eq("id", importId),
+          "Enregistrement de l'avancement impossible",
+        );
       }
 
       const counts = this.unwrap(
@@ -235,6 +291,9 @@ export class RegistryImportRepository extends BaseRepository {
       "Lecture de l'import impossible",
     ) as { id: string; storage_path: string; import_status: string } | null;
     if (!imp || !["ready", "failed"].includes(imp.import_status)) return;
+    // Un import en échec qui a déjà écrit des fiches dans le registre ne peut pas être supprimé : il se reprend.
+    const written = await this.db.from("official_student_registry").select("id", { count: "exact", head: true }).eq("source_import_id", importId);
+    if ((written.count ?? 0) > 0) return;
     await this.db.storage.from(BUCKET).remove([imp.storage_path]);
     this.unwrap(await this.db.from("registry_imports").delete().eq("id", importId), "Suppression du brouillon impossible");
   }
@@ -261,6 +320,55 @@ export class RegistryImportRepository extends BaseRepository {
       createdAt: new Date(r.created_at),
       finishedAt: r.finished_at ? new Date(r.finished_at) : null,
     }));
+  }
+
+  /** Rapport d'un import (US-018) : compteurs et erreurs rattachées à leur ligne. Les données brutes ne sont jamais renvoyées. */
+  async getReport(importId: string): Promise<ImportReport | null> {
+    const r = this.unwrap(
+      await this.db
+        .from("registry_imports")
+        .select("id, source_file_name, import_status, total_rows, inserted_rows, updated_rows, duplicate_rows, invalid_rows, created_at, finished_at, error_summary")
+        .eq("id", importId)
+        .maybeSingle(),
+      "Lecture de l'import impossible",
+    ) as (ImportRow & { error_summary: Record<string, unknown> | null }) | null;
+    if (!r) return null;
+
+    const rows = (this.unwrap(
+      await this.db
+        .from("registry_import_rows")
+        .select("row_number, normalized_registration_number, row_status, error_code, error_message")
+        .eq("import_id", importId)
+        .or("row_status.in.(invalid,duplicate,skipped),error_code.not.is.null")
+        .order("row_number")
+        .limit(ISSUES_REPORT_LIMIT + 1),
+      "Lecture des lignes impossible",
+    ) ?? []) as { row_number: number; normalized_registration_number: string | null; row_status: string; error_code: string | null; error_message: string | null }[];
+
+    const summary = r.error_summary ?? {};
+    return {
+      id: r.id,
+      fileName: r.source_file_name,
+      status: r.import_status,
+      total: r.total_rows,
+      inserted: r.inserted_rows,
+      updated: r.updated_rows,
+      duplicate: r.duplicate_rows,
+      invalid: r.invalid_rows,
+      createdAt: new Date(r.created_at),
+      finishedAt: r.finished_at ? new Date(r.finished_at) : null,
+      emptyNumbers: typeof summary.empty_numbers === "number" ? summary.empty_numbers : 0,
+      warnings: typeof summary.warnings === "number" ? summary.warnings : 0,
+      excludedFields: Array.isArray(summary.excluded_fields) ? (summary.excluded_fields as string[]) : [],
+      issues: rows.slice(0, ISSUES_REPORT_LIMIT).map((x) => ({
+        rowNumber: x.row_number,
+        registrationNumber: x.normalized_registration_number,
+        status: x.row_status,
+        errorCode: x.error_code,
+        message: x.error_message,
+      })),
+      issuesTruncated: rows.length > ISSUES_REPORT_LIMIT,
+    };
   }
 
   async countRegistry(): Promise<number> {
