@@ -515,7 +515,8 @@
     "REACTIVATE_FAILED": "Tsy vita ny famerenana ho mavitrika.",
     "SUSPEND_FAILED": "Tsy vita ny fanovana ny fampiatoana.",
     "ROLE_FAILED": "Tsy vita ny fanovana ny andraikitra.",
-    "CATALOG_IN_USE": "Tsy azo fafana: mbola ampiasaina ity zavatra ity (lalana, taranja, mpianatra na rejisitra). Atsaharo fa aza fafana."
+    "CATALOG_IN_USE": "Tsy azo fafana: mbola ampiasaina ity zavatra ity (lalana, taranja, mpianatra na rejisitra). Atsaharo fa aza fafana.",
+    "FILE_CONTENT_MISMATCH": "Tsy mifanaraka amin'ny endriny ny votoatin'ny rakitra (Excel .xlsx, .xls na CSV)."
   },
   "Admin": {
     "dashboard": {
@@ -628,7 +629,10 @@
         "valid": "Mety",
         "duplicate": "Mitovy",
         "invalid": "Tsy mety",
-        "warnings": "Fampitandremana"
+        "warnings": "Fampitandremana",
+        "willInsert": "Hampiana",
+        "willUpdate": "Havaozina",
+        "emptyNumbers": "Matricule foana"
       },
       "missingColumns": "Tsy hita ny tsanganana: {columns}. Voafetra ny fanamarinana ny maha-izy azy.",
       "columns": {
@@ -664,7 +668,9 @@
         "date": "Daty",
         "status": "Toe-javatra",
         "inserted": "Nampiana",
-        "updated": "Nohavaozina"
+        "updated": "Nohavaozina",
+        "actions": "Hetsika",
+        "report": "Tatitra"
       },
       "importStatus": {
         "uploaded": "Voaray",
@@ -689,6 +695,31 @@
         "parcours": "Lalana",
         "level": "Ambaratonga",
         "status": "Toe-javatra"
+      },
+      "problem": "Olana",
+      "issuesTitle": "Andalana hojerena",
+      "issuesHelp": "Doublon, matricule foana na lava loatra, ary soratra tsy noraharahaina: ahitsio ny rakitra na ankatoavo.",
+      "issuesTruncated": "Aseho ny andalana {shown} voalohany hojerena. Ho hita ao amin'ny tatitra feno aorian'ny fampidirana.",
+      "resume": "Tohizo",
+      "resuming": "Mitohy…",
+      "report": {
+        "title": "Tatitry ny fampidirana",
+        "back": "Hiverina amin'ny rejisitra",
+        "issuesTitle": "Hadisoana isaky ny andalana",
+        "issuesHelp": "Ny olana tsirairay dia mifandray amin'ny laharan'ny andalany ao amin'ny rakitra.",
+        "issuesTruncated": "Aseho ny olana {shown} voalohany.",
+        "noIssues": "Tsy misy olana amin'ity fampidirana ity.",
+        "detail": "Antsipiriany",
+        "excluded": "Tsanganana tsy nampidirina: {fields}.",
+        "failedNote": "Nijanona ny fampidirana taorian'ny andalana {inserted} nampiana. Voatahiry ny nosoratana: ampiasao ny « Tohizo » hanao ny sisa.",
+        "rowStatus": {
+          "invalid": "Tsy mety",
+          "duplicate": "Doublon",
+          "skipped": "Nilaozana",
+          "valid": "Mety",
+          "inserted": "Nampiana",
+          "updated": "Havaozina"
+        }
       }
     },
     "accounts": {

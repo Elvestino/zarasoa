@@ -164,6 +164,22 @@ export function RegistryImportPanel() {
               ))}
             </div>
 
+            <div className="grid grid-cols-3 gap-2">
+              {(
+                [
+                  ["willInsert", preview.willInsert, "success"],
+                  ["willUpdate", preview.willUpdate, "neutral"],
+                  ["emptyNumbers", preview.emptyNumbers, "danger"],
+                ] as const
+              ).map(([key, value, tone]) => (
+                <div key={key} className="rounded-lg border p-3">
+                  <p className="text-xs text-muted-foreground">{t(`stats.${key}`)}</p>
+                  <p className="mt-1 text-xl font-semibold">{value}</p>
+                  <span aria-hidden="true" className={`mt-1 block h-1 w-8 rounded-full ${BAR[tone]}`} />
+                </div>
+              ))}
+            </div>
+
             {preview.missingColumns.length > 0 ? (
               <Alert>
                 <AlertDescription>
@@ -204,6 +220,43 @@ export function RegistryImportPanel() {
                 })}
               </div>
             </div>
+
+            {preview.issues.length > 0 ? (
+              <div className="grid gap-2 rounded-lg border border-secondary/60 p-3">
+                <div>
+                  <p className="text-sm font-medium">{t("issuesTitle")}</p>
+                  <p className="text-xs text-muted-foreground">
+                    {preview.issues.length < preview.duplicate + preview.invalid + preview.warnings
+                      ? t("issuesTruncated", { shown: preview.issues.length })
+                      : t("issuesHelp")}
+                  </p>
+                </div>
+                <div className="max-h-64 overflow-auto rounded-md border">
+                  <Table>
+                    <TableHeader className="sticky top-0 bg-card">
+                      <TableRow>
+                        <TableHead className="w-16">{t("row")}</TableHead>
+                        <TableHead>{t("registration")}</TableHead>
+                        <TableHead>{t("problem")}</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {preview.issues.map((i) => (
+                        <TableRow key={i.rowNumber}>
+                          <TableCell className="text-muted-foreground">{i.rowNumber}</TableCell>
+                          <TableCell className="font-mono text-xs">{i.registrationNumber ?? "—"}</TableCell>
+                          <TableCell>
+                            <StatusBadge tone={i.status === "valid" ? "warning" : (ROW_TONE[i.status] ?? "neutral")}>
+                              {i.errorCode ? t(`issues.${i.errorCode}`) : t("rowStatus.valid")}
+                            </StatusBadge>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
+              </div>
+            ) : null}
 
             <div className="max-h-96 overflow-auto rounded-lg border">
               <Table>

@@ -1,7 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { FiliereRepository } from "@/module/catalog/infrastructure/repository/FiliereRepository";
 import { AcademicLevelRepository } from "@/module/catalog/infrastructure/repository/AcademicLevelRepository";
-import { REGISTRY_ACCEPTED_EXTENSIONS, REGISTRY_MAX_FILE_BYTES } from "@/module/registry/domain/RegistryImport";
+import { REGISTRY_ACCEPTED_EXTENSIONS, REGISTRY_MAX_FILE_BYTES, detectRegistryFormat } from "@/module/registry/domain/RegistryImport";
 import { parseRegistryFile } from "@/module/registry/infrastructure/parser/RegistryFileParser";
 import { RegistryImportRepository } from "@/module/registry/infrastructure/repository/RegistryImportRepository";
 import { requireRoleForAction } from "@/module/user/infrastructure/server/guards";
@@ -25,13 +25,16 @@ export async function POST(request: NextRequest) {
     if (!REGISTRY_ACCEPTED_EXTENSIONS.some((ext) => lower.endsWith(ext))) return fail("FILE_TYPE_NOT_ALLOWED", 415);
 
     const buffer = Buffer.from(await file.arrayBuffer());
+    // Format réel d'après le contenu (pas seulement l'extension ni le type annoncé par le navigateur).
+    const format = detectRegistryFormat(buffer, file.name);
+    if (!format) return fail("FILE_CONTENT_MISMATCH", 415);
     const [filieres, levels] = await Promise.all([new FiliereRepository(db).findAllWithParcours(), new AcademicLevelRepository(db).findAll()]);
     const parsed = parseRegistryFile(buffer, { filieres, levels });
     if (parsed.total === 0) return fail("EMPTY_FILE", 422);
 
     const preview = await new RegistryImportRepository(db).stage({
       fileName: file.name,
-      mimeType: file.type || "application/octet-stream",
+      mimeType: format.mime,
       buffer,
       parsed,
       userId: profile.id,
